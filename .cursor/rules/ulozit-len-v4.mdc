@@ -1,0 +1,16 @@
+---
+description: Automaticky ukladať všetky zmeny len do index-NOVY-V4.html
+alwaysApply: true
+---
+
+# Iba index-NOVY-V4.html (automatické ukladanie)
+
+- **Všetky** zmeny kódu, CSS, JS a HTML ukladaj **priamo a automaticky** do `C:\Users\Dell\Desktop\QuantumApp\index-NOVY-V4.html` — bez čakania na potvrdenie, bez kopírovania do iných súborov.
+- Po každej implementácii / oprave **súbor hneď zapíš** (edit/write); nepýtaj sa, či má ísť do V4 — default je vždy V4.
+- **Nikdy** neupravuj: `index.html`, `index-NOVY-V1.html`, `index-NOVY-V6.html` ani iné `index-NOVY-V*.html` — pokiaľ používateľ výslovne nepovie inak.
+- **Nevytváraj** nové HTML varianty (`V5`, `V6`, …), zálohy, kópie, `SPUSTIT-*.bat` ani launch skripty.
+- **Nespúšťaj** `node scripts/sync-v4.cjs` ani synchronizáciu do `index.html` — zmeny ostávajú len vo V4.
+- **Nevytváraj** zálohy, duplicity (`*-STARY`, `*-backup`) ani „pre istotu“ kópie.
+- Po úpravách **nepushuj** a necommituj, ak používateľ nepožiada.
+- Testy môžeš spúšťať, ale chyby opravuj **len** v `index-NOVY-V4.html`.
+- Overenie v prehliadači: `index-NOVY-V4.html` + tvrdý refresh `Ctrl+Shift+R`.

@@ -1,0 +1,43 @@
+KVANTOVÁ RULETA PRO V4
+======================
+
+SPUSTENIE (rýchle, bez portable chaosu):
+
+   Dvojklik   RULETA   na ploche  (odporúčané — ako VS Code)
+
+   alebo      app\RULETA.exe
+   alebo      RULETA.lnk   v tomto priečinku
+
+
+ODKAZ NA PLOCHE (jednorazovo):
+   Dvojklik   Nainstaluj-na-plochu.bat
+   alebo      npm run desktop
+
+
+PREČO UŽ NIE JE RULETA.exe V KORENI?
+------------------------------------
+Starý súbor v koreni bol „portable“ — pri každom štarte
+rozbali desiatky .exe do Temp a Avast ich 4× kontroluje a vypína.
+Teraz je všetko v jednej zložke  app\  (normálny Electron).
+
+
+AVAST — DÔLEŽITÉ (jednorazovo):
+   npm run avast
+   Pridaj výnimku na celý priečinok:
+   C:\Users\Dell\Desktop\QuantumApp
+   (vrátane podpriečinka app)
+
+
+PO ÚPRAVE KÓDU:
+   1. Zatvor hru (RULETA v Správcovi úloh)
+   2. npm run test:v4:all     (sync + SK + hlavné testy + koleso)
+      alebo npm run test:v4:ci (sync + všetky runtime testy)
+   3. npm run dist
+   4. Spusti znova  app\RULETA.exe
+
+
+UPRATANIE (zmaže staré .build-* a win-unpacked v koreni):
+   npm run upratat
+
+Zložka  app\  musí ostať — sú tam knižnice hry (~100 súborov).
+V koreni už nie sú desiatky win-unpacked — len jedno  app\.

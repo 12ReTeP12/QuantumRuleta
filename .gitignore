@@ -1,0 +1,13 @@
+﻿node_modules/
+.build-*/
+_gh_push/
+_gh_clone/
+app/*.exe
+app/*.dll
+app/*.pak
+app/*.dat
+app/*.bin
+app/resources/
+app/locales/
+*.asar
+wheel-extract*.txt

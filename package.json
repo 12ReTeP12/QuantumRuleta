@@ -1,0 +1,46 @@
+{
+  "name": "quantum-app",
+  "version": "1.0.0",
+  "description": "KVANTOVÁ RULETA PRO V4",
+  "productName": "RULETA",
+  "author": "Quantum",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "sync-v4": "node scripts/sync-v4.cjs",
+    "test:v4": "electron scripts/tests/_test_v4_comprehensive.cjs",
+    "test:v4:audit": "electron scripts/tests/_test_v4_audit.cjs",
+    "test:v4:wheel": "electron scripts/tests/_test_v4_wheel_deep.cjs",
+    "test:v4:deep": "electron scripts/tests/_test_v4_deep.cjs",
+    "test:v4:layout": "electron scripts/tests/_test_v4.cjs",
+    "test:v4:sk": "electron scripts/tests/_test_v4_sk_full.cjs",
+    "test:v4:all": "node scripts/sync-v4.cjs && electron scripts/tests/_test_v4_sk_full.cjs",
+    "test:v4:ci": "node scripts/sync-v4.cjs && npm run test:v4 && npm run test:v4:audit && npm run test:v4:wheel && npm run test:v4:deep && npm run test:v4:layout && npm run test:v4:sk",
+    "pre-dist": "node scripts/pre-dist.cjs",
+    "dist:unlock": "node scripts/pre-dist.cjs",
+    "dist": "node scripts/sync-v4.cjs && node scripts/pre-dist.cjs && node scripts/dist-run.cjs",
+    "upratat": "node scripts/upratat-vsetko.cjs",
+    "avast": "powershell -ExecutionPolicy Bypass -File scripts/setup-avast-vyluckenie.ps1",
+    "desktop": "powershell -ExecutionPolicy Bypass -File scripts/nainstaluj-odkaz-na-plochu.ps1"
+  },
+  "devDependencies": {
+    "electron": "^37.10.3",
+    "electron-builder": "^26.0.12"
+  },
+  "build": {
+    "appId": "com.quantum.ruleta",
+    "files": [
+      "main.js",
+      "index.html",
+      "package.json"
+    ],
+    "directories": {
+      "output": ".build-out"
+    },
+    "win": {
+      "target": "dir",
+      "executableName": "RULETA",
+      "signAndEditExecutable": false
+    }
+  }
+}
