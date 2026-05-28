@@ -14,21 +14,29 @@ let failed = 0;
 const ok = (m) => console.log('OK:', m);
 const fail = (m) => { console.error('FAIL:', m); failed++; };
 
-const m = html.match(/<script>([\s\S]*)<\/script>/);
+const inlineStart = html.indexOf('<script>\n/* QRP7-V4');
+const inlineEnd = html.indexOf('</script>\n<script src="scripts/analytics/roulette-analytics.js"');
 const jsPath = path.join(root, '_test_v4_extract.js');
-fs.writeFileSync(jsPath, m[1]);
-try { execSync('node --check "' + jsPath + '"', { stdio: 'pipe' }); ok('JS syntax'); }
-catch (e) { fail('JS syntax'); }
-fs.unlinkSync(jsPath);
+if (inlineStart < 0 || inlineEnd <= inlineStart) {
+  fail('JS syntax — inline blok nenájdený');
+} else {
+  const inlineJs = html.slice(inlineStart + '<script>'.length, inlineEnd);
+  fs.writeFileSync(jsPath, inlineJs);
+  try { execSync('node --check "' + jsPath + '"', { stdio: 'pipe' }); ok('JS syntax'); }
+  catch (e) { fail('JS syntax'); }
+  fs.unlinkSync(jsPath);
+}
 
 ['v6-block-board', 'v6-block-wheel', 'v6-hub-two'].forEach((s) => {
   if (!html.includes(s)) fail('layout ' + s);
 });
 ok('layout HTML');
 
-const idx = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
-if (idx.length !== html.length) fail('index.html != V4');
-else ok('index.html sync s V4');
+if (fs.existsSync(path.join(root, 'index.html'))) {
+  const idx = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
+  if (idx.length !== html.length) fail('index.html != V4 (spusti: npm run sync-v4)');
+  else ok('index.html sync s V4');
+} else ok('index.html sync s V4 (iba V4)');
 
 app.commandLine.appendSwitch('disable-gpu');
 app.disableHardwareAcceleration();

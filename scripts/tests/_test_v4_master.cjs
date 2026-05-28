@@ -247,6 +247,52 @@ app.whenReady().then(async () => {
         ? { ok: true, msg: 'AI+observer+wheel' } : { ok: false, msg: 'engine' };
     });
 
+    check('EventBus emit spin:add', () => {
+      if (typeof EventBus === 'undefined') return { ok: false, msg: 'chýba EventBus' };
+      let got = null;
+      const fn = (n) => { got = n; };
+      EventBus.on('spin:add', fn);
+      EventBus.emit('spin:add', 17);
+      EventBus.off('spin:add', fn);
+      return got === 17 ? { ok: true, msg: 'emit/listen OK' } : { ok: false, msg: 'got=' + got };
+    });
+
+    check('EventBus — 5 engine listenerov', () => {
+      if (typeof EventBus === 'undefined') return { ok: false, msg: 'chýba EventBus' };
+      if (typeof bindSpinEventBusListeners === 'function' && !bindSpinEventBusListeners._done) {
+        bindSpinEventBusListeners();
+      }
+      const n = (EventBus.listeners['spin:add'] || []).length;
+      return n >= 5 ? { ok: true, msg: n + ' listenerov' } : { ok: false, msg: n + ' listenerov' };
+    });
+
+    check('Confidence engine chaos prahy', () => {
+      if (typeof computeConfidenceEngine !== 'function') return { ok: false, msg: 'chýba engine' };
+      const orig = computeRiskChaosCore;
+      const cases = [
+        { c: 71, status: 'ČAKAJ', conf: 0 },
+        { c: 70, status: 'ČAKAJ', conf: 0 },
+        { c: 55, status: 'OPATRNE' },
+        { c: 30, status: 'HRAŤ' },
+      ];
+      for (const tc of cases) {
+        computeRiskChaosCore = function() {
+          return { chaosLevel: tc.c, patternReliability: 50 };
+        };
+        const r = computeConfidenceEngine({ spinCount: 15, flowScore: 55, patternStrength: 50 });
+        if (r.status !== tc.status) {
+          computeRiskChaosCore = orig;
+          return { ok: false, msg: 'chaos ' + tc.c + ' → ' + r.status + ' (očak. ' + tc.status + ')' };
+        }
+        if (tc.conf !== undefined && r.confidence !== tc.conf) {
+          computeRiskChaosCore = orig;
+          return { ok: false, msg: 'chaos ' + tc.c + ' conf=' + r.confidence };
+        }
+      }
+      computeRiskChaosCore = orig;
+      return { ok: true, msg: '≥70 ČAKAJ · 50–69 OPATRNE · <50 HRAŤ' };
+    });
+
     check('Chaos logika ČAKAJ/OPATRNE/HRAŤ', () => {
       const dec = typeof computeDecisionAction === 'function' ? computeDecisionAction() : null;
       if (!dec || !dec.label) return { ok: false, msg: 'computeDecisionAction' };

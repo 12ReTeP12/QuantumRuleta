@@ -33,7 +33,12 @@
     "files": [
       "main.js",
       "index.html",
-      "package.json"
+      "package.json",
+      "styles/**/*.css",
+      "scripts/**/*.js",
+      "!scripts/tests/**",
+      "!scripts/_extract*.cjs",
+      "!scripts/**/_test*.cjs"
     ],
     "directories": {
       "output": ".build-out"

@@ -35,7 +35,7 @@ const TEST_JS = `(async function(){
   function expectChaosBanner(R) {
     const c = R.chaos;
     if (c < 50) return R.banner.txt.indexOf('HRÁŤ') >= 0 || R.banner.txt.indexOf('HRAŤ') >= 0;
-    if (c <= 70) return R.banner.txt.indexOf('OPATRNE') >= 0;
+    if (c < 70) return R.banner.txt.indexOf('OPATRNE') >= 0;
     return R.banner.txt.indexOf('ČAKAJ') >= 0;
   }
   const out = [];
@@ -63,7 +63,7 @@ const TEST_JS = `(async function(){
     { chaos: 30, expect: 'HRAŤ' },
     { chaos: 49, expect: 'HRAŤ' },
     { chaos: 50, expect: 'OPATRNE' },
-    { chaos: 70, expect: 'OPATRNE' },
+    { chaos: 70, expect: 'ČAKAJ' },
     { chaos: 71, expect: 'ČAKAJ' },
   ];
   let t3all = true;

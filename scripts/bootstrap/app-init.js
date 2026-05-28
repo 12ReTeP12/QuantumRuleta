@@ -14,6 +14,28 @@ function initAI(){
 if(typeof renderKeyboardLiveAIFlow==='function')renderKeyboardLiveAIFlow();
 }
 
+function bindSpinEventBusListeners(){
+if(bindSpinEventBusListeners._done||typeof EventBus==='undefined')return;
+bindSpinEventBusListeners._done=true;
+EventBus.on('spin:add',function(){
+if(typeof renderCorePrediction==='function')renderCorePrediction();
+});
+EventBus.on('spin:add',function(){
+if(typeof renderAlerts==='function')renderAlerts();
+});
+EventBus.on('spin:add',function(){
+if(typeof scheduleWheelRender==='function')scheduleWheelRender();
+else if(typeof renderWheelRadar==='function')renderWheelRadar();
+});
+EventBus.on('spin:add',function(){
+if(typeof rngInvalidate==='function')rngInvalidate();
+if(typeof renderRngBehavior==='function')renderRngBehavior();
+});
+EventBus.on('spin:add',function(){
+if(typeof renderKeyboardLiveAIFlow==='function')renderKeyboardLiveAIFlow();
+});
+}
+
 function bootApp(){
 initWheel();
 function applyBootUI(restored){
@@ -27,6 +49,7 @@ if(restored&&spins.length)showSessionToast('Relácia obnovená · '+spins.length
 initBoard();
 bindUi();
 initV6ZoneScroll();
+bindSpinEventBusListeners();
 initAI();
 applyBootUI(false);
 loadSessionIDB().then(function(restored){

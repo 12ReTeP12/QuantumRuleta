@@ -2452,6 +2452,7 @@ aiStateRefresh();
 selfCorrectingEngineRefresh();
 futureFlowEngineRefresh();
 performanceEngineRefresh();
+if(typeof EventBus!=='undefined')EventBus.emit('spin:add',number);
 emitEvent(EVENT.SPIN_PROCESSED,{number,now,sessionMode:sessionState.mode,aiState:aiState.state});
 persistSession();
 emitEvent(EVENT.RENDER,{light:true,heavy:spins.length%HEAVY_RENDER_INTERVAL===0});
