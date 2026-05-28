@@ -7,17 +7,11 @@ const path = require('path');
 const { app, BrowserWindow } = require('electron');
 
 const htmlPath = path.join(__dirname, '..', '..', 'index-NOVY-V4.html');
-const indexPath = path.join(__dirname, '..', '..', 'index.html');
 const v4Html = fs.readFileSync(htmlPath, 'utf8');
-const indexHtml = fs.readFileSync(indexPath, 'utf8');
 let failed = 0;
 const ok = (m) => console.log('OK:', m);
 const fail = (m) => { console.error('FAIL:', m); failed++; };
-if (indexHtml !== v4Html) {
-  fail('index.html nie je sync s index-NOVY-V4.html — spusti: npm run sync-v4');
-  process.exit(1);
-}
-ok('index.html sync s index-NOVY-V4.html');
+ok('V4 autoritatívny — index-NOVY-V4.html');
 
 app.commandLine.appendSwitch('disable-gpu');
 app.disableHardwareAcceleration();

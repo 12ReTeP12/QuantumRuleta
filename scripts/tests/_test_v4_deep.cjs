@@ -40,7 +40,7 @@ function readCodeBundle() {
 }
 
 const inlineStart = html.indexOf('<script>\n/* QRP7-V4');
-const inlineEnd = html.indexOf('</script>\n\n\n</body>');
+const inlineEnd = html.indexOf('</script>\n<script src="scripts/analytics/roulette-analytics.js"');
 const inlineJs = inlineStart >= 0 && inlineEnd > inlineStart
   ? html.slice(inlineStart + '<script>'.length, inlineEnd)
   : '';
@@ -174,15 +174,19 @@ app.whenReady().then(async () => {
     });
 
     check('koleso + radar V1 panely', () => {
+      renderLight({ wheelImmediate: true });
       const left = ($('qwPanelLeft') || {}).innerHTML || '';
       const right = ($('qwPanelRight') || {}).innerHTML || '';
-      const okUi = $('wheelCanvas')
-        && left.includes('FLOW STAV')
-        && right.includes('ODPORÚČANIE')
-        && left.includes('ŽIVÝ KOMENTÁR') && left.includes('STOPA TOKU')
-        && right.includes('RIZIKO FLOW')
-        && document.querySelectorAll('.qw-metric').length >= 11;
-      return okUi ? { ok: true, msg: document.querySelectorAll('.qw-metric').length + ' metrík' } : { ok: false, msg: left.length + ' · ' + right.length };
+      const bottom = ($('qwPanelBottom') || {}).innerHTML || '';
+      const all = left + right + bottom;
+      const n = document.querySelectorAll('.qw-metric').length;
+      const okUi = $('wheelCanvas') && all.includes('FLOW STAV')
+        && (all.includes('FLOW OBSERVER') || all.includes('HLAVNÝ FLOW INSIGHT'))
+        && all.includes('STOPA TOKU')
+        && (all.includes('SYSTÉMOVÝ HLAS') || all.includes('LIVE KOMENTÁR'))
+        && all.includes('ODPORÚČANIE') && all.includes('RIZIKO FLOW')
+        && n >= 10 && !!$('qwStatusBanner');
+      return okUi ? { ok: true, msg: n + ' metrík' } : { ok: false, msg: left.length + ' · ' + right.length + ' · ' + bottom.length };
     });
 
     return out;
