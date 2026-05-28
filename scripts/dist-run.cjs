@@ -61,6 +61,18 @@ function copyDir(src, dest) {
   }
 }
 
+function copyTreeFiltered(srcDir, destDir, skipDirNames) {
+  if (!fs.existsSync(srcDir)) return;
+  fs.mkdirSync(destDir, { recursive: true });
+  for (const ent of fs.readdirSync(srcDir, { withFileTypes: true })) {
+    if (ent.isDirectory() && skipDirNames.includes(ent.name)) continue;
+    const s = path.join(srcDir, ent.name);
+    const d = path.join(destDir, ent.name);
+    if (ent.isDirectory()) copyTreeFiltered(s, d, skipDirNames);
+    else fs.copyFileSync(s, d);
+  }
+}
+
 function createRootShortcut() {
   const lnk = path.join(root, 'RULETA.lnk').replace(/'/g, "''");
   const target = path.join(appAbs, LAUNCHER).replace(/'/g, "''");
@@ -116,55 +128,67 @@ if (!fs.existsSync(gameExe)) {
   gameExe = path.join(unpacked, alt);
 }
 
-killApps();
-quarantineDir(APP_DIR);
-copyDir(unpacked, appAbs);
+async function patchAppAsar() {
+  const liveIndex = path.join(root, 'index.html');
+  const liveMain = path.join(root, 'main.js');
+  const appIndex = path.join(appAbs, 'resources', 'app.asar');
+  if (!fs.existsSync(liveIndex) || !fs.existsSync(liveMain) || !fs.existsSync(appIndex)) return;
+  const asar = require('@electron/asar');
+  const extractDir = path.join(appAbs, 'resources', 'app-live-patch');
+  if (fs.existsSync(extractDir)) fs.rmSync(extractDir, { recursive: true, force: true });
+  asar.extractAll(appIndex, extractDir);
+  fs.copyFileSync(liveIndex, path.join(extractDir, 'index.html'));
+  fs.copyFileSync(liveMain, path.join(extractDir, 'main.js'));
+  copyTreeFiltered(path.join(root, 'styles'), path.join(extractDir, 'styles'), []);
+  copyTreeFiltered(path.join(root, 'scripts'), path.join(extractDir, 'scripts'), ['tests']);
+  await asar.createPackage(extractDir, appIndex);
+  if (fs.existsSync(extractDir)) {
+    fs.rmSync(extractDir, { recursive: true, force: true, maxRetries: 6, retryDelay: 300 });
+  }
+  console.log('[dist] app.asar: index.html, main.js, styles/, scripts/ (bez tests/)');
+}
 
-const liveIndex = path.join(root, 'index.html');
-const liveMain = path.join(root, 'main.js');
-const appIndex = path.join(appAbs, 'resources', 'app.asar');
-if (fs.existsSync(liveIndex) && fs.existsSync(liveMain)) {
+(async function distFinish() {
+  killApps();
+  quarantineDir(APP_DIR);
+  copyDir(unpacked, appAbs);
+
   try {
-    const asar = require('@electron/asar');
-    const extractDir = path.join(appAbs, 'resources', 'app-live-patch');
-    if (fs.existsSync(extractDir)) fs.rmSync(extractDir, { recursive: true, force: true });
-    asar.extractAll(appIndex, extractDir);
-    fs.copyFileSync(liveIndex, path.join(extractDir, 'index.html'));
-    fs.copyFileSync(liveMain, path.join(extractDir, 'main.js'));
-    asar.createPackage(extractDir, appIndex);
-    fs.rmSync(extractDir, { recursive: true, force: true });
-    console.log('[dist] app.asar aktualizovaný: index.html + main.js (živý load z koreňa)');
+    await patchAppAsar();
   } catch (e) {
     console.warn('[dist] app.asar patch preskočený:', e.message);
   }
-}
 
-const rootPortable = path.join(root, LAUNCHER);
-if (fs.existsSync(rootPortable)) {
-  try {
-    fs.unlinkSync(rootPortable);
-    console.log('[dist] Zmazaný starý portable', LAUNCHER, 'v koreni (spôsoboval Avast)');
-  } catch (_) {
+  const rootPortable = path.join(root, LAUNCHER);
+  if (fs.existsSync(rootPortable)) {
     try {
-      fs.renameSync(rootPortable, path.join(root, 'RULETA-portable-STARÝ-' + Date.now() + '.exe'));
-    } catch (_) {}
+      fs.unlinkSync(rootPortable);
+      console.log('[dist] Zmazaný starý portable', LAUNCHER, 'v koreni (spôsoboval Avast)');
+    } catch (_) {
+      try {
+        fs.renameSync(rootPortable, path.join(root, 'RULETA-portable-STARÝ-' + Date.now() + '.exe'));
+      } catch (_) {}
+    }
   }
-}
 
-fs.readdirSync(root).forEach((n) => {
-  if (!n.endsWith('.exe')) return;
-  try {
-    fs.unlinkSync(path.join(root, n));
-    console.log('[dist] zmazaný .exe v koreni:', n);
-  } catch (_) {}
+  fs.readdirSync(root).forEach((n) => {
+    if (!n.endsWith('.exe')) return;
+    try {
+      fs.unlinkSync(path.join(root, n));
+      console.log('[dist] zmazaný .exe v koreni:', n);
+    } catch (_) {}
+  });
+
+  killApps();
+  quarantineDir(BUILD_DIR);
+  createRootShortcut();
+
+  console.log('\n[dist] HRA: dvojklik na  app\\RULETA.exe');
+  console.log('[dist]      alebo      RULETA.lnk  v koreni');
+  console.log('[dist] Avast: npm run avast  → výnimka pre celý priečinok QuantumApp\n');
+
+  require('./upratat-vsetko.cjs');
+})().catch((e) => {
+  console.error(e);
+  process.exit(1);
 });
-
-killApps();
-quarantineDir(BUILD_DIR);
-createRootShortcut();
-
-console.log('\n[dist] HRA: dvojklik na  app\\RULETA.exe');
-console.log('[dist]      alebo      RULETA.lnk  v koreni');
-console.log('[dist] Avast: npm run avast  → výnimka pre celý priečinok QuantumApp\n');
-
-require('./upratat-vsetko.cjs');

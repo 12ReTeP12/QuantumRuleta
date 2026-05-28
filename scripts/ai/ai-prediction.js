@@ -37,15 +37,15 @@ else spinScore=clamp(46+colTop.first.p*0.3,35,65);
 const timing=lfpTimingEngine20(flow,anomaly);
 const visual=lfpVisualEngine10();
 const blend=lfpSpinsPriorityBlend(spinScore,timing.core,visual.core,spinVisual);
-let confidence=lfpAntiFakeConfidence(blend.weighted*timing.factor,flow,anomaly,sup,phase,colTop,dozTop);
-const signalTier=lfpSignalTier(confidence);
+let lfpSignalConf=lfpAntiFakeConfidence(blend.weighted*timing.factor,flow,anomaly,sup,phase,colTop,dozTop);
+const signalTier=lfpSignalTier(lfpSignalConf);
 const colGap=colTop.first.p-colTop.second.p;
 const dozGap=dozTop.first.p-dozTop.second.p;
 const noClearDominance=colGap<14&&dozGap<14;
-const lowEdgeFlow=flow.state==='NORMAL'&&!anomaly.repeatStrong&&(colGap<16||confidence<48);
+const lowEdgeFlow=flow.state==='NORMAL'&&!anomaly.repeatStrong&&(colGap<16||lfpSignalConf<48);
 const stability=lfpFlowStabilityScore(flow,anomaly,cols,dozens,colTop,dozTop);
 const flowShift=lfpFlowShiftDetector(flow,anomaly,sup,colTop,dozTop);
-const deadFlow=lfpDeadFlowDetector(flow,stability,confidence,noClearDominance,anomaly);
+const deadFlow=lfpDeadFlowDetector(flow,stability,lfpSignalConf,noClearDominance,anomaly);
 const domMeter=lfpDominanceMeter(cols,dozens);
 const pressureWarns=lfpPressureWarnings(sup,cols,dozens,low,high);
 const memDecay=lfpMemoryDecayInfo();
@@ -62,10 +62,10 @@ let mode='WAIT';
 if(behavior.learn)mode='WAIT';
 else if(behavior.playMode==='CAKAJ')mode='WAIT';
 else if(behavior.playMode==='OPATRNE')mode='SAFE';
-else if(confidence>=70&&flow.state==='REPEAT'&&anomaly.repeatStrong)mode='AGGRESSIVE';
+else if(lfpSignalConf>=70&&flow.state==='REPEAT'&&anomaly.repeatStrong)mode='AGGRESSIVE';
 else mode='ACTIVE';
 if(deadFlow.forceWait&&behavior.playMode!=='HRAT')mode='WAIT';
-confidence=clamp(Math.round(confidence*0.35+behavior.confidence*0.65),0,behavior.learn?phase.maxConf:88);
+const confidence=behavior.confidence;
 const know=behavior.learn?lfpAssessKnowledge(flow,confidence,noClearDominance,lowEdgeFlow,true,noReason,'WAIT'):{
 knowsUnknown:behavior.playMode==='CAKAJ',
 status:behavior.playHead.replace(/^[^\s]+\s/,''),
@@ -78,9 +78,9 @@ const dozensPick=behavior.learn?'—':behavior.dozens;
 const color=behavior.learn?'—':behavior.color;
 const parity=behavior.learn?'—':behavior.parity;
 const range=behavior.learn?'—':behavior.range;
-const displaySignal=lfpComputeDisplaySignal(confidence,stability,flow,anomaly,sup,timing,phase);
+const displaySignal=lfpComputeDisplaySignal(lfpSignalConf,stability,flow,anomaly,sup,timing,phase);
 const signalTierDisp=lfpSignalTier(displaySignal);
-const signalIntel=lfpExplainSignal(displaySignal,confidence,stability,flow,anomaly,sup,timing);
+const signalIntel=lfpExplainSignal(displaySignal,lfpSignalConf,stability,flow,anomaly,sup,timing);
 const flowIntel=lfpExplainFlow(flow,colTop,dozTop,sup,anomaly,red,black);
 const modeIntel=lfpExplainMode(mode,flow,stability,confidence,anomaly,lowEdgeFlow,colTop,noPredict);
 const zeroIntel=lfpExplainZero(zero);
@@ -120,7 +120,7 @@ flowEng,blend,timing,visualSup:{factor:1,factor:1},patScore:LFP.spinCore,
 flowStatus:{flow:LFP.flow.state,trust:String(LFP.signal),cls:'ra-fs-mid',hierarchy:trustHierarchy},
 trustHierarchy,flowTrust:{label:LFP.flow.state,cls:'greenTxt'},
 predRezim:B.learn?'OBSERVATION':B.playMode==='HRAT'?'FLOW ACTIVE':B.playMode==='OPATRNE'?'WARNING':'OBSERVATION',
-signalStrength:LFP.signal,rawConfidence:LFP.signal,confidence:B.confidence||LFP.confidence,
+signalStrength:LFP.signal,rawConfidence:LFP.signal,confidence:B.confidence,
 color:B.color==='ČERVENÁ'?'červená':B.color==='ČIERNA'?'čierna':'—',parity:B.parity,size:B.range==='19–36'?'VEĽKÉ (19–36)':'MALÉ (1–18)',
 dozens:B.dozens,columns:B.columns,colorDisplay:B.color,
 chaosLevel:B.chaosPct,chaosTag:B.chaosPct+'%',
@@ -135,7 +135,7 @@ edgeStrength:'—',edge:'—',playState:{state:LFP.mode,play:LFP.mode,cls:'yello
 suppressed:LFP.flow.state==='CHAOTIC',noEdge:false,cluster:getClusters()[0],
 sector:'—',modelLabel:'ŽIVÝ FLOW + ANOMÁLIA · 70/20/10',
 flowSeria:LFP.flow.state,flowBrain:LFP.flow.state,flowTrust:{label:LFP.flow.state,cls:'greenTxt'},
-momentumLabel:'—',chaosLevel:0,chaosTag:'—',migrationDir:'—',migrationLabel:'—',
+momentumLabel:'—',chaosLevel:B.chaosPct,chaosTag:B.chaosPct+'%',migrationDir:'—',migrationLabel:'—',
 preferNow:LFP.columns+' · '+LFP.dozens,notFortuneTeller:'Live flow — nie štatistická istota.',
 lfp:LFP
 };
@@ -201,6 +201,7 @@ const columnsDisplay=predFormatPickWithConfirm(colPlain,flowConfirm.col);
 const dozensDisplay=predFormatPickWithConfirm(dozPlain,flowConfirm.doz);
 const colorDisplay=pickColor!=='—'?predFormatPickWithConfirm(pickColor,flowConfirm.color):'—';
 const preferCol=colPlain;
+const chaosCore=spins.length>=2?computeRiskChaosCore():{chaosLevel:50};
 return{
 flowEng,blend,timing,visualSup,patScore,flowStatus,trustHierarchy,flowTrust,predRezim,
 signalStrength:+signalStrength.toFixed(2),rawConfidence,confidence,
@@ -220,7 +221,7 @@ flowSeria:flowEng.flowMomentumLabel||'—',
 flowBrain:flowTrust.label,
 flowTrust,
 momentumLabel:flowEng.flowMomentumLabel,
-chaosLevel:0,chaosTag:'—',migrationDir:'—',migrationLabel:'—',
+chaosLevel:chaosCore.chaosLevel,chaosTag:chaosCore.chaosLevel+'%',migrationDir:'—',migrationLabel:'—',
 preferNow:'Teraz (posledných '+PRED_SHORT_WIN+'): '+preferCol+' · '+flowEng.dozPick.replace(/<[^>]+>/g,''),
 notFortuneTeller:'Analýza follow-up — nie magická istota. Flow sa mení každým spinom.'
 };

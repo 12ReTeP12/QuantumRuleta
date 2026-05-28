@@ -173,10 +173,12 @@ title="Nie je hracia stratégia. Iba náhodný čo-keby hod bez logiky.">
 </aside>
 </div></div>
 <script src="scripts/core/constants.js"></script>
+<script src="scripts/core/event-bus.js"></script>
 <script src="scripts/core/state.js"></script>
 <script src="scripts/core/helpers.js"></script>
 <script src="scripts/wheel/quantum-wheel.js"></script>
 <script src="scripts/ai/ai-engine.js"></script>
+<script src="scripts/ai/confidence-engine.js"></script>
 <script src="scripts/ai/lfp-engine.js"></script>
 <script src="scripts/ai/ai-prediction.js"></script>
 <script>
@@ -312,25 +314,17 @@ return{label:predAILabel(kind,pick.p),conf,key:pick.key};
 }
 function predCoreBehaviorEngine(){
 const n=spins.length;
-const learn=n<PRED_AI_MIN;
-const chaosPct=Math.round(Number(n>=2?computeRiskChaosCore().chaosLevel:50)||0);
-let playMode,playHead,playSub,playCls;
-if(learn){
-playMode='LEARN';playHead='🔴 ČAKAJ';playSub='AI sa učí flow session… '+n+'/'+PRED_AI_MIN;playCls='bad';
+const conf=computeConfidenceEngine();
+const chaosPct=conf.chaosPct;
+const playMode=conf.playMode,playHead=conf.playHead,playSub=conf.playSub,playCls=conf.playCls;
+if(conf.learn){
 return{
-learn:true,active:false,chaosPct,playMode,playHead,playSub,playCls,allowPlay:false,
-columns:'—',dozens:'—',color:'—',parity:'—',range:'—',confidence:0,
+learn:true,active:false,chaosPct,playMode,playHead,playSub,playCls,allowPlay:conf.allowPlay,
+columns:'—',dozens:'—',color:'—',parity:'—',range:'—',confidence:conf.confidence,
 colPair:{label:'—',conf:0},dozPair:{label:'—',conf:0},
 noPredict:true,noReason:'REŽIM UČENIA',
 alternatingRhythm:false,numberRepeat:{active:false},patterns:{}
 };
-}
-if(chaosPct>70){
-playMode='CAKAJ';playHead='🔴 ČAKAJ';playSub='Chaos '+chaosPct+'% — wheel nečitateľný';playCls='bad';
-}else if(chaosPct>=50){
-playMode='OPATRNE';playHead='🟡 OPATRNE';playSub='Chaos '+chaosPct+'% — opatrný režim';playCls='warn';
-}else{
-playMode='HRAT';playHead='🟢 HRAŤ';playSub='Chaos '+chaosPct+'% — čitateľný flow';playCls='ok';
 }
 const short=predAIWeightedWindow(12);
 const long=predAIWeightedWindow(50);
@@ -378,12 +372,7 @@ color=cr>=cb?'ČERVENÁ':'ČIERNA';
 parity=pe>=po?'PÁRNE':'NEPÁRNE';
 range=rh>=rl?'19–36':'1–18';
 }
-let confidence=clamp(Math.round((colPick.conf+dozPick.conf)/2),12,94);
-if(playMode==='OPATRNE')confidence=clamp(confidence-8,12,78);
-if(playMode==='CAKAJ')confidence=clamp(confidence-14,8,58);
-if(anomalyActive)confidence=clamp(confidence-18,8,62);
-if(alternating.col||alternating.doz)confidence=clamp(confidence+5,12,94);
-else if(alternating.color&&!overheat.col)confidence=clamp(confidence+4,12,94);
+const confidence=conf.confidence;
 const altRhythm=alternating.col||alternating.doz||alternating.color;
 let altLabel='';
 if(alternating.col)altLabel='ALTERNATING RHYTHM · stĺpce 1↔3';
@@ -391,10 +380,10 @@ else if(alternating.doz)altLabel='ALTERNATING RHYTHM · tucty';
 else if(alternating.color)altLabel='ALTERNATING RHYTHM · farba';
 predAIPersist.lastMode=playMode;
 return{
-learn:false,active:true,chaosPct,playMode,playHead,playSub,playCls,allowPlay:true,
+learn:false,active:true,chaosPct,playMode,playHead,playSub,playCls,allowPlay:conf.allowPlay,
 columns:colPick.label,dozens:dozPick.label,color,parity,range,
 confidence,colPair:colPick,dozPair:dozPick,
-noPredict:false,noReason:playMode==='CAKAJ'?'CHAOS / WAIT MODE':playMode==='OPATRNE'?'OPATRNE':'',
+noPredict:false,noReason:conf.status==='ČAKAJ'?'CHAOS / WAIT MODE':conf.status==='OPATRNE'?'OPATRNE':'',
 alternatingRhythm:altRhythm,alternatingLabel:altLabel,
 anomalyActive,anomalyMsg,antiCopy:anomalyActive,
 numberRepeat,patterns:{alternating,overheat,neglected,numberRepeat}
@@ -1630,7 +1619,8 @@ const short=kbFlowWeightedWindow(12);
 const long=kbFlowWeightedWindow(50);
 let colBins=kbFlowBlendRba(kbFlowMergeBins(short,long),'col');
 let dozBins=kbFlowBlendRba(kbFlowMergeDoz(short,long),'doz');
-const chaos=n>=2?computeRiskChaosCore().chaosLevel:50;
+const conf=computeConfidenceEngine();
+const chaosPct=conf.chaosPct;
 const anomaly=kbFlowAnomalyTriplet();
 const mig=n>=4?getWheelMigrationDirection():{label:'—'};
 const hc=n>=3?computeHotColdEngine():null;
@@ -1652,21 +1642,20 @@ const parConf=clamp(Math.round(Math.abs(pe-po)/(pe+po+0.01)*100),10,68);
 const rl=short.range.lo+long.range.lo*0.35,rh=short.range.hi+long.range.hi*0.35;
 const rangeLabel=rh>=rl?'19–36':'1–18';
 const rangeConf=clamp(Math.round(Math.abs(rh-rl)/(rh+rl+0.01)*100),10,68);
-const chaosPct=Math.round(Number(chaos)||0);
 let status='play';
 let banner;
 if(!active){
 status='learn';
-banner={txt:'🔴 ČAKAJ',cls:'wait'};
-}else if(chaosPct>70){
+banner={txt:conf.playHead,cls:'wait'};
+}else if(conf.status==='ČAKAJ'){
 status='wait';
-banner={txt:'🔴 ČAKAJ',cls:'wait'};
-}else if(chaosPct>=50){
+banner={txt:conf.playHead,cls:'wait'};
+}else if(conf.status==='OPATRNE'){
 status='caution';
-banner={txt:'🟡 OPATRNE',cls:'caution'};
+banner={txt:conf.playHead,cls:'caution'};
 }else{
 status='play';
-banner={txt:'🟢 HRAŤ',cls:'play'};
+banner={txt:conf.playHead,cls:'play'};
 }
 const chaosPenalty=active&&chaosPct>=50?Math.round((chaosPct-46)*0.35):0;
 dozPick.conf=clamp(dozPick.conf-chaosPenalty+(status==='play'?10:4),12,99);
@@ -1728,6 +1717,7 @@ const SE=runSpinsEnginePipeline();
 const pr=computeAIPrediction();
 const focus=getFlowFocusSector();
 const mig=SE.ready?SE.migration:analyzeMigrationFlow();
+const chaosCore=computeRiskChaosCore();
 const chaos=SE.ready?SE.chaos:analyzeChaosFromSpins();
 const cluster=SE.ready?SE.cluster:analyzeClusterPressure();
 const neighbors=SE.ready?SE.neighbors:analyzeWheelNeighborChain();
@@ -1735,6 +1725,7 @@ const timing=SE.ready?SE.timing:runTimingEngineSupport();
 const visual=SE.ready?SE.visual:runVisualFromSpins({cluster,migration:analyzeMigrationFlow(),chaos,neighbors,playState:resolvePlayState(50,chaos,null)});
 const inv=pr?pr.invisible:getInvisibleLayer();
 const flowQuality=SE.ready?SE.liveScore:(pr?pr.spinCore:50);
+const flowConf=typeof computeConfidenceEngine==='function'?computeConfidenceEngine():null;
 const timingOpen=timing.core>=55&&lastTimingBreakdown.stability>=45;
 const edgeOk=!!(inv&&inv.edge==='CLEAR EDGE'&&SE.ready&&!SE.suppressRecommendation);
 const result={
@@ -1742,12 +1733,12 @@ modelLabel:'70% SPINY · 20% TIMING · 10% VIZUÁL',
 disclaimer:FLOW_DISCLAIMER,flowQuality:Math.round(flowQuality),sectorFocus:focus,
 clusterPressure:Math.round(cluster.pressure||0),migrationDir:mig.dir||mig.mode||'—',
 migrationLabel:mig.label||'—',neighborPath:neighbors.path||'—',
-chaosLevel:chaos.chaosLevel,chaosTag:chaos.tag||'—',stability:Math.round(100-chaos.chaosLevel),
+chaosLevel:chaosCore.chaosLevel,chaosTag:chaos.tag||'—',stability:Math.round(100-chaosCore.chaosLevel),
 timingCore:timing.core,timingWindow:timingOpen?'OTVORENE':'ZATVORENE',
 timingWindowCls:timingOpen?'greenTxt':'yellowTxt',visualState:visual.state||'TRACK',
 visualCore:visual.core||0,edge:inv?skEdge(inv.edge):'—',edgeOk,
 suppressGuess:!!(SE.suppressRecommendation||chaos.noEdge),playState:SE.playState,
-confidence:pr?pr.confidence:0,SE,pr
+confidence:flowConf?flowConf.confidence:(pr?pr.confidence:0),SE,pr
 };
 lastFlowFocus=focus;lastFlowAnalyzerCache=result;lastFlowAnalyzerKey=key;return result;
 }
@@ -1815,15 +1806,15 @@ if(know.cls==='low'||know.status==='SLABÝ EDGE')return{head:'🟠 OPATRNOSŤ',s
 return{head:'🟠 OPATRNOSŤ',sub:'Stredný signál — sleduj potvrdenie.',cls:'warn'};
 }
 function lfpGatherBehaviorContext(L){
-let SE=null,F=null,chaos=null;
+const risk=spins.length>=2?computeRiskChaosCore():{chaosLevel:50};
+let SE=null,F=null;
 if(spins.length>=2){
 try{SE=runSpinsEnginePipeline();}catch(e){}
 try{F=computeFlowAnalyzer();}catch(e){}
-try{chaos=analyzeChaosFromSpins();}catch(e){}
 }
-const flowScore=L.stability?L.stability.score:(F?F.flowQuality:(SE?SE.liveScore:50));
-const chaosLevel=F?F.chaosLevel:(SE&&SE.chaos?SE.chaos.chaosLevel:(chaos?chaos.chaosLevel:50));
-const noEdge=!!(F&&F.suppressGuess)||!!(SE&&SE.chaos&&SE.chaos.noEdge)||!!(chaos&&chaos.noEdge);
+const chaosLevel=risk.chaosLevel;
+const flowScore=SE&&SE.ready?SE.liveScore:(L.stability?L.stability.score:(F?F.flowQuality:50));
+const noEdge=risk.chaosLevel>=68||!!(SE&&SE.chaos&&SE.chaos.noEdge);
 const migDir=(F&&F.migrationDir)||(SE&&SE.migration?SE.migration.dir:'—');
 const clusterPct=F?F.clusterPressure:(SE&&SE.cluster?Math.round(SE.cluster.pressure):0);
 let sectorNums=[];
