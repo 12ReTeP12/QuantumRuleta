@@ -1,0 +1,16 @@
+# KVANTOVÉ KOLESO — UX a vizuál (nie backend)
+
+Modul musí pôsobiť ako **profesionálny live roulette behavior radar**, nie AI laboratórium, chaos dashboard ani debug panel.
+
+## Povolené zmeny
+- Layout, typografia, farby, canvas vykreslenie (bez zmeny výpočtov)
+- Ľudské slovenské texty: FLOW, CHAOS, STABILITA, DOMINANCIA, TLAK, MOMENTUM, RIZIKO, WAIT MODE
+
+## Zakázané
+- Nové AI/chaos/debug panely, zbytočné metriky, technický slang
+- Prepis backendu: flow engine, observer, router, RNG, migrácia, validation
+- Neon spam, sci-fi efekty, feature overload
+
+## Priorita
+Wheel = hlavný focus. Jednoduchosť a čitateľnosť pred komplexnosťou.
+Animácie len s významom: pulse=dominancia, glow=stabilita, flicker=chaos, smer=migrácia, fade=slabnutie.

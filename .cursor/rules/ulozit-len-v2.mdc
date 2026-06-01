@@ -1,0 +1,54 @@
+---
+description: Trvalé pravidlá projektu — V2 jediný zdroj pravdy, Git, build
+alwaysApply: true
+---
+
+# Trvalé pravidlá projektu (V2)
+
+## Autorita
+
+1. **`index-NOVY-V2.html`** je jediný zdroj pravdy.
+2. Všetky UI, HUD, wheel, dashboard a funkcionalita sa upravujú **iba vo V2**.
+3. **`index.html`** je generovaný/runtime súbor (`npm run sync-v2`). **Neupravovať ručne.**
+4. Pri konflikte medzi súbormi → **vždy platí V2**.
+
+## Pipeline (nemení sa bez plánu)
+
+```
+index-NOVY-V2.html → sync-v2.cjs → index.html → Electron / npm start / dist / RULETA.exe
+```
+
+## Zakázané
+
+- Nové HTML verzie: V3, V4, V5, FINAL, FIX, BACKUP ani `index-NOVY-V*.html` kópie.
+- Ručná úprava `index.html`, `index-NOVY-V4.html`, `index-NOVY-V1.html`.
+- Zálohy kopírovaním HTML (`*-STARY`, `*-backup`, duplicity).
+- Nové `SPUSTIT-*.bat` bez výslovnej žiadosti.
+- `sync-v4.cjs` ani sync do V4 — pipeline je **sync-v2** only.
+
+## Kam ukladať zmeny
+
+| Typ | Kam |
+|---|---|
+| HTML, inline CSS/JS, HUD, boot | `index-NOVY-V2.html` |
+| Moduly, ktoré V2 načítava | `styles/`, `scripts/` (ak nemajú ekvivalent inline vo V2) |
+| HUD / panely / boot inline vo V2 | **nie** `ui-panels.js` / `app-init.js` (V2 má inline) |
+
+**Pravidlo rozhodovania:** nie si istý → **V2**. Potrebuješ zálohu → **Git commit**, nie nový HTML súbor.
+
+## Git a zálohy
+
+- **Pred každou väčšou zmenou** vytvor Git commit (lokálne).
+- Zálohy len cez Git — nie kopírovanie HTML.
+- Push / PR len keď používateľ výslovne povie.
+
+## Architektúra a build
+
+- Zmena architektúry alebo build/Electron → **najprv vysvetli dôvod a vypíš plán**, potom implementuj.
+- Po každej väčšej úprave over: `npm run sync-v2`, `npm start`, `npm run dist`, Electron/`app\RULETA.exe`.
+
+## Agent správanie
+
+- Zmeny ukladaj **priamo do V2** — bez pýtania „kam to dať“.
+- Po implementácii **hneď zapíš** súbor; nečakaj na potvrdenie.
+- Overenie v prehliadači: `index-NOVY-V2.html` + **Ctrl+Shift+R**.
