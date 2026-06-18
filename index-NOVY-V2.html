@@ -140,7 +140,7 @@
 </head>
 <body>
 <header class="topbar topbar-v6">
-<span class="topbar-title">KVANTOVÁ RULETA PRO V2 <small class="topbar-build-tag">· OBR.2 KROK10</small></span>
+<span class="topbar-title">KVANTOVÁ RULETA PRO V2 <small class="topbar-build-tag">· OBR.2 PASS5</small></span>
 <div class="topbar-center topbar-v6-spacer" aria-hidden="true"></div>
 <div class="topbar-v6-time"><span class="topbar-clock" id="liveClock">00:00:00</span><span class="topbar-date" id="liveDate">—</span></div>
 </header>
@@ -319,7 +319,7 @@ title="Nie je hracia stratégia. Iba náhodný čo-keby hod bez logiky.">
 <script src="scripts/core/state.js"></script>
 <script src="scripts/core/helpers.js"></script>
 <script src="scripts/wheel/quantum-wheel.js?v=hero-layout-4"></script>
-<script src="scripts/wheel/wheel-canvas.js?v=obr2-krok10"></script>
+<script src="scripts/wheel/wheel-canvas.js?v=obr2-pass5"></script>
 <script src="scripts/ai/ai-engine.js"></script>
 <script src="scripts/ai/confidence-engine.js"></script>
 <script src="scripts/valid-true/valid-true-v0.js"></script>
@@ -3161,7 +3161,7 @@ if(down)down.addEventListener('click',function(){body.scrollBy({top:step(),behav
 <script src="scripts/analytics/bah-engine.js"></script>
 <script src="scripts/analytics/session-stats.js"></script>
 <script src="scripts/analytics/roulette-analytics.js"></script>
-<script src="scripts/wheel/wheel-hud.js?v=obr2-krok2"></script>
+<script src="scripts/wheel/wheel-hud.js?v=obr2-pass5"></script>
 <script src="scripts/ui/ui-alerts.js"></script>
 <script src="scripts/analytics/timing-engine.js"></script>
 <script src="scripts/board/board-events.js"></script>
@@ -3176,19 +3176,38 @@ else bootApp();
 }
 </script>
 <style id="v2-layout-last">
-/* ═══ OBR.2 VZOR PASS4 — jediný zdroj typografie ═══ */
+/* ═══ OBR.2 VZOR PASS5 — jediný zdroj typografie ═══ */
 .topbar-build-tag{font-size:11px;font-weight:800;color:#42ff74;letter-spacing:.08em;margin-left:6px;}
-.v6-block-wheel.v6-radar-v1{--qw-side-w:210px!important;--qh-bottom:118px!important;min-height:clamp(820px,92vh,1040px)!important;background:#060a10!important;}
+.v6-block-wheel.v6-radar-v1{--qw-side-w:192px!important;--qh-bottom:110px!important;min-height:clamp(860px,94vh,1080px)!important;background:#050810!important;}
 .v6-block-wheel.v6-radar-v1 .qw-dashboard{min-height:inherit!important;display:flex!important;flex-direction:column!important;}
 .v6-block-wheel.v6-radar-v1 .qw-dash-body{display:flex!important;flex-direction:column!important;flex:1 1 0!important;min-height:0!important;overflow:hidden!important;padding:0!important;}
 .v6-block-wheel.v6-radar-v1 .hero-center-core::before,.v6-block-wheel.v6-radar-v1 .hero-center-core::after{display:none!important;}
-.v6-block-wheel.v6-radar-v1 .qw-wheel-stage{margin:0 auto!important;flex-shrink:0!important;}
 .v6-block-wheel.v6-radar-v1 .quantum-hero-layout{display:grid!important;grid-template-columns:var(--qw-side-w) minmax(0,1fr) var(--qw-side-w)!important;gap:0!important;align-items:stretch!important;flex:1 1 0!important;}
-.v6-block-wheel.v6-radar-v1 #qwPanelLeft,.v6-block-wheel.v6-radar-v1 .hero-left-hud,.v6-block-wheel.v6-radar-v1 #qwPanelRight,.v6-block-wheel.v6-radar-v1 .hero-right-hud{width:100%!important;min-width:0!important;max-width:none!important;padding:8px 7px!important;overflow-y:auto!important;display:flex!important;visibility:visible!important;background:rgba(5,14,24,.98)!important;}
+.v6-block-wheel.v6-radar-v1 #qwPanelLeft,.v6-block-wheel.v6-radar-v1 .hero-left-hud,.v6-block-wheel.v6-radar-v1 #qwPanelRight,.v6-block-wheel.v6-radar-v1 .hero-right-hud{width:100%!important;min-width:0!important;max-width:none!important;overflow-y:auto!important;display:flex!important;visibility:visible!important;background:rgba(4,12,22,.98)!important;}
 .v6-block-wheel.v6-radar-v1 .hero-left-hud{border-right:1px solid rgba(70,150,220,.28)!important;}
 .v6-block-wheel.v6-radar-v1 .hero-right-hud{border-left:1px solid rgba(70,150,220,.28)!important;}
-.v6-block-wheel.v6-radar-v1 .hero-center-core{grid-column:2!important;width:100%!important;min-width:0!important;background:radial-gradient(ellipse at center,rgba(8,20,32,.6) 0%,transparent 70%)!important;}
-.v6-block-wheel.v6-radar-v1 .hero-hud-stack{gap:5px!important;}
+.v6-block-wheel.v6-radar-v1 .quantum-hero-body{flex:1 1 0!important;display:flex!important;flex-direction:column!important;min-height:0!important;}
+.v6-block-wheel.v6-radar-v1 .quantum-hero-layout{flex:1 1 0!important;min-height:0!important;}
+.v6-block-wheel.v6-radar-v1 .hero-bottom-hud{flex-shrink:0!important;}
+.v6-block-wheel.v6-radar-v1 .qw-dash-model{flex-shrink:0!important;min-height:54px!important;visibility:visible!important;display:flex!important;}
+.v6-block-wheel.v6-radar-v1 #qwPanelLeft,.v6-block-wheel.v6-radar-v1 #qwPanelRight,.v6-block-wheel.v6-radar-v1 .hero-left-hud,.v6-block-wheel.v6-radar-v1 .hero-right-hud{padding:5px 5px!important;}
+.v6-block-wheel.v6-radar-v1 .hero-hud-stack{gap:3px!important;}
+.v6-block-wheel.v6-radar-v1 .qw-hero-metric{padding:7px 8px!important;margin:0!important;}
+.v6-block-wheel.v6-radar-v1 .hero-center-core{
+grid-column:2!important;width:100%!important;min-width:0!important;
+display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;
+flex:1 1 0!important;min-height:min(500px,58vh)!important;
+background:radial-gradient(ellipse at center,rgba(6,18,28,.85) 0%,rgba(3,8,14,.98) 72%)!important;
+}
+.v6-block-wheel.v6-radar-v1 .qw-wheel-stage{flex:0 0 auto!important;margin:0 auto!important;}
+.v6-block-wheel.v6-radar-v1 .qw-flow-legend{
+flex-shrink:0!important;width:100%!important;justify-content:center!important;
+padding:5px 8px 6px!important;margin:0!important;
+border-top:1px solid rgba(70,150,220,.12)!important;
+}
+.v6-block-wheel.v6-radar-v1 .qw-flow-legend .qw-leg-line{width:28px!important;height:2px!important;}
+.v6-block-wheel.v6-radar-v1 .qw-h-bar{height:8px!important;margin-top:5px!important;}
+.v6-block-wheel.v6-radar-v1 .qw-dash-model .ai-engine{font-size:10px!important;letter-spacing:.05em!important;}
 /* Header */
 .v6-block-wheel.v6-radar-v1 .qw-dash-header{display:grid!important;grid-template-columns:1fr auto 1fr!important;align-items:center!important;padding:10px 16px!important;border-bottom:1px solid rgba(70,150,220,.22)!important;background:rgba(3,8,14,.97)!important;}
 .v6-block-wheel.v6-radar-v1 .qw-dash-header .qw-h-left{justify-self:start!important;font-size:21px!important;font-weight:900!important;color:#fff!important;letter-spacing:.04em!important;line-height:1.15!important;}

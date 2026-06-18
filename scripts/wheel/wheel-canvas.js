@@ -37,8 +37,8 @@ centerH=Math.max(bodyH-headerH-bottomH-modelH,body.clientHeight-headerH-bottomH-
 const sideW=parseInt(getComputedStyle(block).getPropertyValue('--qw-side-w'),10)||196;
 const layoutW=layout?layout.clientWidth:block.clientWidth;
 const maxWheelW=Math.max(layoutW-sideW*2,320);
-const maxH=Math.max(centerH-legH,260);
-const size=Math.floor(Math.min(maxWheelW*0.998,maxH*0.992));
+const maxH=Math.max(centerH-legH-4,280);
+const size=Math.floor(Math.min(maxWheelW*0.999,maxH*0.998));
 block.style.setProperty('--qw-canvas-px',size+'px');
 stage.style.width=size+'px';stage.style.height=size+'px';
 cv.style.width=size+'px';cv.style.height=size+'px';
@@ -162,17 +162,17 @@ ctx.restore();
 }
 function drawQwVzorInnerGrid(ctx,cx,cy,rOut,visDim){
 ctx.save();
-ctx.globalAlpha=0.42*visDim;
+ctx.globalAlpha=0.55*visDim;
 for(let i=1;i<=3;i++){
-const r=rOut*(0.28+i*0.22);
+const r=rOut*(0.32+i*0.22);
 ctx.beginPath();ctx.arc(cx,cy,r,0,Math.PI*2);
-ctx.strokeStyle='rgba(55,170,210,0.1)';ctx.lineWidth=0.9;ctx.stroke();
+ctx.strokeStyle='rgba(55,170,210,0.12)';ctx.lineWidth=0.85;ctx.stroke();
 }
 for(let i=0;i<6;i++){
 const a=-Math.PI/2+i*(Math.PI/3);
-ctx.beginPath();ctx.moveTo(cx+Math.cos(a)*rOut*0.14,cy+Math.sin(a)*rOut*0.14);
-ctx.lineTo(cx+Math.cos(a)*rOut*0.97,cy+Math.sin(a)*rOut*0.97);
-ctx.strokeStyle='rgba(70,210,255,0.22)';ctx.lineWidth=1.05;ctx.stroke();
+ctx.beginPath();ctx.moveTo(cx+Math.cos(a)*rOut*0.12,cy+Math.sin(a)*rOut*0.12);
+ctx.lineTo(cx+Math.cos(a)*rOut*0.98,cy+Math.sin(a)*rOut*0.98);
+ctx.strokeStyle='rgba(70,210,255,0.28)';ctx.lineWidth=1.05;ctx.stroke();
 }
 ctx.restore();
 }
@@ -187,12 +187,15 @@ ctx.strokeStyle='rgba(0,0,0,0.45)';ctx.lineWidth=1;ctx.stroke();
 ctx.restore();
 }
 /** Popisy STĹPEC/TUCET na canvas — vždy viditeľné (vzor obr.2) */
-function drawQwVzorLabelsCanvas(ctx,cx,cy,rLbl,st,canvasW){
+function drawQwVzorLabelsCanvas(ctx,cx,cy,outerR,st,canvasW){
 const sc=Math.max(0.72,Math.min(1.15,(canvasW||1080)/1080));
+const pocketIn=outerR*0.755,hubR=outerR*0.14;
+const colMid=(hubR*1.05+pocketIn*0.70)*0.5,dozMid=(hubR*0.78+pocketIn*0.48)*0.5;
 ctx.save();
 ctx.textAlign='center';
 ctx.textBaseline='middle';
 QW_VZOR_LABEL_SLOTS.forEach(slot=>{
+const rLbl=(slot.kind==='col'?colMid:dozMid)*0.94;
 const x=cx+Math.cos(slot.ang)*rLbl,y=cy+Math.sin(slot.ang)*rLbl;
 const dom=slot.kind==='col'?(slot.idx===st.domCol):(slot.idx===st.domDoz);
 const pct=Math.round(slot.kind==='col'?(st.colPct[slot.idx]||0):(st.dozPct[slot.idx]||0));
@@ -213,36 +216,34 @@ ctx.restore();
 function drawQwVzorWheelInner(ctx,cx,cy,outerR,segment,st,deadCols,pulse,visDim,chaosSess,lastN,hm,coreState){
 const hubR=outerR*0.14;
 const pocketIn=outerR*0.755;
-const segIn=hubR*0.85,segOut=pocketIn*0.98;
 ctx.save();
 const bg=ctx.createRadialGradient(cx,cy,0,cx,cy,pocketIn);
-bg.addColorStop(0,'#03060a');bg.addColorStop(0.5,'#070d14');bg.addColorStop(1,'#0a1218');
+bg.addColorStop(0,'#050810');bg.addColorStop(0.45,'#0a1218');bg.addColorStop(1,'#0e1820');
 ctx.fillStyle=bg;ctx.beginPath();ctx.arc(cx,cy,pocketIn,0,Math.PI*2);ctx.fill();
 ctx.restore();
 drawQwEuropeanWheelShape(ctx,cx,cy,outerR,segment,lastN);
-drawQwVzorSixSegmentHub(ctx,cx,cy,segIn,segOut,st,pulse,visDim,chaosSess);
-if(hm&&coreState)drawQwVzorFlowArcsCanvas(ctx,cx,cy,segOut*0.96,st,hm,coreState,chaosSess);
+drawQwVzorSixSegmentHub(ctx,cx,cy,hubR,pocketIn,st,pulse,visDim,chaosSess);
 ctx.save();
-/* obr.2 KROK7 — silnejšie modré jadro ako na vzore */
-const glowR=hubR*3.1;
+const glowR=hubR*2.8;
 const cg=ctx.createRadialGradient(cx,cy,0,cx,cy,glowR);
-cg.addColorStop(0,'rgba(100,220,255,0.92)');
-cg.addColorStop(0.18,'rgba(40,160,255,0.55)');
-cg.addColorStop(0.45,'rgba(20,90,180,0.22)');
+cg.addColorStop(0,'rgba(80,210,255,0.75)');
+cg.addColorStop(0.2,'rgba(35,150,255,0.42)');
+cg.addColorStop(0.5,'rgba(15,80,160,0.15)');
 cg.addColorStop(1,'rgba(0,0,0,0)');
-ctx.shadowColor='rgba(60,200,255,0.85)';
-ctx.shadowBlur=28;
+ctx.shadowColor='rgba(50,190,255,0.7)';
+ctx.shadowBlur=22;
 ctx.fillStyle=cg;ctx.beginPath();ctx.arc(cx,cy,glowR,0,Math.PI*2);ctx.fill();
 ctx.shadowBlur=0;
-const core=ctx.createRadialGradient(cx,cy,0,cx,cy,hubR*0.62);
-core.addColorStop(0,'rgba(200,245,255,1)');
-core.addColorStop(0.45,'rgba(70,190,255,0.65)');
+const core=ctx.createRadialGradient(cx,cy,0,cx,cy,hubR*0.55);
+core.addColorStop(0,'rgba(190,240,255,0.95)');
+core.addColorStop(0.5,'rgba(60,180,255,0.5)');
 core.addColorStop(1,'rgba(0,0,0,0)');
-ctx.fillStyle=core;ctx.beginPath();ctx.arc(cx,cy,hubR*0.62,0,Math.PI*2);ctx.fill();
-ctx.fillStyle='#041018';
-ctx.beginPath();ctx.arc(cx,cy,hubR*0.18,0,Math.PI*2);ctx.fill();
-ctx.strokeStyle='rgba(140,235,255,0.55)';ctx.lineWidth=1.2;ctx.stroke();
+ctx.fillStyle=core;ctx.beginPath();ctx.arc(cx,cy,hubR*0.55,0,Math.PI*2);ctx.fill();
+ctx.fillStyle='#030810';
+ctx.beginPath();ctx.arc(cx,cy,hubR*0.16,0,Math.PI*2);ctx.fill();
+ctx.strokeStyle='rgba(130,230,255,0.5)';ctx.lineWidth=1;ctx.stroke();
 ctx.restore();
+if(hm&&coreState)drawQwVzorFlowArcsCanvas(ctx,cx,cy,outerR*0.93,st,hm,coreState,chaosSess);
 drawQwVzorGoldBand(ctx,cx,cy,pocketIn);
 }
 /** Zakrivené flow čiary na canvas (vzor — namiesto SVG lúčov) */
@@ -395,7 +396,7 @@ if(domDoz>=0&&di===domDoz)score+=0.32*((st.dozPct[domDoz]||0)/100);
 const hi=hm&&hm[num];
 if(hi){if(hi.type==='return'||hi.type==='repeat')score+=0.28;else if(hi.type==='hot')score+=0.12;}
 let tier=score>=0.46?'strong':score>=0.26?'mid':'weak';
-const subs=tier==='strong'?3:(tier==='mid'?2:1);
+const subs=tier==='strong'?5:(tier==='mid'?3:2);
 for(let s=0;s<subs;s++){
 const spread=subs>1?((s/(subs-1))-0.5)*0.035:0;
 items.push({tier,ang:ang+spread,seed:index*17+s*5,frag:!!chaosSess,rim:true});
@@ -421,25 +422,38 @@ items.push({tier,ang,seed:slot.idx*500+k*11+(slot.kind==='doz'?3000:0),frag:!!ch
 });
 return items;
 }
-function drawQwVzorSixSegmentHub(ctx,cx,cy,rIn,rOut,st,pulse,visDim,chaosSess){
-const segs=[
-{kind:'col',idx:0,a0:-5*Math.PI/6,a1:-Math.PI/2},
-{kind:'col',idx:1,a0:-Math.PI/2,a1:-Math.PI/3},
-{kind:'col',idx:2,a0:-Math.PI/3,a1:0},
-{kind:'doz',idx:2,a0:0,a1:Math.PI/3},
-{kind:'doz',idx:1,a0:Math.PI/3,a1:2*Math.PI/3},
-{kind:'doz',idx:0,a0:2*Math.PI/3,a1:Math.PI}
+function drawQwVzorSixSegmentHub(ctx,cx,cy,hubR,pocketIn,st,pulse,visDim,chaosSess){
+const colIn=hubR*1.05,colOut=pocketIn*0.70;
+const dozIn=hubR*0.78,dozOut=pocketIn*0.48;
+const colSegs=[
+{idx:0,a0:-5*Math.PI/6,a1:-Math.PI/2},
+{idx:1,a0:-Math.PI/2,a1:-Math.PI/3},
+{idx:2,a0:-Math.PI/3,a1:0}
 ];
-segs.forEach(seg=>{
-const dom=seg.kind==='col'?(seg.idx===st.domCol):(seg.idx===st.domDoz);
-const pct=seg.kind==='col'?(st.colPct[seg.idx]||0):(st.dozPct[seg.idx]||0);
-const a=dom?(0.06+0.02*pulse)*(Math.max(0.38,pct/100)):0.015;
-drawQwWedge(ctx,cx,cy,rIn,rOut,seg.a0,seg.a1,
-dom?'rgba(0,95,70,'+(a*visDim)+')':'rgba(4,10,18,'+(0.42*visDim)+')',
-dom?'rgba(100,255,170,'+(0.14*visDim)+')':'rgba(40,90,120,'+(0.05*visDim)+')',
-dom?0.9:0.45);
+const dozSegs=[
+{idx:2,a0:0,a1:Math.PI/3},
+{idx:1,a0:Math.PI/3,a1:2*Math.PI/3},
+{idx:0,a0:2*Math.PI/3,a1:Math.PI}
+];
+colSegs.forEach(seg=>{
+const dom=seg.idx===st.domCol;
+const pct=st.colPct[seg.idx]||0;
+const a=dom?(0.1+0.03*pulse)*(Math.max(0.38,pct/100)):0.02;
+drawQwWedge(ctx,cx,cy,colIn,colOut,seg.a0,seg.a1,
+dom?'rgba(0,100,75,'+(a*visDim)+')':'rgba(5,12,20,'+(0.45*visDim)+')',
+dom?'rgba(90,255,160,'+(0.2*visDim)+')':'rgba(35,80,110,'+(0.06*visDim)+')',
+dom?1:0.45);
 });
-/* V2: bez modrých radiálnych deliacich čiar v strede */
+dozSegs.forEach(seg=>{
+const dom=seg.idx===st.domDoz;
+const pct=st.dozPct[seg.idx]||0;
+const a=dom?(0.12+0.03*pulse)*(Math.max(0.38,pct/100)):0.025;
+drawQwWedge(ctx,cx,cy,dozIn,dozOut,seg.a0,seg.a1,
+dom?'rgba(0,110,80,'+(a*visDim)+')':'rgba(4,10,18,'+(0.4*visDim)+')',
+dom?'rgba(100,255,170,'+(0.22*visDim)+')':'rgba(30,70,95,'+(0.07*visDim)+')',
+dom?1.1:0.5);
+});
+drawQwVzorInnerGrid(ctx,cx,cy,pocketIn*0.72,visDim);
 }
 /** Vláknové flow čiary — cyan + zelené v dominantných sektoroch */
 let qwFlowRadarSvgKey='';
@@ -984,7 +998,7 @@ drawWheelTextOutlined(ctx,String(num),0,0,numCol,isLast?4.5:(isGlow?4.2:(num===0
 ctx.restore();
 });
 /* V2 mockup: popisy STĹPEC/TUCET v kolese ako obr.2 */
-drawQwVzorLabelsCanvas(ctx,cx,cy,outerR*0.755*0.52,st,W);
+drawQwVzorLabelsCanvas(ctx,cx,cy,outerR,st,W);
 renderQwFlowRadarSvg(Q,st,hm,coreState,pulse,chaosSess);
 ctx.beginPath();ctx.arc(cx,cy,outerR+3,0,Math.PI*2);
 ctx.strokeStyle='rgba(80,160,140,0.22)';ctx.lineWidth=1.4;ctx.stroke();
