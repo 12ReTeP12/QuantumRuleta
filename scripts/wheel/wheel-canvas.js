@@ -39,23 +39,23 @@ const blockW=Math.max(block.clientWidth||0,480);
 const layoutH=layout?layout.clientHeight:0;
 const areaH=Math.max(layoutH,bodyH-headerH-bottomH-modelH,centerH,480);
 const maxH=Math.max(areaH-legH-6,320);
-const availW=Math.max(blockW-baseSide*2,260);
-let wheelSize=Math.max(Math.floor(Math.min(availW,maxH)),260);
-block.style.setProperty('--qw-canvas-px',wheelSize+'px');
+const availW=Math.max(blockW-baseSide*2,280);
+let drawn=Math.max(Math.floor(Math.min(availW,maxH)),280);
+let leftW=baseSide,rightW=baseSide;
+const slack=blockW-leftW-drawn-rightW;
+if(slack>0){leftW+=Math.floor(slack/2);rightW+=slack-Math.floor(slack/2);}
+block.style.setProperty('--qw-canvas-px',drawn+'px');
+block.style.setProperty('--qw-side-l',leftW+'px');
+block.style.setProperty('--qw-side-r',rightW+'px');
 if(layout){
 layout.style.width='100%';
-layout.style.gridTemplateColumns=baseSide+'px 1fr '+baseSide+'px';
-layout.style.minHeight=Math.max(wheelSize+legH+8,360)+'px';
+layout.style.gridTemplateColumns=leftW+'px '+drawn+'px '+rightW+'px';
+layout.style.minHeight=Math.max(drawn+legH+8,380)+'px';
 }
 center.style.width='100%';center.style.maxWidth='100%';center.style.minWidth='0';
-center.style.flex='1 1 auto';
-stage.style.width='100%';stage.style.maxWidth='100%';stage.style.height='auto';
-stage.style.aspectRatio='1';stage.style.maxHeight=(wheelSize+'px');
+stage.style.width='100%';stage.style.height=drawn+'px';stage.style.maxWidth='100%';stage.style.maxHeight=drawn+'px';
 stage.style.margin='0';stage.style.flex='0 0 auto';
-void stage.offsetWidth;
-const drawn=Math.max(Math.floor(Math.min(stage.clientWidth||wheelSize,wheelSize,maxH)),260);
-stage.style.height=drawn+'px';stage.style.maxHeight=drawn+'px';
-cv.style.width=drawn+'px';cv.style.height=drawn+'px';
+cv.style.width='100%';cv.style.height='100%';cv.style.maxWidth=drawn+'px';cv.style.maxHeight=drawn+'px';cv.style.display='block';cv.style.margin='0';
 cv.width=1080;cv.height=1080;
 if(typeof renderCanvasWheel==='function')renderCanvasWheel();
 }
@@ -941,7 +941,7 @@ const Q=computeQuantumWheelBrain();
 const dashEl=document.getElementById('wheelRadarData');
 const radarVzor=!!(dashEl&&dashEl.closest('.v6-block-wheel.v6-radar-v1'));
 const radarMinimal=radarVzor;
-const outerR=Math.min(W,H)*(radarMinimal?0.492:0.47);
+const outerR=Math.min(W,H)*(radarMinimal?0.496:0.47);
 const midR=outerR*0.7;
 const hubR=outerR*0.14;
 const segment=(Math.PI*2)/wheel.length;
