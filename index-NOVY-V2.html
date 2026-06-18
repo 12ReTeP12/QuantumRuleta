@@ -192,6 +192,42 @@ content:'';position:absolute;left:0;right:0;bottom:-1px;height:2px;background:rg
 .peter-game-header.timing-open .peter-game-title{cursor:pointer;user-select:none;}
 .peter-game-header.timing-open .peter-game-title:hover{filter:drop-shadow(0 3px 2px rgba(0,0,0,.85)) drop-shadow(0 0 24px rgba(120,220,255,.65));}
 .peter-game-header.timing-open .peter-game-title:focus-visible{outline:2px solid rgba(66,255,116,.55);outline-offset:3px;border-radius:4px;}
+.peter-game-header.session-open .peter-game-title{cursor:pointer;user-select:none;}
+.peter-game-header.session-open .peter-game-title:hover{filter:drop-shadow(0 3px 2px rgba(0,0,0,.85)) drop-shadow(0 0 24px rgba(120,220,255,.65));}
+/* Session Analyzer — Hlboká analýza relácií */
+.sa-sidebar-link{width:100%;margin-top:8px;padding:10px 12px!important;border:1px solid rgba(90,180,255,.35)!important;border-radius:10px!important;background:linear-gradient(145deg,rgba(8,28,48,.95),rgba(4,10,18,.98))!important;color:#8ed4ff!important;font-size:11px!important;font-weight:800!important;letter-spacing:.04em!important;cursor:pointer;text-align:left;line-height:1.35!important;transition:border-color .15s,box-shadow .15s;}
+.sa-sidebar-link:hover{border-color:rgba(66,255,116,.5)!important;box-shadow:0 0 16px rgba(66,255,116,.12)!important;color:#b8ecff!important;}
+.peter-session-shell{max-width:980px;margin:0 auto;padding:16px 14px 28px;}
+.sa-status-bar{display:flex;flex-wrap:wrap;gap:10px 18px;padding:12px 16px;margin-bottom:14px;border:1px solid rgba(70,150,220,.35);border-radius:10px;background:linear-gradient(145deg,rgba(6,18,32,.96),rgba(2,8,14,.99));box-shadow:inset 0 1px 0 rgba(120,200,255,.1);}
+.sa-status-item{font-size:12px;font-weight:800;color:#8ab5c8;letter-spacing:.05em;}
+.sa-status-item strong{color:#42ff74;font-size:14px;margin-left:6px;}
+.sa-status-item.locked strong{color:#ffd43d;}
+.sa-panel{border:1px solid rgba(70,150,220,.28);border-radius:12px;background:rgba(4,12,22,.94);padding:14px 16px;margin-bottom:14px;}
+.sa-panel h2{margin:0 0 10px;font-size:15px;font-weight:900;color:#e8f4ff;letter-spacing:.04em;}
+.sa-panel-intro{margin:0 0 12px;font-size:12px;color:#8ab5c8;line-height:1.45;}
+.sa-actions{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:14px;}
+.sa-btn{padding:10px 16px;border-radius:8px;border:1px solid rgba(90,180,255,.4);background:linear-gradient(180deg,rgba(20,50,80,.9),rgba(8,20,36,.98));color:#b8e4ff;font-size:11px;font-weight:800;letter-spacing:.05em;cursor:pointer;transition:all .15s;}
+.sa-btn:hover{border-color:rgba(66,255,116,.55);color:#42ff74;box-shadow:0 0 14px rgba(66,255,116,.15);}
+.sa-btn-primary{border-color:rgba(255,180,60,.5);color:#ffd43d;background:linear-gradient(180deg,rgba(60,40,10,.85),rgba(30,20,6,.98));}
+.sa-btn-primary:hover{border-color:rgba(255,212,80,.7);color:#ffe566;}
+.sa-btn-success{border-color:rgba(66,255,116,.5);color:#42ff74;background:linear-gradient(180deg,rgba(0,50,36,.85),rgba(0,24,18,.98));}
+.sa-btn:disabled{opacity:.45;cursor:not-allowed;box-shadow:none;}
+.sa-results-table{width:100%;border-collapse:collapse;font-size:12px;}
+.sa-results-table th,.sa-results-table td{padding:9px 10px;border-bottom:1px solid rgba(70,150,220,.15);text-align:left;vertical-align:top;}
+.sa-results-table th{font-size:10px;font-weight:800;color:#5eb8ff;text-transform:uppercase;letter-spacing:.08em;background:rgba(0,0,0,.25);}
+.sa-results-table td{color:#d8ece4;line-height:1.45;}
+.sa-results-table tr.sa-row-magnet td:first-child{color:#ff9a6a;}
+.sa-results-table tr.sa-row-streak td:first-child{color:#ffd43d;}
+.sa-results-table tr.sa-row-sleeper td:first-child{color:#9ab8ff;}
+.sa-empty{padding:16px;text-align:center;color:#6a9088;font-size:12px;font-weight:600;}
+.sa-archive{margin-top:8px;padding:12px 14px;border-radius:10px;border:1px solid rgba(70,150,220,.2);background:rgba(0,0,0,.35);max-height:220px;overflow-y:auto;}
+.sa-archive h3{margin:0 0 8px;font-size:11px;font-weight:800;color:#7ad4b8;letter-spacing:.1em;text-transform:uppercase;}
+.sa-archive-item{margin:0 0 8px;padding:8px 10px;border-left:3px solid rgba(66,255,116,.45);background:rgba(6,14,24,.8);font-size:11px;color:#b8d8cc;line-height:1.45;}
+.sa-live-strip{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px;max-height:72px;overflow-y:auto;}
+.sa-live-chip{min-width:26px;padding:3px 6px;border-radius:5px;font-size:11px;font-weight:900;text-align:center;}
+.sa-live-chip.red{background:rgba(180,30,40,.85);color:#fff;}
+.sa-live-chip.black{background:rgba(28,28,36,.95);color:#f0f0f8;border:1px solid rgba(255,255,255,.12);}
+.sa-live-chip.green{background:rgba(0,140,70,.9);color:#fff;}
 </style>
 </head>
 <body>
@@ -203,6 +239,7 @@ content:'';position:absolute;left:0;right:0;bottom:-1px;height:2px;background:rg
 </div>
 <nav class="peter-excel-tabs" role="tablist" aria-label="Karty programu">
 <button type="button" class="peter-tab" role="tab" id="peterTabTiming" data-peter-tab="timing" aria-selected="false" aria-controls="peterViewTiming">⏱ Kvantová timing · 20%</button>
+<button type="button" class="peter-tab" role="tab" id="peterTabSession" data-peter-tab="session" aria-selected="false" aria-controls="peterViewSession">📊 Hlboká analýza relácií</button>
 </nav>
 </div>
 </header>
@@ -219,6 +256,7 @@ content:'';position:absolute;left:0;right:0;bottom:-1px;height:2px;background:rg
 <button type="button" class="btn btn-undo" id="btnUndoLast" disabled>RESET · posledné číslo</button>
 <div id="sessionStatus" class="session-status">Relácia: prázdna</div>
 </div></div>
+<button type="button" class="sa-sidebar-link" id="saOpenFromSidebar" title="Otvoriť Generátor Relácií a Hlbokej Štatistiky">📊 Generátor Relácií a Hlbokej Štatistiky</button>
 <div class="card card-sfa v6-cc-tertiary"><h2>Únava relácie</h2>
 <div id="sessionFatiguePanel" class="session-fatigue-panel"></div></div>
 </aside>
@@ -381,6 +419,32 @@ title="Nie je hracia stratégia. Iba náhodný čo-keby hod bez logiky.">
 </div>
 <p class="timing-hint">STOP → zadaj číslo 0–36 · Enter alebo blur</p>
 <div id="timing"></div></div>
+</div>
+</div>
+<div id="peterViewSession" class="peter-view" role="tabpanel" aria-labelledby="peterTabSession">
+<div class="shell peter-session-shell">
+<div class="sa-panel">
+<h2>Generátor Relácií a Hlbokej Štatistiky</h2>
+<p class="sa-panel-intro">Samostatný modul hĺbkovej analýzy uzavretých relácií. Spiny z klávesnice sa zapisujú do internej histórie tejto karty (max 100). Live hra na prvej karte zostáva nedotknutá.</p>
+<div class="sa-status-bar" id="saStatusBar">
+<span class="sa-status-item" id="saStatusGame">AKTUÁLNA RELÁCIA: <strong>HRA č. 1</strong></span>
+<span class="sa-status-item" id="saStatusSpins">ZADANÝCH SPINOV: <strong>0</strong></span>
+<span class="sa-status-item" id="saStatusMode">STAV: <strong>Zber dát</strong></span>
+</div>
+<div class="sa-live-strip" id="saLiveStrip" aria-label="Spiny aktuálnej relácie v tomto module"></div>
+<div class="sa-actions">
+<button type="button" class="sa-btn sa-btn-primary" id="saBtnCloseAnalyze">[ UZAVRIEŤ A ANALYZOVAŤ TERAZ ]</button>
+<button type="button" class="sa-btn sa-btn-success" id="saBtnReboot" disabled>[ VYMAZAŤ A ZAČAŤ HRU Č. 2 ]</button>
+</div>
+</div>
+<div class="sa-panel" id="saResultsPanel">
+<h2>Výsledky hĺbkovej analýzy</h2>
+<div id="saResultsWrap"><p class="sa-empty">Relácia ešte nebola uzavretá. Zadávaj spiny z klávesnice alebo uzavri manuálne.</p></div>
+</div>
+<div class="sa-panel">
+<h2>História uzavretých relácií</h2>
+<div class="sa-archive" id="saArchiveLog"><p class="sa-empty">Zatiaľ žiadna uzavretá relácia.</p></div>
+</div>
 </div>
 </div>
 <script src="scripts/core/constants.js"></script>
@@ -3153,11 +3217,17 @@ dateEl.textContent=now.toLocaleDateString('sk-SK');
 }
 function bindPeterTabs(){
 const tabTiming=document.getElementById('peterTabTiming');
+const tabSession=document.getElementById('peterTabSession');
 const titleEl=document.getElementById('peterGameTitle');
 const headerEl=document.querySelector('.peter-game-header');
 const viewGame=document.getElementById('peterViewGame');
 const viewTiming=document.getElementById('peterViewTiming');
+const viewSession=document.getElementById('peterViewSession');
 if(!viewGame||!viewTiming)return;
+function deactivateTabs(){
+if(tabTiming){tabTiming.classList.remove('active');tabTiming.setAttribute('aria-selected','false');}
+if(tabSession){tabSession.classList.remove('active');tabSession.setAttribute('aria-selected','false');}
+}
 function setTitleHome(on){
 if(!titleEl)return;
 if(on){
@@ -3173,30 +3243,49 @@ titleEl.removeAttribute('tabindex');
 }
 }
 function showGame(){
-if(tabTiming){tabTiming.classList.remove('active');tabTiming.setAttribute('aria-selected','false');}
-if(headerEl)headerEl.classList.remove('timing-open');
+deactivateTabs();
+if(headerEl){headerEl.classList.remove('timing-open');headerEl.classList.remove('session-open');}
 setTitleHome(false);
 viewGame.classList.add('active');
 viewTiming.classList.remove('active');
+if(viewSession)viewSession.classList.remove('active');
 }
 function showTiming(){
+deactivateTabs();
 if(tabTiming){tabTiming.classList.add('active');tabTiming.setAttribute('aria-selected','true');}
-if(headerEl)headerEl.classList.add('timing-open');
+if(headerEl){headerEl.classList.add('timing-open');headerEl.classList.remove('session-open');}
 setTitleHome(true);
 viewGame.classList.remove('active');
 viewTiming.classList.add('active');
+if(viewSession)viewSession.classList.remove('active');
 if(typeof renderTiming==='function')renderTiming();
 }
+function showSession(){
+deactivateTabs();
+if(tabSession){tabSession.classList.add('active');tabSession.setAttribute('aria-selected','true');}
+if(headerEl){headerEl.classList.add('session-open');headerEl.classList.remove('timing-open');}
+setTitleHome(true);
+viewGame.classList.remove('active');
+viewTiming.classList.remove('active');
+if(viewSession)viewSession.classList.add('active');
+if(typeof saRefreshUI==='function')saRefreshUI();
+}
 if(tabTiming)tabTiming.addEventListener('click',showTiming);
+if(tabSession)tabSession.addEventListener('click',showSession);
+const saSide=document.getElementById('saOpenFromSidebar');
+if(saSide)saSide.addEventListener('click',showSession);
 if(titleEl){
 titleEl.addEventListener('click',function(){
-if(viewTiming.classList.contains('active'))showGame();
+if(viewTiming.classList.contains('active')||viewSession&&viewSession.classList.contains('active'))showGame();
 });
 titleEl.addEventListener('keydown',function(e){
-if(!viewTiming.classList.contains('active'))return;
+if(!viewTiming.classList.contains('active')&&!(viewSession&&viewSession.classList.contains('active')))return;
 if(e.key==='Enter'||e.key===' '){e.preventDefault();showGame();}
 });
 }
+window.PeterNav=window.PeterNav||{};
+window.PeterNav.showGame=showGame;
+window.PeterNav.showSession=showSession;
 }
 function bindUi(){
 bindPeterTabs();
@@ -3499,6 +3588,270 @@ box-shadow:inset 0 1px 0 rgba(120,200,255,.12),0 2px 8px rgba(0,0,0,.35)!importa
 var w=document.querySelector('.v6-block-wheel[data-obr2-ver="3d-2"]');
 if(w){w.classList.add('obr2-live-loaded');w.setAttribute('data-loaded','3d-2');}
 try{localStorage.setItem('qwBuild','obr2-3d-2');}catch(e){}
+})();
+</script>
+<script>
+/* ═══════════════════════════════════════════════════════════════
+   SESSION ANALYZER — izolovaný modul (Hlboká analýza relácií)
+   Nezasahuje do live logiky prvej karty. Počúva EventBus spin:add.
+   ═══════════════════════════════════════════════════════════════ */
+(function SessionAnalyzerModule(){
+'use strict';
+var MAGNET_PRAH=0.75;
+var HARD_LIMIT=100;
+var poleHistorieRelacie=[];
+var cisloHry=1;
+var relaciaUzavreta=false;
+var poslednyRezimUzavretia='';
+var archivRelacii=[];
+var posledneVysledky=null;
+
+function saVlastnostiCisla(n){
+if(n===0)return{color:'ZELENÁ',size:'NULA',parity:'NULA',dozen:'NULA',column:'NULA',combo:'NULA'};
+var cr=typeof reds!=='undefined'&&reds.includes(n);
+var col=typeof getColor==='function'?getColor(n):(cr?0:1);
+var dz=typeof getDozen==='function'?getDozen(n):(n<=12?0:n<=24?1:2);
+var cl=typeof getColumn==='function'?getColumn(n):((n-1)%3);
+return{
+color:col===-1?'ZELENÁ':col===0?'ČERVENÁ':'ČIERNA',
+size:n<=18?'MALÉ ČÍSLO':'VEĽKÉ ČÍSLO',
+parity:n%2===0?'PÁRNE':'NEPÁRNE',
+dozen:dz===0?'1. TUCET':dz===1?'2. TUCET':'3. TUCET',
+column:cl===0?'1. STĹPEC':cl===1?'2. STĹPEC':'3. STĹPEC',
+combo:(n<=18?'MALÉ ČÍSLO':'VEĽKÉ ČÍSLO')+' / '+(cr?'ČERVENÁ':'ČIERNA')
+};
+}
+
+function analyzujUzavretuRelaciu(pole){
+var spins=Array.isArray(pole)?pole.slice():[];
+var out={magnets:[],streaks:[],sleepers:[],spinCount:spins.length};
+if(!spins.length)return out;
+
+/* A) Trigger-Target Magnets */
+for(var t=0;t<=36;t++){
+var idxs=[];
+for(var i=0;i<spins.length;i++){if(spins[i]===t)idxs.push(i);}
+if(idxs.length<2)continue;
+var nextProps=[];
+for(var j=0;j<idxs.length;j++){
+var ni=idxs[j]+1;
+if(ni<spins.length)nextProps.push(saVlastnostiCisla(spins[ni]));
+}
+if(!nextProps.length)continue;
+var fields=[{k:'combo',label:'combo'},{k:'color',label:'farba'},{k:'size',label:'veľkosť'},{k:'parity',label:'párne/nepárne'},{k:'dozen',label:'tucet'},{k:'column',label:'stĺpec'}];
+for(var f=0;f<fields.length;f++){
+var fk=fields[f].k;
+var cnt={};
+nextProps.forEach(function(p){var v=p[fk];cnt[v]=(cnt[v]||0)+1;});
+Object.keys(cnt).forEach(function(key){
+var pct=cnt[key]/nextProps.length;
+if(pct>=MAGNET_PRAH){
+var txt=key;
+if(fk==='combo')txt=key;
+out.magnets.push('🔥 DETEGOVANÝ MAGNET: Po čísle '+t+' padlo v '+pct.toFixed(1).replace('.',',')+'% prípadov '+txt+'.');
+}
+});
+}
+}
+
+/* B) Max Streak Tracker */
+function saBezPrerusenia(matchFn){
+var best=0,cur=0;
+for(var si=0;si<spins.length;si++){
+if(matchFn(spins[si])){cur++;if(cur>best)best=cur;}
+else cur=0;
+}
+return best;
+}
+var streakReport=[
+{label:'ČERVENÁ',fn:function(n){return n!==0&&reds.includes(n);}},
+{label:'ČIERNA',fn:function(n){return n!==0&&!reds.includes(n);}},
+{label:'MALÉ ČÍSLA',fn:function(n){return n>=1&&n<=18;}},
+{label:'VEĽKÉ ČÍSLA',fn:function(n){return n>=19&&n<=36;}},
+{label:'PÁRNE',fn:function(n){return n!==0&&n%2===0;}},
+{label:'NEPÁRNE',fn:function(n){return n!==0&&n%2===1;}},
+{label:'1. TUCET',fn:function(n){return n!==0&&(typeof getDozen==='function'?getDozen(n):n<=12?0:n<=24?1:2)===0;}},
+{label:'2. TUCET',fn:function(n){return n!==0&&(typeof getDozen==='function'?getDozen(n):n<=12?0:n<=24?1:2)===1;}},
+{label:'3. TUCET',fn:function(n){return n!==0&&(typeof getDozen==='function'?getDozen(n):n<=12?0:n<=24?1:2)===2;}},
+{label:'1. STĹPEC',fn:function(n){return n!==0&&(typeof getColumn==='function'?getColumn(n):((n-1)%3))===0;}},
+{label:'2. STĹPEC',fn:function(n){return n!==0&&(typeof getColumn==='function'?getColumn(n):((n-1)%3))===1;}},
+{label:'3. STĹPEC',fn:function(n){return n!==0&&(typeof getColumn==='function'?getColumn(n):((n-1)%3))===2;}}
+];
+streakReport.forEach(function(def){
+var mx=saBezPrerusenia(def.fn);
+if(mx>=2)out.streaks.push('⚠️ EXTRÉMNY ZÁSEK STOLA: Sektor ['+def.label+'] padol celkovo '+mx+'-krát po sebe bez prerušenia!');
+});
+
+/* C) Sleeper Relapse */
+var n=spins.length;
+var zeros=spins.filter(function(x){return x===0;}).length;
+var eligible=n-zeros;
+function cntPred(pred){return spins.filter(pred).length;}
+var sleeperKandidati=[];
+if(n>=10){
+var dozExp=eligible/3;
+[0,1,2].forEach(function(d){
+var c=cntPred(function(x){return x!==0&&(typeof getDozen==='function'?getDozen(x):x<=12?0:x<=24?1:2)===d;});
+var lbl=d===0?'1. TUCET':d===1?'2. TUCET':'3. TUCET';
+if(c<dozExp*0.55)sleeperKandidati.push({lbl:lbl,c:c,exp:Math.round(dozExp)});
+});
+[0,1,2].forEach(function(c){
+var cc=cntPred(function(x){return x!==0&&(typeof getColumn==='function'?getColumn(x):((x-1)%3))===c;});
+var exp=eligible/3;
+var lbl=c===0?'1. STĹPEC':c===1?'2. STĹPEC':'3. STĹPEC';
+if(cc<exp*0.55)sleeperKandidati.push({lbl:lbl,c:cc,exp:Math.round(exp)});
+});
+var redC=cntPred(function(x){return x!==0&&reds.includes(x);});
+var blackC=cntPred(function(x){return x!==0&&!reds.includes(x);});
+var expRed=n*18/37,expBlack=n*18/37;
+if(redC<expRed*0.55)sleeperKandidati.push({lbl:'ČERVENÁ',c:redC,exp:Math.round(expRed)});
+if(blackC<expBlack*0.55)sleeperKandidati.push({lbl:'ČIERNA',c:blackC,exp:Math.round(expBlack)});
+var lowC=cntPred(function(x){return x>=1&&x<=18;});
+var highC=cntPred(function(x){return x>=19&&x<=36;});
+if(lowC<n*18/37*0.55)sleeperKandidati.push({lbl:'MALÉ ČÍSLA',c:lowC,exp:Math.round(n*18/37)});
+if(highC<n*18/37*0.55)sleeperKandidati.push({lbl:'VEĽKÉ ČÍSLA',c:highC,exp:Math.round(n*18/37)});
+}
+sleeperKandidati.forEach(function(s){
+out.sleepers.push('💤 ABSOLÚTNY SPÁČ RELÁCIE: '+s.lbl+' vykazuje kritický podvýskyt (iba '+s.c+'-krát za hru, očakávané ~'+s.exp+').');
+});
+
+out.magnets=saUnikat(out.magnets);
+out.streaks=saUnikat(out.streaks);
+out.sleepers=saUnikat(out.sleepers);
+return out;
+}
+
+function saUnikat(arr){
+var seen={},out=[];
+arr.forEach(function(x){if(!seen[x]){seen[x]=1;out.push(x);}});
+return out;
+}
+
+function saRenderVysledky(data){
+var wrap=document.getElementById('saResultsWrap');
+if(!wrap)return;
+var rows=[];
+(data.magnets||[]).forEach(function(t){rows.push({type:'magnet',text:t});});
+(data.streaks||[]).forEach(function(t){rows.push({type:'streak',text:t});});
+(data.sleepers||[]).forEach(function(t){rows.push({type:'sleeper',text:t});});
+if(!rows.length){
+wrap.innerHTML='<p class="sa-empty">Analýza dokončená — žiadne anomálie nad prahom '+Math.round(MAGNET_PRAH*100)+'%.</p>';
+return;
+}
+var html='<table class="sa-results-table"><thead><tr><th>Algoritmus</th><th>Výsledok</th></tr></thead><tbody>';
+rows.forEach(function(r){
+var algo=r.type==='magnet'?'Magnet (Trigger→Target)':r.type==='streak'?'Max Streak':'Sleeper Relapse';
+html+='<tr class="sa-row-'+r.type+'"><td>'+algo+'</td><td>'+r.text+'</td></tr>';
+});
+html+='</tbody></table>';
+wrap.innerHTML=html;
+}
+
+function saRefreshUI(){
+var g=document.getElementById('saStatusGame');
+var s=document.getElementById('saStatusSpins');
+var m=document.getElementById('saStatusMode');
+var strip=document.getElementById('saLiveStrip');
+var btnClose=document.getElementById('saBtnCloseAnalyze');
+var btnReboot=document.getElementById('saBtnReboot');
+if(g)g.innerHTML='AKTUÁLNA RELÁCIA: <strong>HRA č. '+cisloHry+'</strong>';
+if(s)s.innerHTML='ZADANÝCH SPINOV: <strong>'+poleHistorieRelacie.length+'</strong> / '+HARD_LIMIT;
+if(m){
+if(relaciaUzavreta)m.innerHTML='STAV: <strong class="locked">Uzavretá · '+poslednyRezimUzavretia+'</strong>';
+else if(poleHistorieRelacie.length>=HARD_LIMIT)m.innerHTML='STAV: <strong>Auto-limit dosiahnutý</strong>';
+else m.innerHTML='STAV: <strong>Zber dát</strong>';
+}
+if(btnClose)btnClose.disabled=relaciaUzavreta||!poleHistorieRelacie.length;
+if(btnReboot){
+btnReboot.disabled=!relaciaUzavreta;
+btnReboot.textContent='[ VYMAZAŤ A ZAČAŤ HRU č. '+(cisloHry+1)+' ]';
+}
+if(strip){
+strip.innerHTML=poleHistorieRelacie.map(function(n){
+var cls=n===0?'green':(reds.includes(n)?'red':'black');
+return '<span class="sa-live-chip '+cls+'">'+n+'</span>';
+}).join('');
+}
+}
+
+function saRenderArchiv(){
+var box=document.getElementById('saArchiveLog');
+if(!box)return;
+if(!archivRelacii.length){box.innerHTML='<p class="sa-empty">Zatiaľ žiadna uzavretá relácia.</p>';return;}
+box.innerHTML=archivRelacii.map(function(a){
+return '<p class="sa-archive-item">• Hra č. '+a.hra+' (Uzavretá '+a.rezim+' pri '+a.spinov+' spinoch): Detegované magnety: '+a.magnety+', Max Série: '+a.maxSeria+'.</p>';
+}).join('');
+}
+
+function saZhrnutiePreArchiv(data){
+var best={len:0,lbl:'—'};
+(data.streaks||[]).forEach(function(t){
+var m=t.match(/Sektor \[([^\]]+)\] padol celkovo (\d+)-krát/);
+if(m){var v=parseInt(m[2],10);if(v>best.len)best={len:v,lbl:m[1]};}
+});
+return{magnety:(data.magnets||[]).length,maxSeria:best.len>0?best.lbl+' '+best.len+'x':'—'};
+}
+
+function saUzavriRelaciu(rezim){
+if(relaciaUzavreta||!poleHistorieRelacie.length)return;
+relaciaUzavreta=true;
+poslednyRezimUzavretia=rezim==='auto'?'automaticky pri '+HARD_LIMIT+' spinoch':'manuálne';
+posledneVysledky=analyzujUzavretuRelaciu(poleHistorieRelacie);
+saRenderVysledky(posledneVysledky);
+saRefreshUI();
+}
+
+function saReboot(){
+if(!relaciaUzavreta)return;
+var sum=saZhrnutiePreArchiv(posledneVysledky||{magnets:[],streaks:[],sleepers:[]});
+archivRelacii.unshift({
+hra:cisloHry,
+spinov:poleHistorieRelacie.length,
+rezim:poslednyRezimUzavretia,
+magnety:sum.magnety,
+maxSeria:sum.maxSeria
+});
+saRenderArchiv();
+poleHistorieRelacie=[];
+cisloHry++;
+relaciaUzavreta=false;
+poslednyRezimUzavretia='';
+posledneVysledky=null;
+var wrap=document.getElementById('saResultsWrap');
+if(wrap)wrap.innerHTML='<p class="sa-empty">Nová relácia — zadávaj spiny z klávesnice.</p>';
+saRefreshUI();
+}
+
+function saOnSpin(number){
+if(relaciaUzavreta)return;
+if(typeof number!=='number'||isNaN(number)||number<0||number>36)return;
+poleHistorieRelacie.push(number);
+if(poleHistorieRelacie.length>=HARD_LIMIT)saUzavriRelaciu('auto');
+saRefreshUI();
+}
+
+function saBind(){
+var btnClose=document.getElementById('saBtnCloseAnalyze');
+var btnReboot=document.getElementById('saBtnReboot');
+if(btnClose)btnClose.addEventListener('click',function(){saUzavriRelaciu('manual');});
+if(btnReboot)btnReboot.addEventListener('click',saReboot);
+if(typeof EventBus!=='undefined'&&!EventBus.__saEmitWrapped){
+var origEmit=EventBus.emit.bind(EventBus);
+EventBus.emit=function(ev,data){
+origEmit(ev,data);
+if(ev==='spin:add')saOnSpin(data);
+};
+EventBus.__saEmitWrapped=true;
+}
+saRefreshUI();
+saRenderArchiv();
+}
+
+window.analyzujUzavretuRelaciu=analyzujUzavretuRelaciu;
+window.saRefreshUI=saRefreshUI;
+
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',saBind);
+else saBind();
 })();
 </script>
 
