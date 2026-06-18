@@ -142,7 +142,7 @@
 </head>
 <body>
 <header class="topbar topbar-v6">
-<span class="topbar-title">KVANTOVÁ RULETA PRO V2 <small class="topbar-build-tag">· OBR.2 LIVE-v3</small></span>
+<span class="topbar-title">KVANTOVÁ RULETA PRO V2 <small class="topbar-build-tag">· OBR.2 KROK-A</small></span>
 <div class="topbar-center topbar-v6-spacer" aria-hidden="true"></div>
 <div class="topbar-v6-time"><span class="topbar-clock" id="liveClock">00:00:00</span><span class="topbar-date" id="liveDate">—</span></div>
 </header>
@@ -321,7 +321,7 @@ title="Nie je hracia stratégia. Iba náhodný čo-keby hod bez logiky.">
 <script src="scripts/core/state.js"></script>
 <script src="scripts/core/helpers.js"></script>
 <script src="scripts/wheel/quantum-wheel.js?v=hero-layout-4"></script>
-<script src="scripts/wheel/wheel-canvas.js?v=obr2-live-v3"></script>
+<script src="scripts/wheel/wheel-canvas.js?v=obr2-krok-a"></script>
 <script src="scripts/ai/ai-engine.js"></script>
 <script src="scripts/ai/confidence-engine.js"></script>
 <script src="scripts/valid-true/valid-true-v0.js"></script>
@@ -3163,7 +3163,7 @@ if(down)down.addEventListener('click',function(){body.scrollBy({top:step(),behav
 <script src="scripts/analytics/bah-engine.js"></script>
 <script src="scripts/analytics/session-stats.js"></script>
 <script src="scripts/analytics/roulette-analytics.js"></script>
-<script src="scripts/wheel/wheel-hud.js?v=obr2-live-v3"></script>
+<script src="scripts/wheel/wheel-hud.js?v=obr2-krok-a"></script>
 <script src="scripts/ui/ui-alerts.js"></script>
 <script src="scripts/analytics/timing-engine.js"></script>
 <script src="scripts/board/board-events.js"></script>
@@ -3317,6 +3317,13 @@ flex:none!important;max-height:none!important;overflow-y:auto!important;
 .v6-block-wheel.v6-radar-v1 .qw-dashboard{min-height:680px!important;}
 .v6-block-wheel.v6-radar-v1 .qw-dash-model{display:flex!important;visibility:visible!important;opacity:1!important;overflow:visible!important;flex-shrink:0!important;}
 .v6-obr2-wheel.obr2-live-loaded{box-shadow:0 0 0 2px rgba(66,255,116,.5),0 12px 48px rgba(0,0,0,.7)!important;}
+/* KROK-A — koleso na celú šírku stĺpca, žiadne prázdne pásy po bokoch */
+.v6-block-wheel.v6-radar-v1 .hero-center-core{padding:0!important;margin:0!important;align-items:stretch!important;justify-content:flex-start!important;gap:0!important;}
+.v6-block-wheel.v6-radar-v1 .qw-wheel-stage{width:100%!important;max-width:100%!important;margin:0!important;}
+.v6-block-wheel.v6-radar-v1 .qw-flow-legend{padding:3px 6px 4px!important;margin:0!important;min-height:0!important;line-height:1.2!important;}
+.v6-block-wheel.v6-radar-v1 .quantum-hero-layout{gap:0!important;column-gap:0!important;}
+.v6-block-wheel.v6-radar-v1 .hero-left-hud{border-right:1px solid rgba(70,150,220,.35)!important;}
+.v6-block-wheel.v6-radar-v1 .hero-right-hud{border-left:1px solid rgba(70,150,220,.35)!important;}
 @media(max-width:9999px){
 .v6-block-wheel.v6-radar-v1 .hero-center-core{min-height:min(360px,46vh)!important;}
 .v6-block-wheel.v6-radar-v1 .quantum-hero-layout{display:grid!important;grid-template-columns:var(--qw-side-w) minmax(0,1fr) var(--qw-side-w)!important;align-items:stretch!important;}

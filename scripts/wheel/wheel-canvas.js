@@ -36,9 +36,11 @@ centerH=Math.max(bodyH-headerH-bottomH-modelH,body.clientHeight-headerH-bottomH-
 }
 const sideW=parseInt(getComputedStyle(block).getPropertyValue('--qw-side-w'),10)||196;
 const layoutW=layout?layout.clientWidth:block.clientWidth;
-const maxWheelW=Math.max(layoutW-sideW*2,320);
-const maxH=Math.max(centerH-legH-4,280);
-const size=Math.floor(Math.min(maxWheelW*0.999,maxH*0.998));
+const centerW=Math.max(center.clientWidth||0,layoutW-sideW*2,320);
+const maxH=Math.max(centerH-legH-2,240);
+/* KROK-A: koleso = plná šírka stĺpca (nie min s výškou → prázdne pásy) */
+let size=Math.floor(centerW*0.996);
+if(size>maxH)size=Math.floor(maxH*0.99);
 block.style.setProperty('--qw-canvas-px',size+'px');
 stage.style.width=size+'px';stage.style.height=size+'px';
 cv.style.width=size+'px';cv.style.height=size+'px';
