@@ -257,11 +257,11 @@ ctx.globalCompositeOperation='lighter';
 items.forEach(it=>{
 const tier=it.tier;
 const strong=tier==='strong',mid=tier==='mid';
-ctx.strokeStyle=strong?'rgba(115,255,95,0.94)':mid?'rgba(255,200,70,0.82)':'rgba(45,185,245,0.75)';
-ctx.lineWidth=strong?2.8:mid?1.75:1.15;
-ctx.globalAlpha=(strong?0.98:mid?0.82:0.62)*pulse;
-ctx.shadowColor=strong?'rgba(115,255,95,0.8)':mid?'rgba(255,200,70,0.55)':'rgba(45,185,245,0.6)';
-ctx.shadowBlur=strong?12:mid?7:5;
+ctx.strokeStyle=strong?'rgba(90,255,80,0.96)':mid?'rgba(255,190,50,0.9)':'rgba(50,190,255,0.82)';
+ctx.lineWidth=strong?2.6:mid?2:1.25;
+ctx.globalAlpha=(strong?0.96:mid?0.88:0.72)*pulse;
+ctx.shadowColor=strong?'rgba(90,255,80,0.85)':mid?'rgba(255,190,50,0.65)':'rgba(50,190,255,0.65)';
+ctx.shadowBlur=strong?11:mid?8:6;
 const bend=0.44*Math.sin(it.ang*1.55+it.seed*0.31)+0.13*Math.sin(it.seed*0.44);
 const rMul=it.rim?(it.frag?0.76:0.99):(it.frag?0.5:0.7);
 const rUse=rEnd*rMul;
@@ -384,44 +384,21 @@ return h;
 }
 function qwFlowBeamsVzorItems(st,hm,coreState,chaosSess){
 const items=[];
-const trust=(coreState.trust||50)/100;
-const stab=1-Math.min(1,(coreState.chaos||0)/100);
-const boost=Math.max(0.55,trust*stab)*(chaosSess?0.62:1);
 const segment=(Math.PI*2)/wheel.length;
 const domCol=st.domCol,domDoz=st.domDoz;
 wheel.forEach((num,index)=>{
 const ang=index*segment-Math.PI/2+segment/2;
 const ci=num===0?-1:getColumn(num),di=num===0?-1:getDozen(num);
-let score=num===0?0.12:0.18;
-if(domCol>=0&&ci===domCol)score+=0.55*((st.colPct[domCol]||0)/100);
-if(domDoz>=0&&di===domDoz)score+=0.32*((st.dozPct[domDoz]||0)/100);
-const hi=hm&&hm[num];
-if(hi){if(hi.type==='return'||hi.type==='repeat')score+=0.28;else if(hi.type==='hot')score+=0.12;}
-let tier=score>=0.46?'strong':score>=0.26?'mid':'weak';
-const subs=tier==='strong'?6:(tier==='mid'?3:2);
-for(let s=0;s<subs;s++){
-const spread=subs>1?((s/(subs-1))-0.5)*0.035:0;
-items.push({tier,ang:ang+spread,seed:index*17+s*5,frag:!!chaosSess,rim:true});
-}
-});
-QW_VZOR_LABEL_SLOTS.forEach(slot=>{
-const dom=slot.kind==='col'?(slot.idx===st.domCol):(slot.idx===st.domDoz);
-const pct=slot.kind==='col'?(st.colPct[slot.idx]||0):(st.dozPct[slot.idx]||0);
-if(!dom&&pct<20)return;
-const span=Math.PI/3;
-const a0=slot.ang-span/2,a1=slot.ang+span/2;
-let n=Math.round((dom?14:4)*(0.28+pct/82)*boost);
-n=Math.max(dom?8:2,Math.min(dom?22:5,n));
-for(let k=0;k<n;k++){
-const t=n>1?k/(n-1):0.5;
-const ang=a0+0.12+(a1-a0-0.24)*t+0.02*Math.sin(k*2.1+slot.idx);
 let tier='weak';
-if(dom&&!chaosSess)tier='mid';
-else if(dom&&chaosSess)tier='weak';
-else if(pct>=24)tier='weak';
-items.push({tier,ang,seed:slot.idx*500+k*11+(slot.kind==='doz'?3000:0),frag:!!chaosSess,rim:false});
+if(domCol>=0&&ci===domCol)tier='strong';
+else if(domDoz>=0&&di===domDoz)tier='mid';
+const count=tier==='strong'?3:(tier==='mid'?2:1);
+for(let s=0;s<count;s++){
+const spread=count>1?((s/(count-1))-0.5)*0.038:0;
+items.push({tier,ang:ang+spread,seed:index*29+s*9,frag:!!chaosSess,rim:true});
 }
 });
+items.sort((a,b)=>(a.tier==='weak'?0:a.tier==='mid'?1:2)-(b.tier==='weak'?0:b.tier==='mid'?1:2));
 return items;
 }
 function drawQwVzorSixSegmentHub(ctx,cx,cy,hubR,pocketIn,st,pulse,visDim,chaosSess){

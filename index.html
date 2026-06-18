@@ -10,7 +10,9 @@
 <title>KVANTOVÁ RULETA PRO V2 — SLOVENČINA</title>
 <link rel="stylesheet" href="styles/main.css">
 <link rel="stylesheet" href="styles/ai.css">
-<link rel="stylesheet" href="styles/wheel.css?v=obr2-pass4">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<link rel="stylesheet" href="styles/wheel.css?v=obr2-live-v3">
 <style>
 /* Patterny a opakovateľnosť — Readability Pack (úroveň AI PREDIKCIA) */
 .v6-pattern-observer.card{width:100%;padding:16px 18px;border-radius:14px;border:1px solid rgba(0,255,191,.16);background:linear-gradient(180deg,rgba(8,16,22,.98),rgba(2,6,10,.98));box-shadow:0 0 24px rgba(0,0,0,.35);}
@@ -140,7 +142,7 @@
 </head>
 <body>
 <header class="topbar topbar-v6">
-<span class="topbar-title">KVANTOVÁ RULETA PRO V2 <small class="topbar-build-tag">· OBR.2 FINAL</small></span>
+<span class="topbar-title">KVANTOVÁ RULETA PRO V2 <small class="topbar-build-tag">· OBR.2 LIVE-v3</small></span>
 <div class="topbar-center topbar-v6-spacer" aria-hidden="true"></div>
 <div class="topbar-v6-time"><span class="topbar-clock" id="liveClock">00:00:00</span><span class="topbar-date" id="liveDate">—</span></div>
 </header>
@@ -188,7 +190,7 @@
 </div>
 </div>
 </div>
-<section class="v6-block-wheel v6-cc-wheel v6-radar-v1 v6-obr2-wheel" data-qw-file="index-NOVY-V2.html" data-v2-build="obr2-final" data-obr2-ver="final" aria-label="Kvantové koleso">
+<section class="v6-block-wheel v6-cc-wheel v6-radar-v1 v6-obr2-wheel" data-qw-file="index-NOVY-V2.html" data-v2-build="obr2-live-v3" data-obr2-ver="live-v3" aria-label="Kvantové koleso">
 <div id="wheelRadarData" class="qw-dashboard">
 <div class="qw-dash-wait">Zadaj 2+ spiny — živý radar správania…</div>
 </div>
@@ -319,7 +321,7 @@ title="Nie je hracia stratégia. Iba náhodný čo-keby hod bez logiky.">
 <script src="scripts/core/state.js"></script>
 <script src="scripts/core/helpers.js"></script>
 <script src="scripts/wheel/quantum-wheel.js?v=hero-layout-4"></script>
-<script src="scripts/wheel/wheel-canvas.js?v=obr2-final"></script>
+<script src="scripts/wheel/wheel-canvas.js?v=obr2-live-v3"></script>
 <script src="scripts/ai/ai-engine.js"></script>
 <script src="scripts/ai/confidence-engine.js"></script>
 <script src="scripts/valid-true/valid-true-v0.js"></script>
@@ -3161,7 +3163,7 @@ if(down)down.addEventListener('click',function(){body.scrollBy({top:step(),behav
 <script src="scripts/analytics/bah-engine.js"></script>
 <script src="scripts/analytics/session-stats.js"></script>
 <script src="scripts/analytics/roulette-analytics.js"></script>
-<script src="scripts/wheel/wheel-hud.js?v=obr2-final"></script>
+<script src="scripts/wheel/wheel-hud.js?v=obr2-live-v3"></script>
 <script src="scripts/ui/ui-alerts.js"></script>
 <script src="scripts/analytics/timing-engine.js"></script>
 <script src="scripts/board/board-events.js"></script>
@@ -3309,7 +3311,25 @@ flex:none!important;max-height:none!important;overflow-y:auto!important;
 .v6-block-wheel.v6-radar-v1 .qw-hero-cta-link{color:#42ff74!important;}
 @media(max-width:900px){.v6-block-wheel.v6-radar-v1{--qw-side-w:178px!important;}}
 @media(max-width:640px){.v6-block-wheel.v6-radar-v1 .quantum-hero-layout{grid-template-columns:1fr!important;}}
+/* ═══ LIVE-v3 — cache fix + footer + 3 farby flow ═══ */
+.v6-block-wheel.v6-radar-v1 .qw-build-live{font-size:9px!important;font-weight:900!important;color:#42ff74!important;margin-left:10px!important;letter-spacing:.12em!important;text-shadow:0 0 10px rgba(66,255,116,.55)!important;}
+.v6-block-wheel.v6-radar-v1{min-height:700px!important;}
+.v6-block-wheel.v6-radar-v1 .qw-dashboard{min-height:680px!important;}
+.v6-block-wheel.v6-radar-v1 .qw-dash-model{display:flex!important;visibility:visible!important;opacity:1!important;overflow:visible!important;flex-shrink:0!important;}
+.v6-obr2-wheel.obr2-live-loaded{box-shadow:0 0 0 2px rgba(66,255,116,.5),0 12px 48px rgba(0,0,0,.7)!important;}
+@media(max-width:9999px){
+.v6-block-wheel.v6-radar-v1 .hero-center-core{min-height:min(360px,46vh)!important;}
+.v6-block-wheel.v6-radar-v1 .quantum-hero-layout{display:grid!important;grid-template-columns:var(--qw-side-w) minmax(0,1fr) var(--qw-side-w)!important;align-items:stretch!important;}
+.v6-block-wheel.v6-radar-v1 .hero-left-hud,.v6-block-wheel.v6-radar-v1 .hero-right-hud{overflow:hidden!important;max-height:none!important;}
+}
 </style>
+<script>
+(function(){
+var w=document.querySelector('.v6-block-wheel[data-obr2-ver="live-v3"]');
+if(w){w.classList.add('obr2-live-loaded');w.setAttribute('data-loaded','live-v3');}
+try{localStorage.setItem('qwBuild','live-v3');}catch(e){}
+})();
+</script>
 
 </body>
 </html>
