@@ -12,7 +12,7 @@
 <link rel="stylesheet" href="styles/ai.css">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
-<link rel="stylesheet" href="styles/wheel.css?v=obr2-modern3d">
+<link rel="stylesheet" href="styles/wheel.css?v=obr2-revive">
 <style>
 /* Patterny a opakovateľnosť — Readability Pack (úroveň AI PREDIKCIA) */
 .v6-pattern-observer.card{width:100%;padding:16px 18px;border-radius:14px;border:1px solid rgba(0,255,191,.16);background:linear-gradient(180deg,rgba(8,16,22,.98),rgba(2,6,10,.98));box-shadow:0 0 24px rgba(0,0,0,.35);}
@@ -142,7 +142,7 @@
 </head>
 <body>
 <header class="topbar topbar-v6">
-<span class="topbar-title">KVANTOVÁ RULETA PRO V2 <small class="topbar-build-tag">· OBR.2 MODERN3D</small></span>
+<span class="topbar-title">KVANTOVÁ RULETA PRO V2 <small class="topbar-build-tag">· OBR.2 REVIVE</small></span>
 <div class="topbar-center topbar-v6-spacer" aria-hidden="true"></div>
 <div class="topbar-v6-time"><span class="topbar-clock" id="liveClock">00:00:00</span><span class="topbar-date" id="liveDate">—</span></div>
 </header>
@@ -190,7 +190,7 @@
 </div>
 </div>
 </div>
-<section class="v6-block-wheel v6-cc-wheel v6-radar-v1 v6-obr2-wheel" data-qw-file="index-NOVY-V2.html" data-v2-build="obr2-modern3d" data-obr2-ver="modern3d" aria-label="Kvantové koleso">
+<section class="v6-block-wheel v6-cc-wheel v6-radar-v1 v6-obr2-wheel" data-qw-file="index-NOVY-V2.html" data-v2-build="obr2-revive" data-obr2-ver="revive" aria-label="Kvantové koleso">
 <div id="wheelRadarData" class="qw-dashboard">
 <div class="qw-dash-wait">Zadaj 2+ spiny — živý radar správania…</div>
 </div>
@@ -321,7 +321,7 @@ title="Nie je hracia stratégia. Iba náhodný čo-keby hod bez logiky.">
 <script src="scripts/core/state.js"></script>
 <script src="scripts/core/helpers.js"></script>
 <script src="scripts/wheel/quantum-wheel.js?v=hero-layout-4"></script>
-<script src="scripts/wheel/wheel-canvas.js?v=obr2-modern3d"></script>
+<script src="scripts/wheel/wheel-canvas.js?v=obr2-revive"></script>
 <script src="scripts/ai/ai-engine.js"></script>
 <script src="scripts/ai/confidence-engine.js"></script>
 <script src="scripts/valid-true/valid-true-v0.js"></script>
@@ -3163,7 +3163,7 @@ if(down)down.addEventListener('click',function(){body.scrollBy({top:step(),behav
 <script src="scripts/analytics/bah-engine.js"></script>
 <script src="scripts/analytics/session-stats.js"></script>
 <script src="scripts/analytics/roulette-analytics.js"></script>
-<script src="scripts/wheel/wheel-hud.js?v=obr2-modern3d"></script>
+<script src="scripts/wheel/wheel-hud.js?v=obr2-revive"></script>
 <script src="scripts/ui/ui-alerts.js"></script>
 <script src="scripts/analytics/timing-engine.js"></script>
 <script src="scripts/board/board-events.js"></script>
@@ -3184,7 +3184,7 @@ else bootApp();
 .v6-block-wheel.v6-radar-v1 .qw-dashboard{min-height:inherit!important;display:flex!important;flex-direction:column!important;}
 .v6-block-wheel.v6-radar-v1 .qw-dash-body{display:flex!important;flex-direction:column!important;flex:1 1 0!important;min-height:0!important;overflow:hidden!important;padding:0!important;}
 .v6-block-wheel.v6-radar-v1 .hero-center-core::before,.v6-block-wheel.v6-radar-v1 .hero-center-core::after{display:none!important;}
-.v6-block-wheel.v6-radar-v1 .quantum-hero-layout{display:grid!important;grid-template-columns:var(--qw-side-w) var(--qw-canvas-px,minmax(0,1fr)) var(--qw-side-w)!important;gap:0!important;align-items:stretch!important;flex:1 1 0!important;justify-content:stretch!important;justify-items:stretch!important;}
+.v6-block-wheel.v6-radar-v1 .quantum-hero-layout{display:grid!important;grid-template-columns:var(--qw-side-w,168px) minmax(0,1fr) var(--qw-side-w,168px)!important;gap:0!important;align-items:stretch!important;flex:1 1 auto!important;min-height:380px!important;width:100%!important;}
 .v6-block-wheel.v6-radar-v1 #qwPanelLeft,.v6-block-wheel.v6-radar-v1 .hero-left-hud,.v6-block-wheel.v6-radar-v1 #qwPanelRight,.v6-block-wheel.v6-radar-v1 .hero-right-hud{width:100%!important;min-width:0!important;max-width:none!important;overflow-y:auto!important;display:flex!important;visibility:visible!important;background:rgba(4,12,22,.98)!important;}
 .v6-block-wheel.v6-radar-v1 .hero-left-hud{border-right:1px solid rgba(70,150,220,.28)!important;}
 .v6-block-wheel.v6-radar-v1 .hero-right-hud{border-left:1px solid rgba(70,150,220,.28)!important;}
@@ -3198,7 +3198,7 @@ else bootApp();
 .v6-block-wheel.v6-radar-v1 .hero-center-core{
 grid-column:2!important;width:100%!important;min-width:0!important;
 display:flex!important;flex-direction:column!important;align-items:stretch!important;justify-content:flex-start!important;
-flex:1 1 0!important;min-height:0!important;padding:0!important;margin:0!important;gap:0!important;
+flex:1 1 auto!important;min-height:300px!important;padding:0!important;margin:0!important;gap:0!important;
 background:radial-gradient(ellipse at center,rgba(6,18,28,.85) 0%,rgba(3,8,14,.98) 72%)!important;
 }
 .v6-block-wheel.v6-radar-v1 .qw-wheel-stage{flex:1 1 auto!important;margin:0!important;align-self:stretch!important;max-width:100%!important;}
@@ -3271,7 +3271,7 @@ border-top:1px solid rgba(70,150,220,.12)!important;
 /* KROK8 — wheel.css @1200px rozbíja layout; koleso musí ostať veľké aj na polovičnom okne */
 @media(max-width:1600px){
 .v6-block-wheel.v6-radar-v1 .quantum-hero-layout{
-grid-template-columns:var(--qw-side-w) var(--qw-canvas-px,480px) var(--qw-side-w)!important;
+grid-template-columns:var(--qw-side-w,168px) minmax(0,1fr) var(--qw-side-w,168px)!important;
 grid-template-areas:"left center right"!important;gap:0!important;padding:0!important;
 }
 .v6-block-wheel.v6-radar-v1 .hero-left-hud,.v6-block-wheel.v6-radar-v1 .hero-right-hud,
@@ -3324,7 +3324,7 @@ flex:none!important;max-height:none!important;overflow-y:auto!important;
 .v6-block-wheel.v6-radar-v1 .hero-left-hud{border-right:1px solid rgba(70,150,220,.35)!important;}
 .v6-block-wheel.v6-radar-v1 .hero-right-hud{border-left:1px solid rgba(70,150,220,.35)!important;}
 @media(max-width:9999px){
-.v6-block-wheel.v6-radar-v1 .quantum-hero-layout{display:grid!important;grid-template-columns:var(--qw-side-w) var(--qw-canvas-px,480px) var(--qw-side-w)!important;align-items:stretch!important;}
+.v6-block-wheel.v6-radar-v1 .quantum-hero-layout{display:grid!important;grid-template-columns:var(--qw-side-w,168px) minmax(0,1fr) var(--qw-side-w,168px)!important;align-items:stretch!important;}
 .v6-block-wheel.v6-radar-v1 .hero-left-hud,.v6-block-wheel.v6-radar-v1 .hero-right-hud{overflow:hidden!important;max-height:none!important;}
 }
 /* ═══ OBR.2 DONE — panely tesne pri kolese, žiadne prázdne plochy ═══ */
@@ -3335,34 +3335,53 @@ flex:none!important;max-height:none!important;overflow-y:auto!important;
 .v6-block-wheel.v6-radar-v1 .qw-h-val{font-size:14px!important;}
 .v6-block-wheel.v6-radar-v1 .qw-hero-metric.is-insight-card .qw-h-val{font-size:15px!important;}
 .v6-block-wheel.v6-radar-v1 .qw-h-sub{font-size:10px!important;}
-.v6-block-wheel.v6-radar-v1 .hero-center-core{min-height:0!important;}
+.v6-block-wheel.v6-radar-v1 .hero-center-core{min-height:300px!important;}
 .v6-block-wheel.v6-radar-v1 .qw-flow-legend{padding:2px 6px 3px!important;margin:0!important;flex-shrink:0!important;border-top:1px solid rgba(70,150,220,.15)!important;font-size:9px!important;gap:14px!important;}
 .v6-block-wheel.v6-radar-v1 .qw-wheel-stage canvas{border-radius:50%!important;display:block!important;margin:0!important;}
 .v6-block-wheel.v6-radar-v1 .hero-left-hud{border-right:1px solid rgba(70,150,220,.4)!important;}
 .v6-block-wheel.v6-radar-v1 .hero-right-hud{border-left:1px solid rgba(70,150,220,.4)!important;}
 .v6-block-wheel.v6-radar-v1 .qw-build-live{font-size:9px!important;font-weight:900!important;color:#42ff74!important;margin-left:10px!important;letter-spacing:.12em!important;text-shadow:0 0 10px rgba(66,255,116,.55)!important;}
 .v6-obr2-wheel.obr2-live-loaded{box-shadow:0 0 0 2px rgba(66,255,116,.5),0 12px 48px rgba(0,0,0,.7)!important;}
-/* MODERN3D — 100% šírka, 3D koleso, glass panely */
-.v6-block-wheel.v6-radar-v1 .quantum-hero-layout{width:100%!important;max-width:100%!important;margin:0!important;justify-content:stretch!important;justify-items:stretch!important;grid-template-columns:var(--qw-side-l,var(--qw-side-w)) var(--qw-canvas-px,1fr) var(--qw-side-r,var(--qw-side-w))!important;gap:0!important;}
-.v6-block-wheel.v6-radar-v1 .hero-left-hud,.v6-block-wheel.v6-radar-v1 .hero-right-hud{width:100%!important;min-width:0!important;}
-.v6-block-wheel.v6-radar-v1 .hero-center-core{width:var(--qw-canvas-px,100%)!important;max-width:var(--qw-canvas-px,100%)!important;flex:0 0 auto!important;}
-.v6-block-wheel.v6-radar-v1 .qw-wheel-stage{width:var(--qw-canvas-px,100%)!important;height:var(--qw-canvas-px,100%)!important;margin:0!important;}
+/* REVIVE — stabilný layout: panely 168px | koleso 1fr | panely 168px */
+.v6-block-wheel.v6-radar-v1 .quantum-hero-layout{
+width:100%!important;max-width:100%!important;margin:0!important;
+display:grid!important;
+grid-template-columns:var(--qw-side-w,168px) minmax(0,1fr) var(--qw-side-w,168px)!important;
+grid-template-areas:"left center right"!important;
+gap:0!important;align-items:stretch!important;
+flex:1 1 auto!important;min-height:380px!important;
+}
+.v6-block-wheel.v6-radar-v1 .hero-left-hud{
+grid-area:left!important;display:flex!important;flex-direction:column!important;
+visibility:visible!important;opacity:1!important;width:100%!important;min-width:0!important;
+border-right:1px solid rgba(70,150,220,.45)!important;
+}
+.v6-block-wheel.v6-radar-v1 .hero-right-hud{
+grid-area:right!important;display:flex!important;flex-direction:column!important;
+visibility:visible!important;opacity:1!important;width:100%!important;min-width:0!important;
+border-left:1px solid rgba(70,150,220,.45)!important;
+}
+.v6-block-wheel.v6-radar-v1 .hero-center-core{
+grid-area:center!important;width:100%!important;max-width:100%!important;min-width:0!important;
+min-height:300px!important;flex:1 1 auto!important;
+display:flex!important;flex-direction:column!important;align-items:stretch!important;justify-content:flex-start!important;
+background:radial-gradient(ellipse at center,rgba(8,22,36,.92) 0%,rgba(2,6,12,.98) 78%)!important;
+}
+.v6-block-wheel.v6-radar-v1 .qw-wheel-stage{width:100%!important;max-width:100%!important;margin:0 auto!important;flex:0 0 auto!important;}
 .v6-block-wheel.v6-radar-v1 #wheelCanvas,.v6-block-wheel.v6-radar-v1 .qw-wheel-stage canvas{
-filter:drop-shadow(0 10px 28px rgba(0,0,0,.65)) drop-shadow(0 0 36px rgba(40,180,255,.22)) drop-shadow(0 0 18px rgba(66,255,116,.12))!important;
+display:block!important;margin:0 auto!important;
+filter:drop-shadow(0 10px 28px rgba(0,0,0,.65)) drop-shadow(0 0 36px rgba(40,180,255,.22)) drop-shadow(0 0 16px rgba(66,255,116,.1))!important;
 }
 .v6-block-wheel.v6-radar-v1 .qw-hero-metric{
 background:linear-gradient(145deg,rgba(12,28,48,.95),rgba(4,10,18,.98))!important;
 box-shadow:inset 0 1px 0 rgba(120,200,255,.12),0 2px 8px rgba(0,0,0,.35)!important;
 }
-.v6-block-wheel.v6-radar-v1 .hero-left-hud{grid-area:left!important;border-right:1px solid rgba(70,150,220,.45)!important;}
-.v6-block-wheel.v6-radar-v1 .hero-right-hud{grid-area:right!important;border-left:1px solid rgba(70,150,220,.45)!important;}
-.v6-block-wheel.v6-radar-v1 .hero-center-core{grid-area:center!important;background:radial-gradient(ellipse at center,rgba(8,22,36,.9) 0%,rgba(2,6,12,.98) 78%)!important;}
 </style>
 <script>
 (function(){
-var w=document.querySelector('.v6-block-wheel[data-obr2-ver="modern3d"]');
-if(w){w.classList.add('obr2-live-loaded');w.setAttribute('data-loaded','modern3d');}
-try{localStorage.setItem('qwBuild','obr2-modern3d');}catch(e){}
+var w=document.querySelector('.v6-block-wheel[data-obr2-ver="revive"]');
+if(w){w.classList.add('obr2-live-loaded');w.setAttribute('data-loaded','revive');}
+try{localStorage.setItem('qwBuild','obr2-revive');}catch(e){}
 })();
 </script>
 

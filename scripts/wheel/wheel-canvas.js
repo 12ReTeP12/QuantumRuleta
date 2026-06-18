@@ -35,30 +35,27 @@ if(centerH<240){
 centerH=Math.max(bodyH-headerH-bottomH-modelH,body.clientHeight-headerH-bottomH-modelH,480);
 }
 const baseSide=parseInt(getComputedStyle(block).getPropertyValue('--qw-side-w'),10)||168;
-const blockW=Math.max(block.clientWidth,layout?layout.clientWidth:0,480);
+const blockW=Math.max(block.clientWidth||0,480);
 const layoutH=layout?layout.clientHeight:0;
-const areaH=Math.max(layoutH,bodyH-headerH-bottomH-modelH,520);
-const maxH=Math.max(areaH-legH-4,300);
-const maxWheelW=Math.max(blockW-baseSide*2,280);
-/* MODERN3D: koleso = max šírka medzi panelmi; zvyšok rozdelí panely → 100% šírka bloku */
-let wheelSize=Math.floor(Math.min(maxWheelW,maxH));
-let leftW=baseSide,rightW=baseSide;
-const gap=blockW-leftW-wheelSize-rightW;
-if(gap>0){leftW+=Math.floor(gap/2);rightW+=gap-Math.floor(gap/2);}
-else if(gap<0){wheelSize=Math.max(blockW-leftW-rightW,240);}
+const areaH=Math.max(layoutH,bodyH-headerH-bottomH-modelH,centerH,480);
+const maxH=Math.max(areaH-legH-6,320);
+const availW=Math.max(blockW-baseSide*2,260);
+let wheelSize=Math.max(Math.floor(Math.min(availW,maxH)),260);
 block.style.setProperty('--qw-canvas-px',wheelSize+'px');
-block.style.setProperty('--qw-side-l',leftW+'px');
-block.style.setProperty('--qw-side-r',rightW+'px');
 if(layout){
-layout.style.width='100%';layout.style.maxWidth='100%';layout.style.margin='0';
-layout.style.justifyContent='stretch';layout.style.justifyItems='stretch';
-layout.style.gridTemplateColumns=leftW+'px '+wheelSize+'px '+rightW+'px';
+layout.style.width='100%';
+layout.style.gridTemplateColumns=baseSide+'px 1fr '+baseSide+'px';
+layout.style.minHeight=Math.max(wheelSize+legH+8,360)+'px';
 }
-center.style.width=wheelSize+'px';center.style.maxWidth=wheelSize+'px';center.style.minWidth=wheelSize+'px';
-center.style.flex='0 0 auto';
-stage.style.width=wheelSize+'px';stage.style.height=wheelSize+'px';stage.style.maxWidth=wheelSize+'px';stage.style.maxHeight=wheelSize+'px';
-stage.style.margin='0';stage.style.flex='0 0 auto';stage.style.alignSelf='stretch';
-cv.style.width=wheelSize+'px';cv.style.height=wheelSize+'px';
+center.style.width='100%';center.style.maxWidth='100%';center.style.minWidth='0';
+center.style.flex='1 1 auto';
+stage.style.width='100%';stage.style.maxWidth='100%';stage.style.height='auto';
+stage.style.aspectRatio='1';stage.style.maxHeight=(wheelSize+'px');
+stage.style.margin='0';stage.style.flex='0 0 auto';
+void stage.offsetWidth;
+const drawn=Math.max(Math.floor(Math.min(stage.clientWidth||wheelSize,wheelSize,maxH)),260);
+stage.style.height=drawn+'px';stage.style.maxHeight=drawn+'px';
+cv.style.width=drawn+'px';cv.style.height=drawn+'px';
 cv.width=1080;cv.height=1080;
 if(typeof renderCanvasWheel==='function')renderCanvasWheel();
 }
