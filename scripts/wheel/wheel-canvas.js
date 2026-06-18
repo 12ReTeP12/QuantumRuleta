@@ -34,21 +34,31 @@ let centerH=center.clientHeight;
 if(centerH<240){
 centerH=Math.max(bodyH-headerH-bottomH-modelH,body.clientHeight-headerH-bottomH-modelH,480);
 }
-const sideW=parseInt(getComputedStyle(block).getPropertyValue('--qw-side-w'),10)||196;
-const layoutW=layout?layout.clientWidth:block.clientWidth;
-const centerW=Math.max(center.clientWidth||0,layoutW-sideW*2,320);
-const maxH=Math.max(centerH-legH-2,240);
-const availW=Math.max((layoutW||block.clientWidth)-sideW*2,centerW,280);
-/* FIX-GRID: stredný stĺpec = presná šírka kolesa → panely tesne pri ňom */
-let size=Math.floor(Math.min(availW,maxH));
-if(size<220)size=Math.floor(Math.min(availW,maxH,480));
-block.style.setProperty('--qw-canvas-px',size+'px');
-if(layout)layout.style.gridTemplateColumns=sideW+'px '+size+'px '+sideW+'px';
-center.style.width=size+'px';center.style.maxWidth=size+'px';center.style.minWidth=size+'px';
+const baseSide=parseInt(getComputedStyle(block).getPropertyValue('--qw-side-w'),10)||168;
+const blockW=Math.max(block.clientWidth,layout?layout.clientWidth:0,480);
+const layoutH=layout?layout.clientHeight:0;
+const areaH=Math.max(layoutH,bodyH-headerH-bottomH-modelH,520);
+const maxH=Math.max(areaH-legH-4,300);
+const maxWheelW=Math.max(blockW-baseSide*2,280);
+/* MODERN3D: koleso = max šírka medzi panelmi; zvyšok rozdelí panely → 100% šírka bloku */
+let wheelSize=Math.floor(Math.min(maxWheelW,maxH));
+let leftW=baseSide,rightW=baseSide;
+const gap=blockW-leftW-wheelSize-rightW;
+if(gap>0){leftW+=Math.floor(gap/2);rightW+=gap-Math.floor(gap/2);}
+else if(gap<0){wheelSize=Math.max(blockW-leftW-rightW,240);}
+block.style.setProperty('--qw-canvas-px',wheelSize+'px');
+block.style.setProperty('--qw-side-l',leftW+'px');
+block.style.setProperty('--qw-side-r',rightW+'px');
+if(layout){
+layout.style.width='100%';layout.style.maxWidth='100%';layout.style.margin='0';
+layout.style.justifyContent='stretch';layout.style.justifyItems='stretch';
+layout.style.gridTemplateColumns=leftW+'px '+wheelSize+'px '+rightW+'px';
+}
+center.style.width=wheelSize+'px';center.style.maxWidth=wheelSize+'px';center.style.minWidth=wheelSize+'px';
 center.style.flex='0 0 auto';
-stage.style.width=size+'px';stage.style.height=size+'px';stage.style.maxWidth=size+'px';stage.style.maxHeight=size+'px';
+stage.style.width=wheelSize+'px';stage.style.height=wheelSize+'px';stage.style.maxWidth=wheelSize+'px';stage.style.maxHeight=wheelSize+'px';
 stage.style.margin='0';stage.style.flex='0 0 auto';stage.style.alignSelf='stretch';
-cv.style.width=size+'px';cv.style.height=size+'px';
+cv.style.width=wheelSize+'px';cv.style.height=wheelSize+'px';
 cv.width=1080;cv.height=1080;
 if(typeof renderCanvasWheel==='function')renderCanvasWheel();
 }
@@ -134,10 +144,12 @@ ctx.beginPath();
 ctx.arc(cx,cy,rimOut,0,Math.PI*2);
 ctx.arc(cx,cy,rimIn,0,Math.PI*2,true);
 ctx.closePath();
-const rimG=ctx.createLinearGradient(cx-rimOut,cy-rimOut,cx+rimOut,cy+rimOut);
-rimG.addColorStop(0,'#3a4854');rimG.addColorStop(0.5,'#1e2830');rimG.addColorStop(1,'#3a4854');
+const rimG=ctx.createLinearGradient(cx-rimOut,cy-rimOut*1.2,cx+rimOut*0.6,cy+rimOut*0.8);
+rimG.addColorStop(0,'#5a6878');rimG.addColorStop(0.35,'#2a3540');rimG.addColorStop(0.55,'#141c24');rimG.addColorStop(0.75,'#2a3540');rimG.addColorStop(1,'#4a5868');
 ctx.fillStyle=rimG;ctx.fill();
-ctx.strokeStyle='rgba(0,0,0,0.65)';ctx.lineWidth=1.5;ctx.stroke();
+ctx.strokeStyle='rgba(0,0,0,0.75)';ctx.lineWidth=2;ctx.stroke();
+ctx.beginPath();ctx.arc(cx,cy,rimOut,Math.PI*1.05,Math.PI*1.55);
+ctx.strokeStyle='rgba(255,255,255,0.12)';ctx.lineWidth=rimOut*0.028;ctx.lineCap='round';ctx.stroke();
 for(let i=0;i<wheel.length;i++){
 const num=wheel[i];
 const start=i*segment-Math.PI/2;
@@ -165,6 +177,23 @@ hg.addColorStop(0,'#243038');hg.addColorStop(1,'#080c10');
 ctx.beginPath();ctx.arc(cx,cy,hubR,0,Math.PI*2);
 ctx.fillStyle=hg;ctx.fill();
 ctx.strokeStyle='rgba(90,150,140,0.35)';ctx.lineWidth=1.4;ctx.stroke();
+ctx.restore();
+}
+/** 3D podložka + rim glow (moderný vzhľad obr.2) */
+function drawQwVzor3DPlate(ctx,cx,cy,outerR,pulse){
+ctx.save();
+ctx.shadowColor='rgba(0,0,0,0.8)';ctx.shadowBlur=42;ctx.shadowOffsetY=14;
+ctx.beginPath();ctx.arc(cx,cy+10,outerR*0.97,0,Math.PI*2);
+ctx.fillStyle='rgba(0,0,0,0.45)';ctx.fill();
+ctx.shadowBlur=0;ctx.shadowOffsetY=0;
+const glow=ctx.createRadialGradient(cx,cy,outerR*0.72,cx,cy,outerR*1.12);
+glow.addColorStop(0,'rgba(40,160,255,0)');glow.addColorStop(0.65,'rgba(40,160,255,'+(0.06+0.04*pulse)+')');
+glow.addColorStop(0.9,'rgba(66,255,116,'+(0.1+0.05*pulse)+')');glow.addColorStop(1,'rgba(0,0,0,0)');
+ctx.fillStyle=glow;ctx.beginPath();ctx.arc(cx,cy,outerR*1.12,0,Math.PI*2);ctx.fill();
+ctx.beginPath();ctx.arc(cx,cy,outerR*1.02,0,Math.PI*2);
+ctx.strokeStyle='rgba(80,200,255,'+(0.15+0.1*pulse)+')';ctx.lineWidth=2.5;ctx.stroke();
+ctx.beginPath();ctx.arc(cx,cy,outerR,Math.PI*1.08,Math.PI*1.62);
+ctx.strokeStyle='rgba(255,255,255,0.22)';ctx.lineWidth=outerR*0.035;ctx.lineCap='round';ctx.stroke();
 ctx.restore();
 }
 function drawQwVzorInnerGrid(ctx,cx,cy,rOut,visDim){
@@ -224,8 +253,8 @@ function drawQwVzorWheelInner(ctx,cx,cy,outerR,segment,st,deadCols,pulse,visDim,
 const hubR=outerR*0.14;
 const pocketIn=outerR*0.755;
 ctx.save();
-const bg=ctx.createRadialGradient(cx,cy,0,cx,cy,pocketIn);
-bg.addColorStop(0,'#050810');bg.addColorStop(0.45,'#0a1218');bg.addColorStop(1,'#0e1820');
+const bg=ctx.createRadialGradient(cx,cy-hubR*0.3,0,cx,cy,pocketIn);
+bg.addColorStop(0,'#1a2838');bg.addColorStop(0.4,'#0e1824');bg.addColorStop(1,'#060c14');
 ctx.fillStyle=bg;ctx.beginPath();ctx.arc(cx,cy,pocketIn,0,Math.PI*2);ctx.fill();
 ctx.restore();
 drawQwEuropeanWheelShape(ctx,cx,cy,outerR,segment,lastN);
@@ -915,7 +944,7 @@ const Q=computeQuantumWheelBrain();
 const dashEl=document.getElementById('wheelRadarData');
 const radarVzor=!!(dashEl&&dashEl.closest('.v6-block-wheel.v6-radar-v1'));
 const radarMinimal=radarVzor;
-const outerR=Math.min(W,H)*(radarMinimal?0.538:0.47);
+const outerR=Math.min(W,H)*(radarMinimal?0.492:0.47);
 const midR=outerR*0.7;
 const hubR=outerR*0.14;
 const segment=(Math.PI*2)/wheel.length;
@@ -966,6 +995,7 @@ const deadCols=heatPre.deadCols||new Set();
 const hm=heatPre.map||{};
 const coreState=qwFlowCoreState(Q);
 if(radarVzor&&Q.ready){
+drawQwVzor3DPlate(ctx,cx,cy,outerR,pulse);
 drawQwVzorWheelInner(ctx,cx,cy,outerR,segment,st,deadCols,pulse,visDim,chaosSess,lastN,hm,coreState);
 let glowNums=[];
 const S=Q.scanner;
