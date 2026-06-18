@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
-<title>KVANTOVÁ RULETA PRO V2 — SLOVENČINA</title>
+<title>PeTeR RULETA GAME</title>
 <link rel="stylesheet" href="styles/main.css">
 <link rel="stylesheet" href="styles/ai.css">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
@@ -137,16 +137,56 @@
 .v6-keyboard-section .v6-ts-po-panel .kb-flow-row{flex:1 1 auto;}
 .v6-keyboard-section .v6-ts-po-panel .kb-flow-primary{flex:1 1 0;}
 .v6-keyboard-section{margin-bottom:0!important;}
-/* layout kolesa obr.2 → iba #v2-layout-last (koniec súboru) */
+/* PeTeR RULETA GAME — 3D titulok + Excel karty */
+.peter-game-header{flex-direction:column!important;align-items:stretch!important;padding:10px 16px 0!important;min-height:auto!important;gap:0!important;}
+.peter-header-main{width:100%;}
+.peter-brand-row{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;}
+.peter-game-title{
+margin:0;font-size:clamp(24px,2.2vw,38px)!important;font-weight:900!important;letter-spacing:.08em;
+background:linear-gradient(165deg,#ffffff 0%,#d4f0ff 22%,#6ec8ff 48%,#3a8fd4 72%,#1a5080 100%);
+-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;
+filter:drop-shadow(0 3px 2px rgba(0,0,0,.85)) drop-shadow(0 0 18px rgba(80,200,255,.45));
+line-height:1.1;
+}
+.peter-excel-tabs{display:flex;align-items:flex-end;gap:3px;margin-top:8px;padding-left:2px;}
+.peter-tab{
+position:relative;padding:7px 16px 9px;border:1px solid rgba(90,140,190,.35);border-bottom:none;
+border-radius:9px 9px 0 0;background:linear-gradient(180deg,rgba(28,42,58,.98),rgba(10,16,24,.99));
+color:#8ab5c8;font-size:11px;font-weight:800;letter-spacing:.04em;cursor:pointer;
+transition:background .15s,color .15s,box-shadow .15s;white-space:nowrap;
+}
+.peter-tab:hover{color:#b8dff0;background:linear-gradient(180deg,rgba(40,60,80,.98),rgba(14,22,32,.99));}
+.peter-tab.active{
+color:#42ff74;border-color:rgba(66,255,116,.5);
+background:linear-gradient(180deg,rgba(0,70,110,.55),rgba(6,14,22,.99));
+box-shadow:0 -3px 14px rgba(66,255,116,.12),inset 0 1px 0 rgba(120,220,255,.15);
+z-index:2;margin-bottom:-1px;padding-bottom:10px;
+}
+.peter-tab.active::after{
+content:'';position:absolute;left:0;right:0;bottom:-1px;height:2px;background:rgba(6,14,22,.99);
+}
+.peter-view{display:none;}
+.peter-view.active{display:block;}
+.peter-timing-shell{max-width:820px;margin:0 auto;padding:16px 14px 24px;}
+.peter-timing-shell .v6-essential-timing{max-width:100%;}
+.peter-timing-intro{margin:0 0 12px;font-size:12px;color:#8ab5c8;font-weight:600;line-height:1.45;}
 </style>
 </head>
 <body>
-<header class="topbar topbar-v6">
-<span class="topbar-title">KVANTOVÁ RULETA PRO V2 <small class="topbar-build-tag">· OBR.2 TIGHT-1</small></span>
-<div class="topbar-center topbar-v6-spacer" aria-hidden="true"></div>
+<header class="topbar topbar-v6 peter-game-header">
+<div class="peter-header-main">
+<div class="peter-brand-row">
+<h1 class="peter-game-title">PeTeR RULETA GAME</h1>
 <div class="topbar-v6-time"><span class="topbar-clock" id="liveClock">00:00:00</span><span class="topbar-date" id="liveDate">—</span></div>
+</div>
+<nav class="peter-excel-tabs" role="tablist" aria-label="Karty programu">
+<button type="button" class="peter-tab active" role="tab" id="peterTabGame" data-peter-tab="game" aria-selected="true" aria-controls="peterViewGame">🎰 Hra</button>
+<button type="button" class="peter-tab" role="tab" id="peterTabTiming" data-peter-tab="timing" aria-selected="false" aria-controls="peterViewTiming">⏱ Kvantová timing · 20%</button>
+</nav>
+</div>
 </header>
 <div id="sessionToast" class="session-toast" role="status" aria-live="polite"></div>
+<div id="peterViewGame" class="peter-view active" role="tabpanel" aria-labelledby="peterTabGame">
 <div class="shell"><div class="app">
 <aside class="col-left col-left-v6">
 <div class="card card-history-only">
@@ -229,17 +269,6 @@
 </section>
 <div class="v6-essential-strip v6-cc-essential" aria-label="Hlavné dáta pre hranie">
 <div class="v6-essential-left">
-<div class="card mini-card v6-essential-timing"><h2>Kvantová timing · 20%</h2>
-<div class="timing-btns">
-<button type="button" class="btn btn-start" id="btnStart">ŠTART</button>
-<button type="button" class="btn btn-stop" id="btnStop">STOP</button>
-</div>
-<div class="timing-commit-row">
-<input type="number" id="timingResultNum" class="timing-num-input" min="0" max="36" step="1" placeholder="Číslo 0–36" autocomplete="off" />
-<button type="button" class="btn-timing-undo" id="btnTimingUndo" title="Vrátiť posledný timing záznam">↩</button>
-</div>
-<p class="timing-hint">STOP → zadaj číslo 0–36 · Enter alebo blur</p>
-<div id="timing"></div></div>
 <div class="card mini-card v6-random-pick rsp-zone" id="randomPickZone" aria-label="Čistý random výber"
 title="Nie je hracia stratégia. Iba náhodný čo-keby hod bez logiky.">
 <div class="rsp-head">
@@ -316,6 +345,23 @@ title="Nie je hracia stratégia. Iba náhodný čo-keby hod bez logiky.">
 <div class="card card-alerts-live card-alerts-compact"><h2>Upozornenia</h2><p class="bah-intro">Živý radar správania · max 2 upozornenia · pokojný pozorovateľ · plné vysvetlenie od 12. spinu</p><div id="warning"></div><div id="alertSystem"></div></div>
 </aside>
 </div></div>
+</div>
+<div id="peterViewTiming" class="peter-view" role="tabpanel" aria-labelledby="peterTabTiming">
+<div class="shell peter-timing-shell">
+<p class="peter-timing-intro">Meranie času guličky · 20% váha modelu · ŠTART pri točeniu, STOP pri dopade, potom zadaj číslo 0–36.</p>
+<div class="card mini-card v6-essential-timing"><h2>Kvantová timing · 20%</h2>
+<div class="timing-btns">
+<button type="button" class="btn btn-start" id="btnStart">ŠTART</button>
+<button type="button" class="btn btn-stop" id="btnStop">STOP</button>
+</div>
+<div class="timing-commit-row">
+<input type="number" id="timingResultNum" class="timing-num-input" min="0" max="36" step="1" placeholder="Číslo 0–36" autocomplete="off" />
+<button type="button" class="btn-timing-undo" id="btnTimingUndo" title="Vrátiť posledný timing záznam">↩</button>
+</div>
+<p class="timing-hint">STOP → zadaj číslo 0–36 · Enter alebo blur</p>
+<div id="timing"></div></div>
+</div>
+</div>
 <script src="scripts/core/constants.js"></script>
 <script src="scripts/core/event-bus.js"></script>
 <script src="scripts/core/state.js"></script>
@@ -3084,7 +3130,27 @@ const now=new Date();
 el.textContent=now.toLocaleTimeString('sk-SK',{hour12:false});
 dateEl.textContent=now.toLocaleDateString('sk-SK');
 }
+function bindPeterTabs(){
+const tabs=document.querySelectorAll('.peter-tab');
+const viewGame=document.getElementById('peterViewGame');
+const viewTiming=document.getElementById('peterViewTiming');
+if(!tabs.length||!viewGame||!viewTiming)return;
+function showTab(name){
+tabs.forEach(function(btn){
+const on=btn.getAttribute('data-peter-tab')===name;
+btn.classList.toggle('active',on);
+btn.setAttribute('aria-selected',on?'true':'false');
+});
+viewGame.classList.toggle('active',name==='game');
+viewTiming.classList.toggle('active',name==='timing');
+if(name==='timing'&&typeof renderTiming==='function')renderTiming();
+}
+tabs.forEach(function(btn){
+btn.addEventListener('click',function(){showTab(btn.getAttribute('data-peter-tab')||'game');});
+});
+}
 function bindUi(){
+bindPeterTabs();
 updateClock();
 if(!clockTimer)clockTimer=setInterval(updateClock,1000);
 const btnStart=document.getElementById('btnStart');
