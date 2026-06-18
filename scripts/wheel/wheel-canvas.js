@@ -38,15 +38,16 @@ const sideW=parseInt(getComputedStyle(block).getPropertyValue('--qw-side-w'),10)
 const layoutW=layout?layout.clientWidth:block.clientWidth;
 const centerW=Math.max(center.clientWidth||0,layoutW-sideW*2,320);
 const maxH=Math.max(centerH-legH-2,240);
-/* KROK-B: stage = 100% šírky stĺpca, canvas = max štvorec (šírka × výška) */
-stage.style.width='100%';stage.style.maxWidth='100%';stage.style.height='';stage.style.maxHeight='';
-stage.style.aspectRatio='1';stage.style.margin='0';stage.style.flex='1 1 auto';
-stage.style.alignSelf='stretch';
-void stage.offsetWidth;
-let size=Math.floor(Math.min(stage.clientWidth||centerW,maxH));
-if(size<240)size=Math.floor(Math.min(centerW,maxH));
+const availW=Math.max((layoutW||block.clientWidth)-sideW*2,centerW,280);
+/* FIX-GRID: stredný stĺpec = presná šírka kolesa → panely tesne pri ňom */
+let size=Math.floor(Math.min(availW,maxH));
+if(size<220)size=Math.floor(Math.min(availW,maxH,480));
 block.style.setProperty('--qw-canvas-px',size+'px');
-stage.style.width=size+'px';stage.style.height=size+'px';stage.style.maxWidth='100%';stage.style.aspectRatio='';
+if(layout)layout.style.gridTemplateColumns=sideW+'px '+size+'px '+sideW+'px';
+center.style.width=size+'px';center.style.maxWidth=size+'px';center.style.minWidth=size+'px';
+center.style.flex='0 0 auto';
+stage.style.width=size+'px';stage.style.height=size+'px';stage.style.maxWidth=size+'px';stage.style.maxHeight=size+'px';
+stage.style.margin='0';stage.style.flex='0 0 auto';stage.style.alignSelf='stretch';
 cv.style.width=size+'px';cv.style.height=size+'px';
 cv.width=1080;cv.height=1080;
 if(typeof renderCanvasWheel==='function')renderCanvasWheel();
