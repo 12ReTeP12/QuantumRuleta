@@ -621,6 +621,29 @@ ctx.stroke();
 }
 ctx.restore();
 }
+function drawQwVzorRimPocketGlow(ctx,cx,cy,pocketOut,segment,nums,pulse,visDim){
+if(!nums||!nums.length)return;
+const set=new Set(nums.filter(n=>n>0));
+const t=performance.now();
+const pulseR=0.5+0.5*Math.sin(t/850);
+wheel.forEach((num,index)=>{
+if(!set.has(num))return;
+const start=index*segment-Math.PI/2,end=start+segment;
+ctx.save();
+ctx.globalAlpha=(0.28+0.18*pulse*pulseR)*visDim;
+ctx.strokeStyle='rgba(255,255,255,0.72)';
+ctx.lineWidth=13;
+ctx.shadowColor='rgba(255,255,255,0.85)';
+ctx.shadowBlur=22;
+ctx.beginPath();ctx.arc(cx,cy,pocketOut+5,start,end);ctx.stroke();
+ctx.globalAlpha=(0.42+0.22*pulse*pulseR)*visDim;
+ctx.strokeStyle='rgba(255,255,255,0.95)';
+ctx.lineWidth=5;
+ctx.shadowBlur=14;
+ctx.beginPath();ctx.arc(cx,cy,pocketOut+1,start,end);ctx.stroke();
+ctx.restore();
+});
+}
 function drawQwReturnZoneGlow(ctx,cx,cy,pocketOut,trackIn,segment,nums,visDim,pulse){
 if(!nums||!nums.length)return;
 const set=new Set(nums);
@@ -937,17 +960,27 @@ const hm=heatPre.map||{};
 const coreState=qwFlowCoreState(Q);
 if(radarVzor&&Q.ready){
 drawQwVzorWheelInner(ctx,cx,cy,outerR,segment,st,deadCols,pulse,visDim,chaosSess,lastN,hm,coreState);
+let glowNums=[];
+const S=Q.scanner;
+if(S&&S.dominantSector&&S.dominantSector.path&&S.dominantSector.path!=='—'){
+S.dominantSector.path.split('-').forEach(p=>{const n=+p;if(!isNaN(n)&&n>=0)glowNums.push(n);});
+}
+if(!glowNums.length&&Q.clusters&&Q.clusters[0]&&Q.clusters[0].nums)glowNums=Q.clusters[0].nums.slice(0,5);
+drawQwVzorRimPocketGlow(ctx,cx,cy,outerR,segment,glowNums,pulse,visDim);
+const glowSet=new Set(glowNums);
 const numR=outerR*0.895;
 wheel.forEach((num,index)=>{
 const mid=index*segment-Math.PI/2+segment/2;
 const tx=cx+Math.cos(mid)*numR,ty=cy+Math.sin(mid)*numR;
 const isLast=num===lastN;
+const isGlow=glowSet.has(num)&&!isLast;
 ctx.save();ctx.translate(tx,ty);ctx.rotate(mid+Math.PI/2);
-const fsNum=isLast?qwCanvasPx(19,16,W):qwCanvasPx(15,12,W);
+const fsNum=isLast?qwCanvasPx(19,16,W):(isGlow?qwCanvasPx(16,13,W):qwCanvasPx(15,12,W));
 ctx.font='900 '+fsNum+'px Segoe UI,Arial';
 ctx.textAlign='center';ctx.textBaseline='middle';
-const numCol=isLast?'#fff59d':num===0?'#f0fff8':reds.includes(num)?'#ffffff':'#f2f4f8';
-drawWheelTextOutlined(ctx,String(num),0,0,numCol,isLast?4.5:(num===0?3.5:2.8));
+if(isGlow){ctx.shadowColor='rgba(255,255,255,0.92)';ctx.shadowBlur=16;}
+const numCol=isLast?'#fff59d':isGlow?'#ffffff':num===0?'#f0fff8':reds.includes(num)?'#ffffff':'#f2f4f8';
+drawWheelTextOutlined(ctx,String(num),0,0,numCol,isLast?4.5:(isGlow?4.2:(num===0?3.5:2.8)));
 ctx.restore();
 });
 /* V2 mockup: popisy STĹPEC/TUCET v kolese ako obr.2 */
