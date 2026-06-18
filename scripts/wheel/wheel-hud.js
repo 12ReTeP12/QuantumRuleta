@@ -78,7 +78,7 @@ return'qw-atmos-active';
 function ensureQuantumWheelDashboardDOM(root){
 const wantV1=!!(root.closest&&root.closest('.v6-radar-v1'));
 const inBlock=!!(root.closest&&root.closest('.v6-block-wheel'));
-const QW_DOM_BUILD='v2-obr2-pass5-20260601';
+const QW_DOM_BUILD='v2-obr2-final-20260601';
 const hasLayout=!!(root.querySelector('#wheelCanvas')&&root.querySelector('.quantum-hero-layout')
 &&root.querySelector('#qwPanelLeft')&&root.querySelector('#qwPanelRight'));
 if(root.dataset.qwDomBuild===QW_DOM_BUILD&&hasLayout){
@@ -320,7 +320,7 @@ return !!(typeof qwIsVzorWheelDash==='function'&&qwIsVzorWheelDash()&&Q&&Q.ready
 }
 function qwHudSvg(name){
 const s={
-flow:'<svg class="qw-h-svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8 12h8M12 8v8" stroke="currentColor" stroke-width="1.8"/></svg>',
+flow:'<svg class="qw-h-svg" viewBox="0 0 24 24"><path d="M12 3c4 4 4 14 0 18-4-4-4-14 0-18z" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M12 8c2 2 2 6 0 8" fill="none" stroke="currentColor" stroke-width="1.4"/></svg>',
 pulse:'<svg class="qw-h-svg" viewBox="0 0 24 24"><path d="M4 12h3l2-5 4 10 2-5h5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>',
 up:'<svg class="qw-h-svg" viewBox="0 0 24 24"><path d="M12 19V5M7 10l5-5 5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>',
 spin:'<svg class="qw-h-svg" viewBox="0 0 24 24"><path d="M12 4a8 8 0 108 8" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 4v4l2-2" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>',
@@ -333,7 +333,9 @@ refresh:'<svg class="qw-h-svg" viewBox="0 0 24 24"><path d="M4 12a8 8 0 0114-5M2
 check:'<svg class="qw-h-svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8 12l3 3 5-6" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>',
 shield:'<svg class="qw-h-svg" viewBox="0 0 24 24"><path d="M12 2l8 3v6c0 5-3.5 9-8 11-4.5-2-8-6-8-11V5l8-3z" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>',
 dir:'<svg class="qw-h-svg" viewBox="0 0 24 24"><path d="M12 4a8 8 0 018 8h-4M12 20a8 8 0 01-8-8h4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>',
-heart:'<svg class="qw-h-svg" viewBox="0 0 24 24"><path d="M12 20.5l-1.1-1C6.2 15.4 4 13.5 4 10.5a4 4 0 017.1-2.2L12 9.4l.9-.8A4 4 0 0120 10.5c0 3-2.1 4.9-6.9 8.9L12 20.5z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M6 12h2l1-3 2 6 1-2h2" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>'
+heart:'<svg class="qw-h-svg" viewBox="0 0 24 24"><path d="M12 20.5l-1.1-1C6.2 15.4 4 13.5 4 10.5a4 4 0 017.1-2.2L12 9.4l.9-.8A4 4 0 0120 10.5c0 3-2.1 4.9-6.9 8.9L12 20.5z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M6 12h2l1-3 2 6 1-2h2" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>',
+chat:'<svg class="qw-h-svg" viewBox="0 0 24 24"><path d="M4 5h16v11H8l-4 4V5z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>',
+warn:'<svg class="qw-h-svg" viewBox="0 0 24 24"><path d="M12 3l10 18H2L12 3z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M12 10v4M12 17h.01" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>'
 };
 return s[name]||s.flow;
 }
@@ -959,6 +961,9 @@ function buildQuantumWheelRightHTML(Q, st) {
   );
 }
 
+function qwBottomHead(kicker,iconName){
+return'<div class="qw-bottom-head"><span class="qw-bottom-ico" aria-hidden="true">'+qwHudSvg(iconName)+'</span>'+qwPanelKicker('',kicker)+'</div>';
+}
 function buildQuantumWheelBottomHTML(Q, st) {
   const trace = spins.slice(-15);
   const trail = trace.length ? buildQwTrailHTML(trace, st, Q) : '<span class="qw-v1-muted">—</span>';
@@ -970,7 +975,7 @@ function buildQuantumWheelBottomHTML(Q, st) {
       '<div class="qw-bottom-cell qw-bottom-trail' +
       hud +
       '">' +
-      qwPanelKicker('trail', 'STOPA TOKU (POSLEDNÝCH 15 SPINOV)') +
+      qwBottomHead('STOPA TOKU (POSLEDNÝCH 15 SPINOV)', 'target') +
       '<div class="qw-bottom-trail-body">' +
       trail +
       '</div>' +
@@ -979,14 +984,14 @@ function buildQuantumWheelBottomHTML(Q, st) {
       '<div class="qw-bottom-cell qw-bottom-voice' +
       hud +
       '">' +
-      qwPanelKicker('voice', 'LIVE KOMENTÁR') +
+      qwBottomHead('LIVE KOMENTÁR', 'chat') +
       '<p class="qw-bottom-live">' +
       b.live +
       '</p></div>' +
       '<div class="qw-bottom-cell qw-bottom-risk' +
       hud +
       '">' +
-      qwPanelKicker('risk', 'RIZIKO FLOW') +
+      qwBottomHead('RIZIKO FLOW', 'warn') +
       '<div class="qw-bottom-risk-val ' +
       b.riskCls +
       '">' +
@@ -998,7 +1003,7 @@ function buildQuantumWheelBottomHTML(Q, st) {
       '<div class="qw-bottom-cell qw-bottom-rec' +
       hud +
       '">' +
-      qwPanelKicker('dom', 'ODPORÚČANIE') +
+      qwBottomHead('ODPORÚČANIE', 'target') +
       '<div class="qw-bottom-rec-val ' +
       b.recCls +
       '">' +

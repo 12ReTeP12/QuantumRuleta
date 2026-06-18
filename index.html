@@ -140,7 +140,7 @@
 </head>
 <body>
 <header class="topbar topbar-v6">
-<span class="topbar-title">KVANTOVÁ RULETA PRO V2 <small class="topbar-build-tag">· OBR.2 PASS5</small></span>
+<span class="topbar-title">KVANTOVÁ RULETA PRO V2 <small class="topbar-build-tag">· OBR.2 FINAL</small></span>
 <div class="topbar-center topbar-v6-spacer" aria-hidden="true"></div>
 <div class="topbar-v6-time"><span class="topbar-clock" id="liveClock">00:00:00</span><span class="topbar-date" id="liveDate">—</span></div>
 </header>
@@ -188,7 +188,7 @@
 </div>
 </div>
 </div>
-<section class="v6-block-wheel v6-cc-wheel v6-radar-v1 v6-obr2-wheel" data-qw-file="index-NOVY-V2.html" data-v2-build="obr2-pass4" data-obr2-ver="pass4" aria-label="Kvantové koleso">
+<section class="v6-block-wheel v6-cc-wheel v6-radar-v1 v6-obr2-wheel" data-qw-file="index-NOVY-V2.html" data-v2-build="obr2-final" data-obr2-ver="final" aria-label="Kvantové koleso">
 <div id="wheelRadarData" class="qw-dashboard">
 <div class="qw-dash-wait">Zadaj 2+ spiny — živý radar správania…</div>
 </div>
@@ -319,7 +319,7 @@ title="Nie je hracia stratégia. Iba náhodný čo-keby hod bez logiky.">
 <script src="scripts/core/state.js"></script>
 <script src="scripts/core/helpers.js"></script>
 <script src="scripts/wheel/quantum-wheel.js?v=hero-layout-4"></script>
-<script src="scripts/wheel/wheel-canvas.js?v=obr2-pass5"></script>
+<script src="scripts/wheel/wheel-canvas.js?v=obr2-final"></script>
 <script src="scripts/ai/ai-engine.js"></script>
 <script src="scripts/ai/confidence-engine.js"></script>
 <script src="scripts/valid-true/valid-true-v0.js"></script>
@@ -3161,7 +3161,7 @@ if(down)down.addEventListener('click',function(){body.scrollBy({top:step(),behav
 <script src="scripts/analytics/bah-engine.js"></script>
 <script src="scripts/analytics/session-stats.js"></script>
 <script src="scripts/analytics/roulette-analytics.js"></script>
-<script src="scripts/wheel/wheel-hud.js?v=obr2-pass5"></script>
+<script src="scripts/wheel/wheel-hud.js?v=obr2-final"></script>
 <script src="scripts/ui/ui-alerts.js"></script>
 <script src="scripts/analytics/timing-engine.js"></script>
 <script src="scripts/board/board-events.js"></script>
@@ -3282,7 +3282,32 @@ flex:none!important;max-height:none!important;overflow-y:auto!important;
 .v6-block-wheel.v6-radar-v1 .qw-dashboard{min-height:clamp(820px,92vh,1040px)!important;}
 .v6-block-wheel.v6-radar-v1:not(.v6-block-wheel) .qw-dashboard{min-height:clamp(820px,92vh,1040px)!important;}
 }
-@media(max-width:900px){.v6-block-wheel.v6-radar-v1{--qw-side-w:200px!important;}}
+/* ═══ OBR.2 FINAL — 100% mockup ═══ */
+.v6-block-wheel.v6-radar-v1{--qw-side-w:186px!important;--qh-bottom:108px!important;min-height:clamp(880px,95vh,1100px)!important;background:#0a0e14!important;border:1px solid rgba(70,150,220,.28)!important;border-radius:12px!important;box-shadow:0 8px 40px rgba(0,0,0,.65)!important;}
+.v6-obr2-wheel{margin:0 0 10px!important;border:none!important;border-radius:12px!important;}
+.v6-block-wheel.v6-radar-v1 #qwPanelLeft,.v6-block-wheel.v6-radar-v1 #qwPanelRight,.v6-block-wheel.v6-radar-v1 .hero-left-hud,.v6-block-wheel.v6-radar-v1 .hero-right-hud{padding:4px 4px!important;overflow:hidden!important;display:flex!important;flex-direction:column!important;}
+.v6-block-wheel.v6-radar-v1 .hero-hud-stack,.v6-block-wheel.v6-radar-v1 .qw-metric-stack{flex:1 1 0!important;height:100%!important;justify-content:stretch!important;gap:3px!important;}
+.v6-block-wheel.v6-radar-v1 .hero-hud-stack>.qw-hero-metric,.v6-block-wheel.v6-radar-v1 .qw-metric-stack>.qw-hero-metric{flex:1 1 0!important;min-height:0!important;display:flex!important;align-items:flex-start!important;}
+.v6-block-wheel.v6-radar-v1 .hero-hud-stack .qw-hero-metric.is-insight-card{flex:1.15 1 0!important;}
+.v6-block-wheel.v6-radar-v1 .qw-bottom-head{display:flex!important;align-items:center!important;gap:5px!important;margin-bottom:4px!important;}
+.v6-block-wheel.v6-radar-v1 .qw-bottom-head .qw-panel-kicker{margin:0!important;}
+.v6-block-wheel.v6-radar-v1 .qw-bottom-ico{flex:0 0 15px!important;width:15px!important;height:15px!important;color:#5eb8ff!important;display:flex!important;}
+.v6-block-wheel.v6-radar-v1 .qw-bottom-ico .qw-h-svg{width:15px!important;height:15px!important;}
+.v6-block-wheel.v6-radar-v1 .qw-bottom-rec-val{font-size:16px!important;letter-spacing:.03em!important;}
+.v6-block-wheel.v6-radar-v1 .qw-bottom-risk-val{font-size:20px!important;}
+.v6-block-wheel.v6-radar-v1 .qw-flow-legend{display:flex!important;align-items:center!important;justify-content:center!important;gap:20px!important;}
+.v6-block-wheel.v6-radar-v1 .qw-flow-legend span{display:flex!important;align-items:center!important;gap:6px!important;}
+.v6-block-wheel.v6-radar-v1 .qw-leg-line.strong{background:linear-gradient(90deg,#2dcc6a,#42ff74)!important;height:3px!important;}
+.v6-block-wheel.v6-radar-v1 .qw-leg-line.weak{background:linear-gradient(90deg,#2a8fd4,#5ec8ff)!important;height:2px!important;}
+.v6-block-wheel.v6-radar-v1 .hero-bottom-hud{gap:6px!important;padding:8px 10px!important;border-top:1px solid rgba(70,150,220,.18)!important;background:rgba(3,8,14,.98)!important;}
+.v6-block-wheel.v6-radar-v1 .qw-bottom-cell{padding:7px 8px!important;border:1px solid rgba(70,150,220,.22)!important;background:rgba(5,12,22,.95)!important;}
+.v6-block-wheel.v6-radar-v1 .qw-dash-model{padding:8px 14px 10px!important;background:rgba(0,0,0,.65)!important;}
+.v6-block-wheel.v6-radar-v1 .qw-model-col b{font-size:11px!important;}
+.v6-block-wheel.v6-radar-v1 .qw-model-col span{font-size:9px!important;letter-spacing:.02em!important;}
+.v6-block-wheel.v6-radar-v1 .qw-h-svg{width:20px!important;height:20px!important;}
+.v6-block-wheel.v6-radar-v1 .qw-hero-metric.is-insight-card .qw-h-val{font-size:15px!important;}
+.v6-block-wheel.v6-radar-v1 .qw-hero-cta-link{color:#42ff74!important;}
+@media(max-width:900px){.v6-block-wheel.v6-radar-v1{--qw-side-w:178px!important;}}
 @media(max-width:640px){.v6-block-wheel.v6-radar-v1 .quantum-hero-layout{grid-template-columns:1fr!important;}}
 </style>
 

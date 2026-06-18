@@ -257,17 +257,19 @@ ctx.globalCompositeOperation='lighter';
 items.forEach(it=>{
 const tier=it.tier;
 const strong=tier==='strong',mid=tier==='mid';
-ctx.strokeStyle=strong?'rgba(115,255,95,0.92)':mid?'rgba(255,200,70,0.78)':'rgba(45,185,245,0.72)';
-ctx.lineWidth=strong?2.4:mid?1.6:1.05;
-ctx.globalAlpha=(strong?0.95:mid?0.78:0.58)*pulse;
-ctx.shadowColor=strong?'rgba(115,255,95,0.75)':mid?'rgba(255,200,70,0.5)':'rgba(45,185,245,0.55)';
-ctx.shadowBlur=strong?10:mid?6:4;
-const bend=0.42*Math.sin(it.ang*1.55+it.seed*0.31)+0.12*Math.sin(it.seed*0.44);
-const rMul=it.rim?(it.frag?0.72:0.98):(it.frag?0.48:0.68);
+ctx.strokeStyle=strong?'rgba(115,255,95,0.94)':mid?'rgba(255,200,70,0.82)':'rgba(45,185,245,0.75)';
+ctx.lineWidth=strong?2.8:mid?1.75:1.15;
+ctx.globalAlpha=(strong?0.98:mid?0.82:0.62)*pulse;
+ctx.shadowColor=strong?'rgba(115,255,95,0.8)':mid?'rgba(255,200,70,0.55)':'rgba(45,185,245,0.6)';
+ctx.shadowBlur=strong?12:mid?7:5;
+const bend=0.44*Math.sin(it.ang*1.55+it.seed*0.31)+0.13*Math.sin(it.seed*0.44);
+const rMul=it.rim?(it.frag?0.76:0.99):(it.frag?0.5:0.7);
 const rUse=rEnd*rMul;
+const hubOff=rEnd*0.04;
+const sx=cx+Math.cos(it.ang)*hubOff,sy=cy+Math.sin(it.ang)*hubOff;
 const ex=cx+Math.cos(it.ang)*rUse,ey=cy+Math.sin(it.ang)*rUse;
-const mx=cx+Math.cos(it.ang+bend)*rUse*0.42,my=cy+Math.sin(it.ang+bend)*rUse*0.42;
-ctx.beginPath();ctx.moveTo(cx,cy);ctx.quadraticCurveTo(mx,my,ex,ey);ctx.stroke();
+const mx=cx+Math.cos(it.ang+bend)*rUse*0.44,my=cy+Math.sin(it.ang+bend)*rUse*0.44;
+ctx.beginPath();ctx.moveTo(sx,sy);ctx.quadraticCurveTo(mx,my,ex,ey);ctx.stroke();
 });
 ctx.restore();
 }
@@ -396,7 +398,7 @@ if(domDoz>=0&&di===domDoz)score+=0.32*((st.dozPct[domDoz]||0)/100);
 const hi=hm&&hm[num];
 if(hi){if(hi.type==='return'||hi.type==='repeat')score+=0.28;else if(hi.type==='hot')score+=0.12;}
 let tier=score>=0.46?'strong':score>=0.26?'mid':'weak';
-const subs=tier==='strong'?5:(tier==='mid'?3:2);
+const subs=tier==='strong'?6:(tier==='mid'?3:2);
 for(let s=0;s<subs;s++){
 const spread=subs>1?((s/(subs-1))-0.5)*0.035:0;
 items.push({tier,ang:ang+spread,seed:index*17+s*5,frag:!!chaosSess,rim:true});
@@ -454,6 +456,13 @@ dom?'rgba(100,255,170,'+(0.22*visDim)+')':'rgba(30,70,95,'+(0.07*visDim)+')',
 dom?1.1:0.5);
 });
 drawQwVzorInnerGrid(ctx,cx,cy,pocketIn*0.72,visDim);
+ctx.save();
+ctx.globalAlpha=0.35*visDim;
+[colOut,colIn,dozOut,dozIn].forEach(r=>{
+ctx.beginPath();ctx.arc(cx,cy,r,0,Math.PI*2);
+ctx.strokeStyle='rgba(80,190,230,0.22)';ctx.lineWidth=0.9;ctx.stroke();
+});
+ctx.restore();
 }
 /** Vláknové flow čiary — cyan + zelené v dominantných sektoroch */
 let qwFlowRadarSvgKey='';
@@ -637,7 +646,7 @@ ctx.restore();
 }
 function drawQwVzorRimPocketGlow(ctx,cx,cy,pocketOut,segment,nums,pulse,visDim){
 if(!nums||!nums.length)return;
-const set=new Set(nums.filter(n=>n>0));
+const set=new Set(nums);
 const t=performance.now();
 const pulseR=0.5+0.5*Math.sin(t/850);
 wheel.forEach((num,index)=>{
