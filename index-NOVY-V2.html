@@ -170,23 +170,24 @@ content:'';position:absolute;left:0;right:0;bottom:-1px;height:2px;background:rg
 .peter-timing-shell{max-width:820px;margin:0 auto;padding:16px 14px 24px;}
 .peter-timing-shell .v6-essential-timing{max-width:100%;}
 .peter-timing-intro{margin:0 0 12px;font-size:12px;color:#8ab5c8;font-weight:600;line-height:1.45;}
+.peter-game-header.timing-open .peter-game-title{cursor:pointer;}
+.peter-game-header.timing-open .peter-game-title:hover{filter:drop-shadow(0 3px 2px rgba(0,0,0,.85)) drop-shadow(0 0 24px rgba(120,220,255,.65));}
 </style>
 </head>
 <body>
 <header class="topbar topbar-v6 peter-game-header">
 <div class="peter-header-main">
 <div class="peter-brand-row">
-<h1 class="peter-game-title">PeTeR RULETA GAME</h1>
+<h1 class="peter-game-title" id="peterGameTitle">PeTeR RULETA GAME</h1>
 <div class="topbar-v6-time"><span class="topbar-clock" id="liveClock">00:00:00</span><span class="topbar-date" id="liveDate">—</span></div>
 </div>
 <nav class="peter-excel-tabs" role="tablist" aria-label="Karty programu">
-<button type="button" class="peter-tab active" role="tab" id="peterTabGame" data-peter-tab="game" aria-selected="true" aria-controls="peterViewGame">🎰 Hra</button>
 <button type="button" class="peter-tab" role="tab" id="peterTabTiming" data-peter-tab="timing" aria-selected="false" aria-controls="peterViewTiming">⏱ Kvantová timing · 20%</button>
 </nav>
 </div>
 </header>
 <div id="sessionToast" class="session-toast" role="status" aria-live="polite"></div>
-<div id="peterViewGame" class="peter-view active" role="tabpanel" aria-labelledby="peterTabGame">
+<div id="peterViewGame" class="peter-view active" role="tabpanel" aria-labelledby="peterGameTitle">
 <div class="shell"><div class="app">
 <aside class="col-left col-left-v6">
 <div class="card card-history-only">
@@ -3131,22 +3132,30 @@ el.textContent=now.toLocaleTimeString('sk-SK',{hour12:false});
 dateEl.textContent=now.toLocaleDateString('sk-SK');
 }
 function bindPeterTabs(){
-const tabs=document.querySelectorAll('.peter-tab');
+const tabTiming=document.getElementById('peterTabTiming');
+const titleEl=document.getElementById('peterGameTitle');
+const headerEl=document.querySelector('.peter-game-header');
 const viewGame=document.getElementById('peterViewGame');
 const viewTiming=document.getElementById('peterViewTiming');
-if(!tabs.length||!viewGame||!viewTiming)return;
-function showTab(name){
-tabs.forEach(function(btn){
-const on=btn.getAttribute('data-peter-tab')===name;
-btn.classList.toggle('active',on);
-btn.setAttribute('aria-selected',on?'true':'false');
-});
-viewGame.classList.toggle('active',name==='game');
-viewTiming.classList.toggle('active',name==='timing');
-if(name==='timing'&&typeof renderTiming==='function')renderTiming();
+if(!viewGame||!viewTiming)return;
+function showGame(){
+if(tabTiming){tabTiming.classList.remove('active');tabTiming.setAttribute('aria-selected','false');}
+if(headerEl)headerEl.classList.remove('timing-open');
+if(titleEl){titleEl.removeAttribute('title');titleEl.removeAttribute('aria-label');}
+viewGame.classList.add('active');
+viewTiming.classList.remove('active');
 }
-tabs.forEach(function(btn){
-btn.addEventListener('click',function(){showTab(btn.getAttribute('data-peter-tab')||'game');});
+function showTiming(){
+if(tabTiming){tabTiming.classList.add('active');tabTiming.setAttribute('aria-selected','true');}
+if(headerEl)headerEl.classList.add('timing-open');
+if(titleEl){titleEl.title='Späť na hlavnú hru';titleEl.setAttribute('aria-label','Späť na hlavnú hru');}
+viewGame.classList.remove('active');
+viewTiming.classList.add('active');
+if(typeof renderTiming==='function')renderTiming();
+}
+if(tabTiming)tabTiming.addEventListener('click',showTiming);
+if(titleEl)titleEl.addEventListener('click',function(){
+if(viewTiming.classList.contains('active'))showGame();
 });
 }
 function bindUi(){
