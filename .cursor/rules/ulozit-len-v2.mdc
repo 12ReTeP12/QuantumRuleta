@@ -38,9 +38,11 @@ index-NOVY-V2.html → sync-v2.cjs → index.html → Electron / npm start / dis
 
 ## Git a zálohy
 
-- **Pred každou väčšou zmenou** vytvor Git commit (lokálne).
+- **Po každej zmene** (alebo na konci každého kroku OBR.2): `npm run sync-v2` → **commit** → **push na GitHub** (`origin/master`).
+- Záloha na GitHub je **povinná** — používateľ to chce automaticky, bez pýtania sa.
+- Commit message: krátko čo a prečo (napr. `OBR.2 KROK9 — flow čiary 3 farby`).
 - Zálohy len cez Git — nie kopírovanie HTML.
-- Push / PR len keď používateľ výslovne povie.
+- PR len keď používateľ výslovne povie; inak stačí push na `master`.
 
 ## Architektúra a build
 

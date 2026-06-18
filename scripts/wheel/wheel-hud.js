@@ -939,7 +939,7 @@ function buildQuantumWheelRightHTML(Q, st) {
     return (
       '<div class="qw-metric-stack qw-stack-dom hero-hud-stack">' +
       buildQwDominantCard(c) +
-      qwHeroMetric('DOMINANT SEKTOR', c.sectorVal, c.sectorSub, 'yellowTxt', { svg: qwHudSvg('target') }) +
+      qwHeroMetric('DOMINANT SEKTOR', c.sectorVal, c.sectorSub, 'greenTxt', { svg: qwHudSvg('target') }) +
       qwHeroMetric('FOLLOW-UP DETECTION', c.followVal, c.followSub, 'qw-h-plain', { svg: qwHudSvg('refresh'), subCls: 'greenTxt', plainVal: true }) +
       qwHeroMetric('FLOW BREAK CHECK', c.breakVal, c.breakSub, c.breakCls, { svg: qwHudSvg('check') }) +
       qwHeroMetric('ZDRAVIE KOLESA', c.healthVal, c.healthSub, 'greenTxt', { svg: qwHudSvg('heart'), healthBar: c.healthRing }) +

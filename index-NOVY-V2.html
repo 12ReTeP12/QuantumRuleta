@@ -135,24 +135,12 @@
 .v6-keyboard-section .v6-ts-po-panel .kb-flow-row{flex:1 1 auto;}
 .v6-keyboard-section .v6-ts-po-panel .kb-flow-primary{flex:1 1 0;}
 .v6-keyboard-section{margin-bottom:0!important;}
-/* V2 mockup obr.2 — flex pack: HUD | koleso | HUD (tesne pri sebe) */
-.v6-block-wheel.v6-radar-v1{--qw-side-w:272px!important;--qh-bottom:124px!important;min-height:clamp(820px,95vh,1040px)!important;width:100%!important;max-width:100%!important;}
-.v6-block-wheel.v6-radar-v1 .qw-dash-body{display:flex!important;flex-direction:column!important;flex:1 1 0!important;min-height:0!important;overflow:hidden!important;padding:0!important;}
-.v6-block-wheel.v6-radar-v1 .quantum-hero-layout{display:grid!important;grid-template-columns:var(--qw-side-w) minmax(0,1fr) var(--qw-side-w)!important;grid-template-rows:1fr!important;align-items:stretch!important;justify-items:stretch!important;gap:0!important;flex:1 1 0!important;min-height:0!important;overflow:hidden!important;width:100%!important;height:100%!important;}
-.v6-block-wheel.v6-radar-v1 #qwPanelLeft,.v6-block-wheel.v6-radar-v1 .hero-left-hud{grid-column:1!important;width:100%!important;min-width:0!important;max-width:none!important;height:auto!important;max-height:none!important;display:flex!important;flex-direction:column!important;visibility:visible!important;padding:8px 6px!important;background:rgba(4,14,18,.98)!important;border-right:1px solid rgba(0,255,191,.22)!important;box-sizing:border-box!important;overflow-y:auto!important;overflow-x:hidden!important;}
-.v6-block-wheel.v6-radar-v1 #qwPanelRight,.v6-block-wheel.v6-radar-v1 .hero-right-hud{grid-column:3!important;width:100%!important;min-width:0!important;max-width:none!important;height:auto!important;max-height:none!important;display:flex!important;flex-direction:column!important;padding:8px 6px!important;background:rgba(4,14,18,.98)!important;border-left:1px solid rgba(0,255,191,.22)!important;box-sizing:border-box!important;overflow-y:auto!important;overflow-x:hidden!important;}
-.v6-block-wheel.v6-radar-v1 .hero-center-core{grid-column:2!important;width:100%!important;max-width:none!important;padding:0!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;min-width:0!important;min-height:0!important;}
-.v6-block-wheel.v6-radar-v1 .hero-center-core::before,.v6-block-wheel.v6-radar-v1 .hero-center-core::after{display:none!important;}
-.v6-block-wheel.v6-radar-v1 .qw-wheel-stage{margin:0 auto!important;flex-shrink:0!important;}
-.v6-block-wheel.v6-radar-v1 .hero-hud-stack{gap:6px!important;display:flex!important;flex-direction:column!important;width:100%!important;}
-.v6-block-wheel.v6-radar-v1.qw-mockup-flow .qw-v1-status-banner.wait{display:none!important;}
-.v6-block-wheel.v6-radar-v1 .qw-v1-status-strip{display:none!important;}
-/* typografia obr.2 → #v2-layout-last (koniec súboru) */
+/* layout kolesa obr.2 → iba #v2-layout-last (koniec súboru) */
 </style>
 </head>
 <body>
 <header class="topbar topbar-v6">
-<span class="topbar-title">KVANTOVÁ RULETA PRO V2 <small class="topbar-build-tag">· OBR.2 PASS4</small></span>
+<span class="topbar-title">KVANTOVÁ RULETA PRO V2 <small class="topbar-build-tag">· OBR.2 KROK9</small></span>
 <div class="topbar-center topbar-v6-spacer" aria-hidden="true"></div>
 <div class="topbar-v6-time"><span class="topbar-clock" id="liveClock">00:00:00</span><span class="topbar-date" id="liveDate">—</span></div>
 </header>
@@ -331,7 +319,7 @@ title="Nie je hracia stratégia. Iba náhodný čo-keby hod bez logiky.">
 <script src="scripts/core/state.js"></script>
 <script src="scripts/core/helpers.js"></script>
 <script src="scripts/wheel/quantum-wheel.js?v=hero-layout-4"></script>
-<script src="scripts/wheel/wheel-canvas.js?v=obr2-pass4"></script>
+<script src="scripts/wheel/wheel-canvas.js?v=obr2-krok9"></script>
 <script src="scripts/ai/ai-engine.js"></script>
 <script src="scripts/ai/confidence-engine.js"></script>
 <script src="scripts/valid-true/valid-true-v0.js"></script>
@@ -3173,7 +3161,7 @@ if(down)down.addEventListener('click',function(){body.scrollBy({top:step(),behav
 <script src="scripts/analytics/bah-engine.js"></script>
 <script src="scripts/analytics/session-stats.js"></script>
 <script src="scripts/analytics/roulette-analytics.js"></script>
-<script src="scripts/wheel/wheel-hud.js?v=obr2-pass4"></script>
+<script src="scripts/wheel/wheel-hud.js?v=obr2-krok2"></script>
 <script src="scripts/ui/ui-alerts.js"></script>
 <script src="scripts/analytics/timing-engine.js"></script>
 <script src="scripts/board/board-events.js"></script>
@@ -3190,8 +3178,11 @@ else bootApp();
 <style id="v2-layout-last">
 /* ═══ OBR.2 VZOR PASS4 — jediný zdroj typografie ═══ */
 .topbar-build-tag{font-size:11px;font-weight:800;color:#42ff74;letter-spacing:.08em;margin-left:6px;}
-.v6-block-wheel.v6-radar-v1{--qw-side-w:258px!important;--qh-bottom:118px!important;min-height:clamp(780px,88vh,980px)!important;background:#060a10!important;}
+.v6-block-wheel.v6-radar-v1{--qw-side-w:210px!important;--qh-bottom:118px!important;min-height:clamp(820px,92vh,1040px)!important;background:#060a10!important;}
 .v6-block-wheel.v6-radar-v1 .qw-dashboard{min-height:inherit!important;display:flex!important;flex-direction:column!important;}
+.v6-block-wheel.v6-radar-v1 .qw-dash-body{display:flex!important;flex-direction:column!important;flex:1 1 0!important;min-height:0!important;overflow:hidden!important;padding:0!important;}
+.v6-block-wheel.v6-radar-v1 .hero-center-core::before,.v6-block-wheel.v6-radar-v1 .hero-center-core::after{display:none!important;}
+.v6-block-wheel.v6-radar-v1 .qw-wheel-stage{margin:0 auto!important;flex-shrink:0!important;}
 .v6-block-wheel.v6-radar-v1 .quantum-hero-layout{display:grid!important;grid-template-columns:var(--qw-side-w) minmax(0,1fr) var(--qw-side-w)!important;gap:0!important;align-items:stretch!important;flex:1 1 0!important;}
 .v6-block-wheel.v6-radar-v1 #qwPanelLeft,.v6-block-wheel.v6-radar-v1 .hero-left-hud,.v6-block-wheel.v6-radar-v1 #qwPanelRight,.v6-block-wheel.v6-radar-v1 .hero-right-hud{width:100%!important;min-width:0!important;max-width:none!important;padding:8px 7px!important;overflow-y:auto!important;display:flex!important;visibility:visible!important;background:rgba(5,14,24,.98)!important;}
 .v6-block-wheel.v6-radar-v1 .hero-left-hud{border-right:1px solid rgba(70,150,220,.28)!important;}
@@ -3210,7 +3201,7 @@ else bootApp();
 .v6-block-wheel.v6-radar-v1 .qw-badge-pill.muted{border:1px solid rgba(66,255,116,.35)!important;color:#7ad4b8!important;background:rgba(0,40,32,.35)!important;}
 .v6-block-wheel.v6-radar-v1 .qw-badge-pill .qw-live-dot{width:6px!important;height:6px!important;border-radius:50%!important;background:#42ff74!important;display:inline-block!important;margin-right:4px!important;box-shadow:0 0 6px rgba(66,255,116,.8)!important;}
 /* HUD karty */
-.v6-block-wheel.v6-radar-v1 .qw-hero-metric{display:flex!important;align-items:flex-start!important;gap:7px!important;position:relative!important;padding:9px 10px!important;border-radius:7px!important;border:1px solid rgba(70,150,220,.22)!important;background:rgba(6,14,26,.94)!important;}
+.v6-block-wheel.v6-radar-v1 .qw-hero-metric{display:flex!important;align-items:flex-start!important;gap:7px!important;position:relative!important;padding:9px 10px!important;border-radius:7px!important;border:1px solid rgba(80,160,230,.38)!important;background:rgba(6,14,26,.94)!important;}
 .v6-block-wheel.v6-radar-v1 .qw-hero-metric.is-insight-card{border-color:rgba(0,255,191,.38)!important;background:linear-gradient(145deg,rgba(0,80,120,.18),rgba(6,14,26,.96))!important;box-shadow:0 0 16px rgba(0,120,180,.1)!important;padding:11px 10px!important;}
 .v6-block-wheel.v6-radar-v1 .qw-hero-metric.is-accent{border-color:rgba(70,180,140,.3)!important;}
 .v6-block-wheel.v6-radar-v1 .qw-h-ico{flex:0 0 20px!important;width:20px!important;height:20px!important;color:#5eb8ff!important;}
@@ -3256,7 +3247,23 @@ else bootApp();
 .v6-block-wheel.v6-radar-v1 .qw-model-col b{font-size:12px!important;color:#e8fff6!important;font-weight:900!important;letter-spacing:.04em!important;}
 .v6-block-wheel.v6-radar-v1 .qw-model-col span{font-size:10px!important;color:#8ab5a8!important;line-height:1.4!important;font-weight:600!important;}
 .v6-block-wheel.v6-radar-v1 .qw-dash-model .ai-engine{margin-left:auto!important;color:#ffcc00!important;font-weight:800!important;font-size:11px!important;letter-spacing:.06em!important;white-space:nowrap!important;text-shadow:0 0 10px rgba(255,204,0,.25)!important;}
-@media(max-width:900px){.v6-block-wheel.v6-radar-v1{--qw-side-w:190px!important;}}
+/* KROK8 — wheel.css @1200px rozbíja layout; koleso musí ostať veľké aj na polovičnom okne */
+@media(max-width:1600px){
+.v6-block-wheel.v6-radar-v1 .quantum-hero-layout{
+grid-template-columns:var(--qw-side-w) minmax(0,1fr) var(--qw-side-w)!important;
+grid-template-areas:"left center right"!important;gap:0!important;padding:0!important;
+}
+.v6-block-wheel.v6-radar-v1 .hero-left-hud,.v6-block-wheel.v6-radar-v1 .hero-right-hud,
+.v6-block-wheel.v6-radar-v1 #qwPanelLeft,.v6-block-wheel.v6-radar-v1 #qwPanelRight{
+display:flex!important;visibility:visible!important;opacity:1!important;
+width:100%!important;min-width:0!important;max-width:none!important;
+flex:none!important;max-height:none!important;overflow-y:auto!important;
+}
+.v6-block-wheel.v6-radar-v1 .hero-center-core{min-height:min(420px,52vh)!important;}
+.v6-block-wheel.v6-radar-v1 .qw-dashboard{min-height:clamp(820px,92vh,1040px)!important;}
+.v6-block-wheel.v6-radar-v1:not(.v6-block-wheel) .qw-dashboard{min-height:clamp(820px,92vh,1040px)!important;}
+}
+@media(max-width:900px){.v6-block-wheel.v6-radar-v1{--qw-side-w:200px!important;}}
 @media(max-width:640px){.v6-block-wheel.v6-radar-v1 .quantum-hero-layout{grid-template-columns:1fr!important;}}
 </style>
 
