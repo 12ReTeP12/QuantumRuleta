@@ -38,11 +38,15 @@ const sideW=parseInt(getComputedStyle(block).getPropertyValue('--qw-side-w'),10)
 const layoutW=layout?layout.clientWidth:block.clientWidth;
 const centerW=Math.max(center.clientWidth||0,layoutW-sideW*2,320);
 const maxH=Math.max(centerH-legH-2,240);
-/* KROK-A: koleso = plná šírka stĺpca (nie min s výškou → prázdne pásy) */
-let size=Math.floor(centerW*0.996);
-if(size>maxH)size=Math.floor(maxH*0.99);
+/* KROK-B: stage = 100% šírky stĺpca, canvas = max štvorec (šírka × výška) */
+stage.style.width='100%';stage.style.maxWidth='100%';stage.style.height='';stage.style.maxHeight='';
+stage.style.aspectRatio='1';stage.style.margin='0';stage.style.flex='1 1 auto';
+stage.style.alignSelf='stretch';
+void stage.offsetWidth;
+let size=Math.floor(Math.min(stage.clientWidth||centerW,maxH));
+if(size<240)size=Math.floor(Math.min(centerW,maxH));
 block.style.setProperty('--qw-canvas-px',size+'px');
-stage.style.width=size+'px';stage.style.height=size+'px';
+stage.style.width=size+'px';stage.style.height=size+'px';stage.style.maxWidth='100%';stage.style.aspectRatio='';
 cv.style.width=size+'px';cv.style.height=size+'px';
 cv.width=1080;cv.height=1080;
 if(typeof renderCanvasWheel==='function')renderCanvasWheel();
@@ -265,9 +269,9 @@ ctx.globalAlpha=(strong?0.96:mid?0.88:0.72)*pulse;
 ctx.shadowColor=strong?'rgba(90,255,80,0.85)':mid?'rgba(255,190,50,0.65)':'rgba(50,190,255,0.65)';
 ctx.shadowBlur=strong?11:mid?8:6;
 const bend=0.44*Math.sin(it.ang*1.55+it.seed*0.31)+0.13*Math.sin(it.seed*0.44);
-const rMul=it.rim?(it.frag?0.76:0.99):(it.frag?0.5:0.7);
+const rMul=it.rim?(it.frag?0.82:1.0):(it.frag?0.58:0.78);
 const rUse=rEnd*rMul;
-const hubOff=rEnd*0.04;
+const hubOff=rEnd*0.02;
 const sx=cx+Math.cos(it.ang)*hubOff,sy=cy+Math.sin(it.ang)*hubOff;
 const ex=cx+Math.cos(it.ang)*rUse,ey=cy+Math.sin(it.ang)*rUse;
 const mx=cx+Math.cos(it.ang+bend)*rUse*0.44,my=cy+Math.sin(it.ang+bend)*rUse*0.44;
@@ -434,7 +438,7 @@ dom?'rgba(0,110,80,'+(a*visDim)+')':'rgba(4,10,18,'+(0.4*visDim)+')',
 dom?'rgba(100,255,170,'+(0.22*visDim)+')':'rgba(30,70,95,'+(0.07*visDim)+')',
 dom?1.1:0.5);
 });
-drawQwVzorInnerGrid(ctx,cx,cy,pocketIn*0.72,visDim);
+drawQwVzorInnerGrid(ctx,cx,cy,pocketIn*0.88,visDim);
 ctx.save();
 ctx.globalAlpha=0.35*visDim;
 [colOut,colIn,dozOut,dozIn].forEach(r=>{
@@ -910,7 +914,7 @@ const Q=computeQuantumWheelBrain();
 const dashEl=document.getElementById('wheelRadarData');
 const radarVzor=!!(dashEl&&dashEl.closest('.v6-block-wheel.v6-radar-v1'));
 const radarMinimal=radarVzor;
-const outerR=Math.min(W,H)*(radarMinimal?0.505:0.47);
+const outerR=Math.min(W,H)*(radarMinimal?0.538:0.47);
 const midR=outerR*0.7;
 const hubR=outerR*0.14;
 const segment=(Math.PI*2)/wheel.length;

@@ -717,7 +717,7 @@ grid-template-rows:auto 1fr auto auto!important;
 .v6-radar-v1 .qw-dash-header .qw-h-left small{font-size:11px!important;}
 .v6-block-wheel.v6-radar-v1{
 --qw-gap:0px;
---qw-side-w:260px;
+--qw-side-w:168px;
 --qh-bottom:110px;
 display:flex!important;
 flex-direction:column!important;
@@ -957,7 +957,7 @@ background:rgba(0,0,0,.45)!important;
 }
 @media(max-width:900px){
 .v6-block-wheel.v6-radar-v1 .quantum-hero-layout{
-grid-template-columns:140px minmax(0,1fr) 140px!important;
+grid-template-columns:168px minmax(0,1fr) 168px!important;
 }
 }
 @media(max-width:480px){
