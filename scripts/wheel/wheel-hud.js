@@ -78,7 +78,7 @@ return'qw-atmos-active';
 function ensureQuantumWheelDashboardDOM(root){
 const wantV1=!!(root.closest&&root.closest('.v6-radar-v1'));
 const inBlock=!!(root.closest&&root.closest('.v6-block-wheel'));
-const QW_DOM_BUILD='v2-obr2-pass3-20260601';
+const QW_DOM_BUILD='v2-obr2-pass4-20260601';
 const hasLayout=!!(root.querySelector('#wheelCanvas')&&root.querySelector('.quantum-hero-layout')
 &&root.querySelector('#qwPanelLeft')&&root.querySelector('#qwPanelRight'));
 if(root.dataset.qwDomBuild===QW_DOM_BUILD&&hasLayout){
@@ -106,7 +106,7 @@ const hdrLeft=(inBlock&&wantV1)
 :'<div class="qw-h-left">KVANTOVÉ KOLESO<small>živý roulette radar · flow v reálnom čase</small></div>';
 const hdrMid=(inBlock&&wantV1)
 ?'<div class="qw-h-center-badges">'
-+'<span class="qw-badge-pill live"><span class="qw-live-dot"></span> LIVE ANALÝZA TOKU</span>'
++'<span class="qw-badge-pill live">LIVE ANALÝZA TOKU</span>'
 +'<span class="qw-badge-pill muted"><span class="qw-live-dot"></span> 70/20/10 MODEL</span></div>'
 :'<div class="qw-h-center-badges" aria-hidden="true">'
 +'<span class="qw-badge-pill live"><span class="qw-live-dot"></span> LIVE</span></div>';
@@ -346,14 +346,34 @@ const dozN=(st.domDoz>=0?(st.domDoz+1):2)+'. TUCET';
 const path=(Q.dominantSectorPath&&Q.dominantSectorPath!=='—')?String(Q.dominantSectorPath).replace(/-/g,' → '):'3 → 26 → 0 → 32 → 15';
 const g=typeof readOfficialPlayGate==='function'?readOfficialPlayGate():null;
 const aiGateWait=!!(g&&(g.learn||g.status==='ČAKAJ'));
+const vzorDash=typeof qwIsVzorWheelDash==='function'&&qwIsVzorWheelDash();
 const vzorVis=typeof qwVzorVisualMode==='function'&&qwVzorVisualMode(Q);
+if(vzorDash&&Q&&Q.ready){
+return{
+mock:true,
+left:{insHead:'NÁVRATY DO '+colN,insSub:colN+' ABSORBUJE VÄČŠINU REBOUND FLOW',insCls:'greenTxt',cta:'SLEDOVAŤ FLOW →',
+stavVal:'SILNÝ',stavSub:'FLOW DRŽÍ',stavCls:'greenTxt',stavRing:Math.max(colP,75),
+momVal:'RASTIE',momSub:'SILNEJŠIE NÁVRATY DO CENTRA',momCls:'greenTxt',
+dirVal:'VRACIA SA DO STREDU',dirSub:'NÁVRATOVÝ POHYB DOMINUJE',dirCls:'greenTxt',
+regVal:'FLOW ACTIVE',regSub:'SILNÝ NÁVRATOVÝ REŽIM',regCls:'greenTxt'},
+right:{domVal:'STĹPEC: '+colN+' ('+colP+'%)',domSub:'TUCET: '+dozN+' ('+dozP+'%)',
+sectorVal:path,sectorSub:'WHEEL SA ČASTO VRACIA DO TOHTO FLOW SEKTORA',
+followVal:'PO EDGE SEKTOROCH SA WHEEL VRACIA DO STREDU',followSub:'REBOUND FLOW AKTÍVNY',
+breakVal:'ŽIADNY BREAK',breakSub:'FLOW JE STABILNÝ',breakCls:'greenTxt',
+healthVal:Math.min(99,Math.max(62,82-(Q.chaosLevel||0)/5))+'%',healthSub:'WHEEL VYTVÁRA SILNÉ A ZDABILNÉ NÁVRATY',healthRing:Math.min(99,Math.max(62,82-(Q.chaosLevel||0)/5))},
+bottom:{live:'WHEEL SA STABILNE VRACIA DO '+colN+'. NÁVRATOVÝ FLOW JE SILNÝ A KONTINUÁLNY.',
+riskVal:'NÍZKE',riskSub:'FLOW JE STABILNÝ A ZDRAVÝ',riskCls:'greenTxt',
+recVal:'SLEDOVAŤ '+colN,recSub:'FLOW PODPORUJE NÁVRATOVÝ REŽIM',recCls:'greenTxt',
+trailNote:'AI SI VŠIMLA: NÁVRATY DO '+colN+' SA OPAKUJÚ'},
+banner:'FLOW DRŽÍ — SILNÝ',bannerCls:'ok',badge:'FLOW DRŽÍ',badgeCls:'greenTxt'};
+}
 if(vzorVis||(!aiGateWait&&qwUseMockupPresentation(Q))){
 return{
 mock:true,
 left:{insHead:'NÁVRATY DO '+colN,insSub:colN+' ABSORBUJE VÄČŠINU REBOUND FLOW',insCls:'greenTxt',cta:'SLEDOVAŤ FLOW →',
 stavVal:'SILNÝ',stavSub:'FLOW DRŽÍ',stavCls:'greenTxt',stavRing:Math.max(colP,75),
 momVal:'RASTIE',momSub:'SILNEJŠIE NÁVRATY DO CENTRA',momCls:'greenTxt',
-dirVal:'VRACIA SA DO STREDU',dirSub:'NÁVRATOVÝ POHYB DOMINUJE',dirCls:'blueTxt',
+dirVal:'VRACIA SA DO STREDU',dirSub:'NÁVRATOVÝ POHYB DOMINUJE',dirCls:'greenTxt',
 regVal:'FLOW ACTIVE',regSub:'SILNÝ NÁVRATOVÝ REŽIM',regCls:'greenTxt'},
 right:{domVal:'STĹPEC: '+colN+' ('+colP+'%)',domSub:'TUCET: '+dozN+' ('+dozP+'%)',
 sectorVal:path,sectorSub:'WHEEL SA ČASTO VRACIA DO TOHTO FLOW SEKTORA',
@@ -870,7 +890,6 @@ function buildQuantumWheelLeftHTML(Q, st) {
   if (qwIsVzorWheelDash()) {
     const c = qwResolveHudCopy(Q, st).left;
     return (
-      qwPanelKicker('flow', 'FLOW OBSERVER') +
       '<div class="qw-metric-stack qw-stack-flow hero-hud-stack">' +
       qwHeroMetric('HLAVNÝ FLOW INSIGHT', c.insHead, c.insSub, c.insCls, {
         hero: true,
