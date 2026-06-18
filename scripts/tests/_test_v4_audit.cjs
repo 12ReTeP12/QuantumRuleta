@@ -6,35 +6,51 @@ const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
 const { app, BrowserWindow } = require('electron');
+const { extractV2InlineFromRoot } = require('./v2-inline-extract.cjs');
 
 const root = path.join(__dirname, '..', '..');
 const htmlPath = path.join(root, 'index-NOVY-V2.html');
 const html = fs.readFileSync(htmlPath, 'utf8');
+/* Balík 9A/10D/10F: moduly načítané V2; wheel HUD → wheel-hud.js; boot → app-boot.js */
 const EXTERNAL_JS = [
   'scripts/core/constants.js',
+  'scripts/core/event-bus.js',
   'scripts/core/state.js',
   'scripts/core/helpers.js',
+  'scripts/wheel/wheel-sector-intel.js',
+  'scripts/wheel/wheel-brain.js',
   'scripts/wheel/quantum-wheel.js',
+  'scripts/wheel/wheel-canvas.js',
+  'scripts/wheel/wheel-hud.js',
   'scripts/ai/ai-engine.js',
+  'scripts/ai/confidence-engine.js',
+  'scripts/valid-true/valid-true-v0.js',
   'scripts/ai/lfp-engine.js',
+  'scripts/ai/pred-flow-engine.js',
+  'scripts/ai/pred-dashboard.js',
   'scripts/ai/ai-prediction.js',
+  'scripts/strategy/strategy-engine.js',
+  'scripts/analytics/pressure-engine.js',
+  'scripts/analytics/visual-heat-engine.js',
+  'scripts/analytics/telemetry-engine.js',
+  'scripts/debug/engine-hub.js',
+  'scripts/analytics/bah-engine.js',
+  'scripts/analytics/session-stats.js',
   'scripts/analytics/roulette-analytics.js',
-  'scripts/ui/ui-panels.js',
   'scripts/ui/ui-alerts.js',
+  'scripts/pattern/spin-pattern-observer.js',
+  'scripts/ui/session-fatigue.js',
+  'scripts/ui/keyboard-live-ai-flow.js',
   'scripts/analytics/timing-engine.js',
   'scripts/board/board-events.js',
   'scripts/board/board-ui.js',
-  'scripts/bootstrap/app-init.js',
+  'scripts/bootstrap/app-boot.js',
 ];
 let failed = 0;
 const ok = (m) => console.log('OK:', m);
 const fail = (m) => { console.error('FAIL:', m); failed++; };
 
-const inlineStart = html.indexOf('<script>\n/* QRP7-V2');
-const inlineEnd = html.indexOf('</script>\n<script src="scripts/analytics/roulette-analytics.js"');
-const inlineJs = inlineStart >= 0 && inlineEnd > inlineStart
-  ? html.slice(inlineStart + '<script>'.length, inlineEnd)
-  : '';
+const inlineJs = extractV2InlineFromRoot(root);
 const syntaxBundle = inlineJs + EXTERNAL_JS.map((rel) => {
   const p = path.join(root, rel);
   return fs.existsSync(p) ? fs.readFileSync(p, 'utf8') : '';
@@ -60,11 +76,48 @@ const mustFns = [
   'renderTiming', 'renderWheelRadar', 'computeQwFlowScanner', 'skUiLabel', 'skFlow',
   'buildAIPredictionPanelHTML', 'computeRawStatsEngine', 'computeRiskChaosEngine',
   'computeVisualHeatEngine', 'computeWheelPressureEngine', 'computeHotColdEngine',
+  'ensureQuantumWheelDashboardDOM', 'qwResolveHudCopy', 'qwColorState', 'skQw', 'skWheelUserText',
 ];
 mustFns.forEach((fn) => {
   if (!codeBundle.includes('function ' + fn) && !codeBundle.includes(fn + '='))
     fail('chýba funkcia: ' + fn);
   else ok('funkcia: ' + fn);
+});
+const HUD_10H4A_NO_INLINE = [
+  'ensureQuantumWheelDashboardDOM', 'qwResolveHudCopy', 'qwColorState', 'skQw', 'skWheelUserText',
+];
+HUD_10H4A_NO_INLINE.forEach((fn) => {
+  if (/function\s+/.test(inlineJs) && new RegExp('function\\s+' + fn + '\\s*\\(').test(inlineJs))
+    fail('V2 inline duplicita (10H-4A): ' + fn);
+  else ok('10H-4A inline OK: ' + fn);
+});
+const SECTOR_10H4B_NO_INLINE = [
+  'computeWheelSectorIntel', 'getSectorAnalysis', 'getWheelSectorStats', 'scoreWheelSectorSpinCore',
+];
+SECTOR_10H4B_NO_INLINE.forEach((fn) => {
+  if (new RegExp('function\\s+' + fn + '\\s*\\(').test(inlineJs))
+    fail('V2 inline duplicita (10H-4B): ' + fn);
+  else ok('10H-4B inline OK: ' + fn);
+});
+const STRATEGY_10H5_NO_INLINE = [
+  'computeStrategyEngine', 'invalidateStrategyCache', 'renderStrategy', 'renderAccuracy', 'skStrategyMode',
+];
+STRATEGY_10H5_NO_INLINE.forEach((fn) => {
+  if (new RegExp('function\\s+' + fn + '\\s*\\(').test(inlineJs))
+    fail('V2 inline duplicita (10H-5): ' + fn);
+  else ok('10H-5 inline OK: ' + fn);
+});
+const DIAG_10H6_NO_INLINE = [
+  'computeWheelPressureEngine', 'invalidateWheelPressureCache', 'renderPressure',
+  'computeVisualHeatEngine', 'invalidateVisualHeatCache', 'renderHeatmap',
+  'collectEngineTelemetrySignals', 'computeTelemetryEngine', 'invalidateTelemetryCache',
+  'renderTelemetry', 'computeEngineSynchronization', 'computeSignalQuality',
+  'computeConfidenceStability', 'computeLiveAIState', 'skEngineName',
+];
+DIAG_10H6_NO_INLINE.forEach((fn) => {
+  if (new RegExp('function\\s+' + fn + '\\s*\\(').test(inlineJs))
+    fail('V2 inline duplicita (10H-6): ' + fn);
+  else ok('10H-6 inline OK: ' + fn);
 });
 
 const mustDom = [

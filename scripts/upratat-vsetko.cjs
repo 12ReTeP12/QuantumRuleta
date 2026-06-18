@@ -8,7 +8,6 @@ const { execSync } = require('child_process');
 const root = path.join(__dirname, '..');
 const KEEP_FILES = new Set([
   'index.html',
-  'index-NOVY-V1.html',
   'index-NOVY-V2.html',
   'main.js',
   'package.json',
@@ -65,7 +64,9 @@ fs.readdirSync(root, { withFileTypes: true }).forEach((ent) => {
     n === 'win-unpacked' ||
     n === '.build-temp' ||
     n === '.build-out' ||
-    n.includes('ZMaz')
+    n.includes('ZMaz') ||
+    n === '_gh_push' ||
+    n === '_gh_clone'
   ) {
     rmPath(path.join(root, n), n);
   }
@@ -83,5 +84,29 @@ fs.readdirSync(root, { withFileTypes: true }).forEach((ent) => {
     rmPath(path.join(root, n), n);
   }
 });
+
+const forbiddenLeft = [];
+fs.readdirSync(root, { withFileTypes: true }).forEach((ent) => {
+  if (!ent.isDirectory()) return;
+  const n = ent.name;
+  if (KEEP_DIRS.has(n)) return;
+  if (
+    n.startsWith('.build-') ||
+    n.startsWith('_build') ||
+    n.startsWith('dist-') ||
+    n === 'win-unpacked' ||
+    n === '.build-temp' ||
+    n === '.build-out' ||
+    n.includes('ZMaz')
+  ) {
+    forbiddenLeft.push(n);
+  }
+});
+if (forbiddenLeft.length) {
+  console.warn('[upratat] WARN — build artefakty nešli zmazať (zamknuté?):', forbiddenLeft.join(', '));
+  console.warn('[upratat] Po reštarte: npm run clean:build alebo scripts\\zmaz-zamknute-po-restarte.bat');
+} else {
+  console.log('[upratat] Build hygiene OK — žiadne .build-* / win-unpacked v koreni');
+}
 
 console.log('[upratat] Hotovo. Spúšťaj: app\\RULETA.exe alebo RULETA.lnk');

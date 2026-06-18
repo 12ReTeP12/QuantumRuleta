@@ -4,45 +4,71 @@ KVANTOVÁ RULETA PRO V2
 JEDINÝ ZDROJ: index-NOVY-V2.html
 RUNTIME:      index.html (generovaný cez npm run sync-v2)
 
-SPUSTENIE (rýchle, bez portable chaosu):
+────────────────────────────────────────────────────────────
+REŽIM DEV (vývoj, testy)
+────────────────────────────────────────────────────────────
+Spustenie:
+   npm run dev
+   alebo  npm start   (= sync-v2 + electron .)
 
-   Dvojklik   RULETA   na ploche  (odporúčané — ako VS Code)
+Povinné súbory / zložky:
+   index-NOVY-V2.html, index.html, main.js, package.json
+   scripts/, styles/, node_modules/
 
-   alebo      app\RULETA.exe
-   alebo      RULETA.lnk   v tomto priečinku
-   alebo      SPUSTIT-RULETA.bat
+Nepovinné:
+   app/  (iba ak testuješ packaged build)
 
+Kontrola stavu:
+   npm run check:workspace
 
-ODKAZ NA PLOCHE (jednorazovo):
-   Dvojklik   Nainstaluj-na-plochu.bat
-   alebo      npm run desktop
+────────────────────────────────────────────────────────────
+REŽIM PLAYER (hra)
+────────────────────────────────────────────────────────────
+Spustenie:
+   app\RULETA.exe
+   alebo  npm run play
+   alebo  RULETA.lnk v koreni
+   alebo  SPUSTIT-RULETA.bat
 
+Povinné:
+   app/  (celý priečinok — RULETA.exe + runtime)
+   index.html, styles/, scripts/  (živý UI — main.js načíta externý index)
 
-PREČO UŽ NIE JE RULETA.exe V KORENI?
-------------------------------------
-Starý súbor v koreni bol „portable“ — pri každom štarte
-rozbali desiatky .exe do Temp a Avast ich 4× kontroluje a vypína.
-Teraz je všetko v jednej zložke  app\  (normálny Electron).
+Nepovinné:
+   node_modules/  (na hráčskom PC netreba)
 
-
-AVAST — DÔLEŽITÉ (jednorazovo):
-   npm run avast
-   Pridaj výnimku na celý priečinok:
-   C:\Users\Dell\Desktop\QuantumApp
-   (vrátane podpriečinka app)
-
-
-PO ÚPRAVE KÓDU:
+────────────────────────────────────────────────────────────
+BUILD A HYGIENE (Balík 7C)
+────────────────────────────────────────────────────────────
+Po úprave kódu:
    1. Zatvor hru (RULETA v Správcovi úloh)
-   2. npm run sync-v2          (index.html ← V2)
-   3. npm run test:v2:all      (sync + SK + hlavné testy + koleso)
-      alebo npm run test:v2:ci (všetky runtime testy)
-   4. npm run dist
-   5. Spusti znova  app\RULETA.exe
+   2. npm run sync-v2
+   3. npm run test:v2:master   (alebo test:v2:ci)
+   4. npm run dist             (postdist spustí clean:build)
+   5. app\RULETA.exe
 
-
-UPRATANIE (zmaže staré .build-* a win-unpacked v koreni):
+Čistenie build artefaktov:
    npm run upratat
+   npm run clean:build   (upratat + kontrola .build-* / win-unpacked)
 
-Zložka  app\  musí ostať — sú tam knižnice hry (~100 súborov).
-V koreni už nie sú desiatky win-unpacked — len jedno  app\.
+Jediný produkčný build:  app\
+Zakázané v koreni: .build-*, win-unpacked, dist-*, portable RULETA.exe
+
+────────────────────────────────────────────────────────────
+AUDIT DISKU (Balík 7E)
+────────────────────────────────────────────────────────────
+   npm run audit:disk
+
+────────────────────────────────────────────────────────────
+ODKAZ NA PLOCHE
+────────────────────────────────────────────────────────────
+   Nainstaluj-na-plochu.bat   alebo   npm run desktop
+
+AVAST (jednorazovo):
+   npm run avast
+   Výnimka na celý priečinok QuantumApp (vrátane app\)
+
+PREČO NIE JE RULETA.exe V KORENI?
+Starý portable rozbali exe do Temp. Teraz normálny Electron v app\.
+
+Git: len jeden workspace v tomto priečinku — žiadne _gh_push / _gh_clone.

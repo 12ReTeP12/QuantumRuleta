@@ -1,5 +1,6 @@
-/* Quantum Wheel — extracted from index-NOVY-V4.html
-   LEN bezpečné oddelenie (bez refactoru / bez zmeny logiky). */
+/* Quantum Wheel — flow helpery (Balík 9A+).
+   Canvas/layout: scripts/wheel/wheel-canvas.js (10F3).
+   qwFlowState: wheel-brain.js (10F2); tento modul len mutuje v qwAnalyzeWheelFlow. */
 
 'use strict';
 
@@ -153,35 +154,3 @@ if(pri&&pri.code==='CHAOS')return'🔴 REŽIM ČAKANIA — chaos '+chaos.chaosLe
 if(pri&&pri.code==='COLLAPSE')return'⚠ DOMINANCIA SLABNE';
 return'';
 }
-
-function qwSyncWheelStageSize(){
-const block=document.querySelector('.v6-block-wheel.v6-radar-v1');
-if(!block)return;
-const center=block.querySelector('.hero-center-core');
-const stage=block.querySelector('.qw-wheel-stage');
-const cv=document.getElementById('wheelCanvas');
-if(!center||!stage||!cv)return;
-stage.style.width='';
-stage.style.height='';
-stage.style.maxWidth='';
-stage.style.maxHeight='';
-stage.style.margin='';
-cv.style.width='';
-cv.style.height='';
-cv.style.maxWidth='';
-cv.style.maxHeight='';
-const leg=center.querySelector('.qw-flow-legend');
-const legH=leg?Math.ceil(leg.getBoundingClientRect().height):0;
-const cw=center.clientWidth;
-const centerH=center.clientHeight;
-const size=Math.floor(Math.min(cw,centerH-legH));
-block.style.setProperty('--qw-canvas-px',size+'px');
-stage.style.width=size+'px';
-stage.style.height=size+'px';
-cv.style.width=size+'px';
-cv.style.height=size+'px';
-cv.width=1080;
-cv.height=1080;
-if(typeof renderCanvasWheel==='function')renderCanvasWheel();
-}
-

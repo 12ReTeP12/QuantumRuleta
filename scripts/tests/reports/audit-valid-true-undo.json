@@ -1,0 +1,63 @@
+{
+  "measuredAt": "2026-06-03T21:44:57.668Z",
+  "results": [
+    {
+      "area": "buffer",
+      "status": "PASS",
+      "detail": "getSpinRecords 2→1 po jednom undo"
+    },
+    {
+      "area": "jsonl-export",
+      "status": "PASS",
+      "detail": "exportJsonl spin lines 3→2"
+    },
+    {
+      "area": "localStorage",
+      "status": "PASS",
+      "detail": "LS spin rows 2→1, sync s bufferom"
+    },
+    {
+      "area": "export-report",
+      "status": "PASS",
+      "detail": "buildReport nSpins 2→1"
+    },
+    {
+      "area": "ui-panel",
+      "status": "PASS",
+      "detail": "panel Spiny v logu 2→1"
+    },
+    {
+      "area": "ui-spins-array",
+      "status": "PASS",
+      "detail": "spins.length=1 po undo"
+    }
+  ],
+  "fail": 0,
+  "pass": 6,
+  "detail": {
+    "spinsLen": 1,
+    "buffer": {
+      "before": 2,
+      "after": 1,
+      "delta": -1
+    },
+    "jsonl": {
+      "before": 3,
+      "after": 2,
+      "spinLinesBefore": 2,
+      "spinLinesAfter": 1
+    },
+    "localStorage": {
+      "before": 2,
+      "after": 1
+    },
+    "report": {
+      "nSpinsBefore": 2,
+      "nSpinsAfter": 1
+    },
+    "ui": {
+      "nSpinsTextBefore": "2",
+      "nSpinsTextAfter": "1"
+    }
+  }
+}

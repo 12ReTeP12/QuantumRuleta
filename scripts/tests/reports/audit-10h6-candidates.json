@@ -1,0 +1,566 @@
+{
+  "v2Bytes": 185454,
+  "v2Lines": 3628,
+  "inlineBytes": 145510,
+  "inlineLines": 3183,
+  "inlineFunctions": 262,
+  "externalModuleCount": 29,
+  "externalModulesBytes": 518510,
+  "modularizationPct": 78.1,
+  "inlinePct": 21.9,
+  "techDebtPct": 21.9,
+  "targets": [
+    {
+      "id": "Telemetry Engine",
+      "loc": 148,
+      "mainAnchor": "collectEngineTelemetrySignals",
+      "mainLoc": 31,
+      "functions": [
+        {
+          "name": "collectEngineTelemetrySignals",
+          "loc": 31,
+          "callers": {
+            "inline": 1,
+            "modules": 1,
+            "total": 2
+          }
+        },
+        {
+          "name": "computeEngineSynchronization",
+          "loc": 7,
+          "callers": {
+            "inline": 1,
+            "modules": 1,
+            "total": 2
+          }
+        },
+        {
+          "name": "computeSignalQuality",
+          "loc": 5,
+          "callers": {
+            "inline": 1,
+            "modules": 0,
+            "total": 1
+          }
+        },
+        {
+          "name": "computeConfidenceStability",
+          "loc": 14,
+          "callers": {
+            "inline": 1,
+            "modules": 0,
+            "total": 1
+          }
+        },
+        {
+          "name": "computeLiveAIState",
+          "loc": 15,
+          "callers": {
+            "inline": 1,
+            "modules": 0,
+            "total": 1
+          }
+        },
+        {
+          "name": "computeTelemetryEngine",
+          "loc": 42,
+          "callers": {
+            "inline": 1,
+            "modules": 1,
+            "total": 2
+          }
+        },
+        {
+          "name": "renderTelemetry",
+          "loc": 31,
+          "callers": {
+            "inline": 1,
+            "modules": 0,
+            "total": 1
+          }
+        }
+      ],
+      "totalCallers": {
+        "inline": 1,
+        "modules": 1,
+        "total": 2
+      }
+    },
+    {
+      "id": "Pressure Engine",
+      "loc": 100,
+      "mainAnchor": "computeWheelPressureEngine",
+      "mainLoc": 55,
+      "functions": [
+        {
+          "name": "computeWheelPressureEngine",
+          "loc": 55,
+          "callers": {
+            "inline": 2,
+            "modules": 1,
+            "total": 3
+          }
+        },
+        {
+          "name": "renderPressure",
+          "loc": 38,
+          "callers": {
+            "inline": 1,
+            "modules": 0,
+            "total": 1
+          }
+        },
+        {
+          "name": "invalidateWheelPressureCache",
+          "loc": 4,
+          "callers": {
+            "inline": 0,
+            "modules": 1,
+            "total": 1
+          }
+        }
+      ],
+      "totalCallers": {
+        "inline": 2,
+        "modules": 1,
+        "total": 3
+      }
+    },
+    {
+      "id": "computeVisualHeatEngine",
+      "loc": 128,
+      "mainAnchor": "computeVisualHeatEngine",
+      "mainLoc": 87,
+      "functions": [
+        {
+          "name": "computeVisualHeatEngine",
+          "loc": 87,
+          "callers": {
+            "inline": 1,
+            "modules": 0,
+            "total": 1
+          }
+        },
+        {
+          "name": "renderHeatmap",
+          "loc": 34,
+          "callers": {
+            "inline": 1,
+            "modules": 0,
+            "total": 1
+          }
+        },
+        {
+          "name": "invalidateVisualHeatCache",
+          "loc": 4,
+          "callers": {
+            "inline": 0,
+            "modules": 1,
+            "total": 1
+          }
+        }
+      ],
+      "totalCallers": {
+        "inline": 1,
+        "modules": 0,
+        "total": 1
+      }
+    },
+    {
+      "id": "computeRiskChaosEngine",
+      "loc": 130,
+      "mainAnchor": "computeRiskChaosEngine",
+      "mainLoc": 46,
+      "functions": [
+        {
+          "name": "computeClusterConflict",
+          "loc": 6,
+          "callers": {
+            "inline": 0,
+            "modules": 1,
+            "total": 1
+          }
+        },
+        {
+          "name": "computeRiskChaosEngine",
+          "loc": 46,
+          "callers": {
+            "inline": 4,
+            "modules": 2,
+            "total": 6
+          }
+        },
+        {
+          "name": "computeRiskEngine",
+          "loc": 29,
+          "callers": {
+            "inline": 0,
+            "modules": 1,
+            "total": 1
+          }
+        },
+        {
+          "name": "computeRiskChaosCore",
+          "loc": 0,
+          "callers": {
+            "inline": 7,
+            "modules": 8,
+            "total": 15
+          }
+        },
+        {
+          "name": "computeSpinAIComment",
+          "loc": 0,
+          "callers": {
+            "inline": 4,
+            "modules": 1,
+            "total": 5
+          }
+        },
+        {
+          "name": "renderRiskChaos",
+          "loc": 38,
+          "callers": {
+            "inline": 3,
+            "modules": 0,
+            "total": 3
+          }
+        },
+        {
+          "name": "renderRisk",
+          "loc": 0,
+          "callers": {
+            "inline": 0,
+            "modules": 0,
+            "total": 0
+          }
+        },
+        {
+          "name": "renderChaos",
+          "loc": 4,
+          "callers": {
+            "inline": 0,
+            "modules": 0,
+            "total": 0
+          }
+        },
+        {
+          "name": "renderPersistence",
+          "loc": 1,
+          "callers": {
+            "inline": 0,
+            "modules": 0,
+            "total": 0
+          }
+        }
+      ],
+      "totalCallers": {
+        "inline": 4,
+        "modules": 2,
+        "total": 6
+      }
+    },
+    {
+      "id": "HOT/COLD inline vrstva",
+      "loc": 75,
+      "mainAnchor": "hotColdForWindow",
+      "mainLoc": 10,
+      "functions": [
+        {
+          "name": "hotColdForWindow",
+          "loc": 10,
+          "callers": {
+            "inline": 0,
+            "modules": 4,
+            "total": 4
+          }
+        },
+        {
+          "name": "scoreHotCold",
+          "loc": 10,
+          "callers": {
+            "inline": 1,
+            "modules": 0,
+            "total": 1
+          }
+        },
+        {
+          "name": "rawSpinCounts",
+          "loc": 6,
+          "callers": {
+            "inline": 2,
+            "modules": 2,
+            "total": 4
+          }
+        },
+        {
+          "name": "renderHotCold",
+          "loc": 49,
+          "callers": {
+            "inline": 3,
+            "modules": 0,
+            "total": 3
+          }
+        }
+      ],
+      "totalCallers": {
+        "inline": 0,
+        "modules": 4,
+        "total": 4
+      },
+      "hotColdInlineDetail": [
+        {
+          "name": "hotColdForWindow",
+          "loc": 10
+        },
+        {
+          "name": "scoreHotCold",
+          "loc": 10
+        },
+        {
+          "name": "rawSpinCounts",
+          "loc": 6
+        },
+        {
+          "name": "renderHotCold",
+          "loc": 49
+        }
+      ]
+    },
+    {
+      "id": "Predictions render",
+      "loc": 20,
+      "mainAnchor": "renderPredictions",
+      "mainLoc": 20,
+      "functions": [
+        {
+          "name": "renderPredictions",
+          "loc": 20,
+          "callers": {
+            "inline": 1,
+            "modules": 0,
+            "total": 1
+          }
+        }
+      ],
+      "totalCallers": {
+        "inline": 1,
+        "modules": 0,
+        "total": 1
+      }
+    },
+    {
+      "id": "Spin Pipeline",
+      "loc": 183,
+      "mainAnchor": "onNewSpin",
+      "mainLoc": 28,
+      "functions": [
+        {
+          "name": "pipelineScorePreviousSpin",
+          "loc": 25,
+          "callers": {
+            "inline": 1,
+            "modules": 0,
+            "total": 1
+          }
+        },
+        {
+          "name": "pipelineRecordSpin",
+          "loc": 6,
+          "callers": {
+            "inline": 1,
+            "modules": 0,
+            "total": 1
+          }
+        },
+        {
+          "name": "persistenceEngineOnSpin",
+          "loc": 8,
+          "callers": {
+            "inline": 2,
+            "modules": 0,
+            "total": 2
+          }
+        },
+        {
+          "name": "spinMemoryEngineOnSpin",
+          "loc": 20,
+          "callers": {
+            "inline": 1,
+            "modules": 0,
+            "total": 1
+          }
+        },
+        {
+          "name": "sessionModeEngineRefresh",
+          "loc": 10,
+          "callers": {
+            "inline": 2,
+            "modules": 0,
+            "total": 2
+          }
+        },
+        {
+          "name": "aiStateRefresh",
+          "loc": 16,
+          "callers": {
+            "inline": 2,
+            "modules": 0,
+            "total": 2
+          }
+        },
+        {
+          "name": "selfCorrectingEngineRefresh",
+          "loc": 13,
+          "callers": {
+            "inline": 1,
+            "modules": 0,
+            "total": 1
+          }
+        },
+        {
+          "name": "futureFlowEngineRefresh",
+          "loc": 8,
+          "callers": {
+            "inline": 1,
+            "modules": 0,
+            "total": 1
+          }
+        },
+        {
+          "name": "performanceEngineRefresh",
+          "loc": 9,
+          "callers": {
+            "inline": 2,
+            "modules": 0,
+            "total": 2
+          }
+        },
+        {
+          "name": "pipelineArchivePrediction",
+          "loc": 7,
+          "callers": {
+            "inline": 1,
+            "modules": 0,
+            "total": 1
+          }
+        },
+        {
+          "name": "pipelineUpdatePredictions",
+          "loc": 1,
+          "callers": {
+            "inline": 1,
+            "modules": 0,
+            "total": 1
+          }
+        },
+        {
+          "name": "onNewSpin",
+          "loc": 28,
+          "callers": {
+            "inline": 1,
+            "modules": 2,
+            "total": 3
+          }
+        },
+        {
+          "name": "onUndoSpin",
+          "loc": 32,
+          "callers": {
+            "inline": 2,
+            "modules": 1,
+            "total": 3
+          }
+        }
+      ],
+      "totalCallers": {
+        "inline": 1,
+        "modules": 2,
+        "total": 3
+      }
+    }
+  ],
+  "top20Inline": [
+    {
+      "name": "computeVisualHeatEngine",
+      "loc": 87,
+      "callers": {
+        "inline": 1,
+        "modules": 0,
+        "total": 1
+      }
+    },
+    {
+      "name": "computeMacroFlowPct",
+      "loc": 78,
+      "callers": {
+        "inline": 5,
+        "modules": 0,
+        "total": 5
+      }
+    },
+    {
+      "name": "computeWheelFlowEngine",
+      "loc": 66,
+      "callers": {
+        "inline": 2,
+        "modules": 0,
+        "total": 2
+      }
+    },
+    {
+      "name": "computeComboMixStats",
+      "loc": 59,
+      "callers": {
+        "inline": 1,
+        "modules": 0,
+        "total": 1
+      }
+    },
+    {
+      "name": "clearSessionData",
+      "loc": 57,
+      "callers": {
+        "inline": 1,
+        "modules": 1,
+        "total": 2
+      }
+    },
+    {
+      "name": "skUiLabel",
+      "loc": 56,
+      "callers": {
+        "inline": 65,
+        "modules": 8,
+        "total": 73
+      }
+    },
+    {
+      "name": "computeWheelPressureEngine",
+      "loc": 55,
+      "callers": {
+        "inline": 2,
+        "modules": 1,
+        "total": 3
+      }
+    },
+    {
+      "name": "computeSpinFlowPressureLayer",
+      "loc": 53,
+      "callers": {
+        "inline": 1,
+        "modules": 0,
+        "total": 1
+      }
+    },
+    {
+      "name": "renderPatterny",
+      "loc": 53,
+      "callers": {
+        "inline": 3,
+        "modules": 0,
+        "total": 3
+      }
+    }
+  ]
+}

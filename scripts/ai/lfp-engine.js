@@ -184,24 +184,35 @@ weighted,visualMuted:!!(sv&&sv.conflict),modelLabel:'ŽIVÝ FLOW ENGINE · SPINY
 }
 
 function lfpAssessKnowledge(flow,confidence,noClearDominance,lowEdgeFlow,noPredict,noReason,mode){
+const g=typeof readOfficialPlayGate==='function'?readOfficialPlayGate():null;
+if(noPredict&&g){
+return{
+knowsUnknown:g.status!=='HRAŤ',
+status:g.status,
+emoji:g.status==='HRAŤ'?'✓':g.status==='OPATRNE'?'⚠️':'⏳',
+cls:g.playCls==='ok'?'edge':g.playCls==='warn'?'low':'wait',
+sub:g.playSub||noReason
+};
+}
 if(noPredict){
 const map={
 'CHAOTIC FLOW':{emoji:'🌀',headline:'CHAOTICKÝ FLOW',cls:'chaos'},
 'ALTERNATING — LOW EDGE':{emoji:'🌀',headline:'CHAOTICKÝ FLOW',cls:'chaos'},
-'CHAOS / WAIT MODE':{emoji:'⏳',headline:'ČAKAJ',cls:'wait'},
+'CHAOS / WAIT MODE':{emoji:'⏳',headline:'FLOW NEJASNÝ',cls:'wait'},
 'NO CLEAR DOMINANCE':{emoji:'⚠️',headline:'BEZ JASNÉHO EDGE',cls:'wait'},
 'NO CLEAR EDGE':{emoji:'⚠️',headline:'BEZ JASNÉHO EDGE',cls:'wait'},
 'LOW EDGE FLOW':{emoji:'⚠️',headline:'SLABÝ EDGE',cls:'low'},
-'DEAD FLOW':{emoji:'⏳',headline:'ČAKAJ',cls:'wait'},
-'FLOW SHIFT — WAIT':{emoji:'⏳',headline:'ČAKAJ',cls:'wait'},
-'REŽIM UČENIA':{emoji:'⏳',headline:'ČAKAJ',cls:'wait'}
+'DEAD FLOW':{emoji:'⏳',headline:'FLOW NEJASNÝ',cls:'wait'},
+'FLOW SHIFT — WAIT':{emoji:'⏳',headline:'FLOW NEJASNÝ',cls:'wait'},
+'REŽIM UČENIA':{emoji:'⏳',headline:'FLOW NEJASNÝ',cls:'wait'}
 };
 const m=map[noReason]||{emoji:'🧠',headline:'NEVIEM',cls:'wait'};
 return{knowsUnknown:true,status:m.headline,emoji:m.emoji,cls:m.cls,sub:noReason};
 }
 if(confidence<40)return{knowsUnknown:true,status:'NÍZKA SILA SIGNÁLU',emoji:'🧠',cls:'wait',sub:confidence+'% — bez výhody'};
 if(lowEdgeFlow)return{knowsUnknown:false,status:'SLABÝ EDGE',emoji:'⚠️',cls:'low',sub:'NORMÁLNY ≠ obchodovateľný tok'};
-if(mode==='WAIT')return{knowsUnknown:true,status:'ČAKAJ',emoji:'⏳',cls:'wait',sub:'čakám na live edge'};
+if(mode==='WAIT'&&g)return{knowsUnknown:g.status!=='HRAŤ',status:g.status,emoji:'⏳',cls:'wait',sub:g.playSub};
+if(mode==='WAIT')return{knowsUnknown:true,status:'FLOW NEJASNÝ',emoji:'⏳',cls:'wait',sub:'čakám na live edge'};
 if(noClearDominance&&confidence<55)return{knowsUnknown:true,status:'BEZ JASNÉHO EDGE',emoji:'⚠️',cls:'wait',sub:'Slabá dominancia'};
 return{knowsUnknown:false,status:'ŽIVÁ VÝHODA',emoji:'✓',cls:'edge',sub:'Čitateľný živý tok'};
 }

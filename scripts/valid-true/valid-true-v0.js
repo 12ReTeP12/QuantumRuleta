@@ -101,13 +101,52 @@
     lines.push(meta);
   }
 
+  function persistBuffer() {
+    try {
+      global.localStorage.setItem(LS_KEY, JSON.stringify(lines.slice(-500)));
+    } catch (e) { /* ignore */ }
+  }
+
   function pushSpin(record) {
     if (lines.length >= MAX_LINES) lines.shift();
     lines.push(record);
     aggregates = null;
-    try {
-      global.localStorage.setItem(LS_KEY, JSON.stringify(lines.slice(-500)));
-    } catch (e) { /* ignore */ }
+    persistBuffer();
+  }
+
+  /**
+   * Odstráni posledný spin záznam z bufferu (1:1 s onUndoSpin v aplikácii).
+   * Nemení scoring — len synchronizuje lines[], seq, localStorage, report cache.
+   */
+  function onUndoSpin() {
+    if (!isEnabled()) return { removed: false, reason: 'disabled', nSpins: getSpinRecords().length };
+    const before = getSpinRecords().length;
+    if (!before) return { removed: false, reason: 'empty', nSpins: 0 };
+
+    let idx = -1;
+    for (let i = lines.length - 1; i >= 0; i--) {
+      if (lines[i] && lines[i].type === 'spin') {
+        idx = i;
+        break;
+      }
+    }
+    if (idx < 0) return { removed: false, reason: 'no-spin-line', nSpins: before };
+
+    const removedRecord = lines.splice(idx, 1)[0];
+    aggregates = null;
+
+    const remaining = getSpinRecords();
+    seq = remaining.length ? remaining[remaining.length - 1].seq : 0;
+
+    persistBuffer();
+
+    return {
+      removed: true,
+      reason: 'ok',
+      nSpins: remaining.length,
+      removedSeq: removedRecord.seq,
+      removedNumber: removedRecord.spin && removedRecord.spin.number
+    };
   }
 
   function resetSession() {
@@ -465,6 +504,8 @@
     isEnabled: isEnabled,
     resetSession: resetSession,
     onSpinScored: onSpinScored,
+    onUndoSpin: onUndoSpin,
+    persistBuffer: persistBuffer,
     buildReport: buildReport,
     exportJsonl: exportJsonl,
     exportCsv: exportCsv,

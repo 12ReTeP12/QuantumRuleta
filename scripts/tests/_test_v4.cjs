@@ -6,6 +6,7 @@ const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
 const { app, BrowserWindow } = require('electron');
+const { extractV2InlineFromRoot } = require('./v2-inline-extract.cjs');
 
 const root = path.join(__dirname, '..', '..');
 const htmlPath = path.join(root, 'index-NOVY-V2.html');
@@ -14,13 +15,11 @@ let failed = 0;
 const ok = (m) => console.log('OK:', m);
 const fail = (m) => { console.error('FAIL:', m); failed++; };
 
-const inlineStart = html.indexOf('<script>\n/* QRP7-V2');
-const inlineEnd = html.indexOf('</script>\n<script src="scripts/analytics/roulette-analytics.js"');
+const inlineJs = extractV2InlineFromRoot(root);
 const jsPath = path.join(root, '_test_v4_extract.js');
-if (inlineStart < 0 || inlineEnd <= inlineStart) {
-  fail('JS syntax — inline blok nenájdený');
+if (!inlineJs) {
+  fail('JS syntax — inline bloky nenájdené');
 } else {
-  const inlineJs = html.slice(inlineStart + '<script>'.length, inlineEnd);
   fs.writeFileSync(jsPath, inlineJs);
   try { execSync('node --check "' + jsPath + '"', { stdio: 'pipe' }); ok('JS syntax'); }
   catch (e) { fail('JS syntax'); }

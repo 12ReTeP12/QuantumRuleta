@@ -1,0 +1,140 @@
+{
+  "v2Bytes": 192532,
+  "v2Lines": 3772,
+  "inlineLines": 0,
+  "inlineFunctions": 0,
+  "externalModuleCount": 28,
+  "externalModulesBytes": 510935,
+  "modularizationPct": 100,
+  "inlinePct": 0,
+  "targets": [
+    {
+      "name": "renderLight",
+      "loc": 0,
+      "found": false,
+      "callers": 0
+    },
+    {
+      "name": "renderHeavy",
+      "loc": 0,
+      "found": false,
+      "callers": 0
+    },
+    {
+      "name": "onNewSpin",
+      "loc": 0,
+      "found": false,
+      "callers": 0
+    },
+    {
+      "name": "onUndoSpin",
+      "loc": 0,
+      "found": false,
+      "callers": 0
+    },
+    {
+      "name": "computeSpinCore",
+      "loc": 0,
+      "found": false,
+      "callers": 3
+    },
+    {
+      "name": "computeVisualCore",
+      "loc": 0,
+      "found": false,
+      "callers": 1
+    },
+    {
+      "name": "computeTimingCore",
+      "loc": 0,
+      "found": false,
+      "callers": 2
+    },
+    {
+      "name": "computeWheelPressureEngine",
+      "loc": 0,
+      "found": false,
+      "callers": 0
+    },
+    {
+      "name": "computeWheelFlowEngine",
+      "loc": 0,
+      "found": false,
+      "callers": 0
+    },
+    {
+      "name": "computeStrategyEngine",
+      "loc": 0,
+      "found": false,
+      "callers": 1
+    },
+    {
+      "name": "computeAIPredictionEngine",
+      "loc": 0,
+      "found": false,
+      "callers": 1
+    },
+    {
+      "name": "pipelineScorePreviousSpin",
+      "loc": 0,
+      "found": false,
+      "callers": 0
+    },
+    {
+      "name": "invalidatePredCache",
+      "loc": 0,
+      "found": false,
+      "callers": 0
+    },
+    {
+      "name": "collectEngineTelemetrySignals",
+      "loc": 0,
+      "found": false,
+      "callers": 0
+    },
+    {
+      "name": "computeTelemetryEngine",
+      "loc": 0,
+      "found": false,
+      "callers": 0
+    },
+    {
+      "name": "scheduleWheelRender",
+      "loc": 0,
+      "found": false,
+      "callers": 0
+    },
+    {
+      "name": "flushWheelRender",
+      "loc": 0,
+      "found": false,
+      "callers": 0
+    },
+    {
+      "name": "getWheelMigrationDirection",
+      "loc": 0,
+      "found": false,
+      "callers": 1
+    },
+    {
+      "name": "computeRiskChaosEngine",
+      "loc": 0,
+      "found": false,
+      "callers": 0
+    },
+    {
+      "name": "runSpinsEnginePipeline",
+      "loc": 0,
+      "found": false,
+      "callers": 1
+    },
+    {
+      "name": "scoreCluster",
+      "loc": 0,
+      "found": false,
+      "callers": 1
+    }
+  ],
+  "top15Functions": [],
+  "allOver100": 0
+}

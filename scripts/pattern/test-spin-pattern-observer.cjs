@@ -9,10 +9,10 @@ const vm = require('vm');
 
 const root = path.join(__dirname, '..', '..');
 const helpers = fs.readFileSync(path.join(root, 'scripts', 'core', 'helpers.js'), 'utf8');
-const v2html = fs.readFileSync(path.join(root, 'index-NOVY-V2.html'), 'utf8');
-const m = v2html.match(/<script>\/\* Patterny a opakovateľnosť[\s\S]*?<\/script>/);
-if (!m) throw new Error('V2 pattern script not found');
-const observer = m[0].replace(/^<script>/, '').replace(/<\/script>$/, '');
+const observer = fs.readFileSync(
+  path.join(root, 'scripts', 'pattern', 'spin-pattern-observer.js'),
+  'utf8'
+);
 
 const reds = [
   1, 3, 5, 7, 9, 12, 14, 16, 18, 19, 21, 23, 25, 27, 30, 32, 34, 36,

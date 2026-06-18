@@ -1,3 +1,9 @@
+/**
+ * ARCHÍV (Balík 9A) — scripts/_legacy/bootstrap/app-init.js
+ * Produkcia V2 nenačítava tento súbor. Zastaraný oproti inline bootApp.
+ * Autorita: scripts/bootstrap/app-boot.js (Balík 10D).
+ * Audit test bundle od 9A nepoužíva tento súbor.
+ */
 /* App bootstrap — extracted from index-NOVY-V4.html */
 'use strict';
 
@@ -17,23 +23,7 @@ if(typeof renderKeyboardLiveAIFlow==='function')renderKeyboardLiveAIFlow();
 function bindSpinEventBusListeners(){
 if(bindSpinEventBusListeners._done||typeof EventBus==='undefined')return;
 bindSpinEventBusListeners._done=true;
-EventBus.on('spin:add',function(){
-if(typeof renderCorePrediction==='function')renderCorePrediction();
-});
-EventBus.on('spin:add',function(){
-if(typeof renderAlerts==='function')renderAlerts();
-});
-EventBus.on('spin:add',function(){
-if(typeof scheduleWheelRender==='function')scheduleWheelRender();
-else if(typeof renderWheelRadar==='function')renderWheelRadar();
-});
-EventBus.on('spin:add',function(){
-if(typeof rngInvalidate==='function')rngInvalidate();
-if(typeof renderRngBehavior==='function')renderRngBehavior();
-});
-EventBus.on('spin:add',function(){
-if(typeof renderKeyboardLiveAIFlow==='function')renderKeyboardLiveAIFlow();
-});
+/* Balík 2A: render len cez EVENT.RENDER (zhoda s V2 inline). */
 }
 
 function qwSeedStrongFlowDemo(){

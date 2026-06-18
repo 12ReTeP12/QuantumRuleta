@@ -717,11 +717,12 @@ grid-template-rows:auto 1fr auto auto!important;
 .v6-radar-v1 .qw-dash-header .qw-h-left small{font-size:11px!important;}
 .v6-block-wheel.v6-radar-v1{
 --qw-gap:0px;
---qh-bottom:100px;
+--qw-side-w:260px;
+--qh-bottom:110px;
 display:flex!important;
 flex-direction:column!important;
 flex:1 1 auto!important;
-min-height:clamp(750px,90vh,1000px)!important;
+min-height:clamp(800px,94vh,1020px)!important;
 overflow:hidden!important;
 }
 .v6-block-wheel.v6-radar-v1 .qw-dashboard{
@@ -741,7 +742,7 @@ padding:0!important;
 }
 .v6-block-wheel.v6-radar-v1 .quantum-hero-layout{
 display:grid!important;
-grid-template-columns:220px 1fr 220px!important;
+grid-template-columns:var(--qw-side-w) minmax(0,1fr) var(--qw-side-w)!important;
 grid-template-rows:1fr!important;
 gap:0!important;
 flex:1 1 0!important;

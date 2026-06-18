@@ -32,7 +32,7 @@ index-NOVY-V2.html → sync-v2.cjs → index.html → Electron / npm start / dis
 |---|---|
 | HTML, inline CSS/JS, HUD, boot | `index-NOVY-V2.html` |
 | Moduly, ktoré V2 načítava | `styles/`, `scripts/` (ak nemajú ekvivalent inline vo V2) |
-| HUD / panely / boot inline vo V2 | **nie** `ui-panels.js` / `app-init.js` (V2 má inline) |
+| HUD / panely / boot inline vo V2 | **nie** `scripts/_legacy/ui/ui-panels.js` / `scripts/_legacy/bootstrap/app-init.js` (V2 má inline) |
 
 **Pravidlo rozhodovania:** nie si istý → **V2**. Potrebuješ zálohu → **Git commit**, nie nový HTML súbor.
 

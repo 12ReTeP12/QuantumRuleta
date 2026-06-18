@@ -12,7 +12,8 @@ function collectConfidenceSignals(overrides) {
   let chaosLevel = 50;
   if (o.chaosLevel != null) chaosLevel = Number(o.chaosLevel);
   else if (spinCount >= 2 && typeof computeRiskChaosCore === 'function') {
-    chaosLevel = Number(computeRiskChaosCore().chaosLevel) || 50;
+    const rc = computeRiskChaosCore();
+    chaosLevel = Number((rc && rc.gateChaosLevel != null) ? rc.gateChaosLevel : (rc ? rc.chaosLevel : 50)) || 50;
   }
 
   let flowScore = 50;
@@ -104,8 +105,17 @@ function computeConfidenceEngine(overrides) {
     signals
   };
 
+  let diagnosticChaosPct = chaosPct;
+  if (typeof computeRiskChaosCore === 'function') {
+    try {
+      const rc = computeRiskChaosCore();
+      if (rc && rc.chaosLevel != null) diagnosticChaosPct = Math.round(Number(rc.chaosLevel)) || chaosPct;
+    } catch (e) { /* ignore */ }
+  }
+  const gateFields = { gateChaosPct: chaosPct, diagnosticChaosPct: diagnosticChaosPct };
+
   if (spinCount < CONFIDENCE_LEARN_MIN) {
-    return Object.assign(base, {
+    return Object.assign(base, gateFields, {
       confidence: 0,
       status: 'ČAKAJ',
       playMode: 'LEARN',
@@ -118,7 +128,7 @@ function computeConfidenceEngine(overrides) {
   }
 
   if (chaosPct >= 70) {
-    return Object.assign(base, {
+    return Object.assign(base, gateFields, {
       confidence: 0,
       status: 'ČAKAJ',
       playMode: 'CAKAJ',
@@ -131,7 +141,7 @@ function computeConfidenceEngine(overrides) {
   }
 
   if (chaosPct >= 50) {
-    return Object.assign(base, {
+    return Object.assign(base, gateFields, {
       confidence: computeLowConfidence(flowScore, patternStrength, chaosPct),
       status: 'OPATRNE',
       playMode: 'OPATRNE',
@@ -143,7 +153,7 @@ function computeConfidenceEngine(overrides) {
     });
   }
 
-  return Object.assign(base, {
+  return Object.assign(base, gateFields, {
     confidence: computeNormalConfidence(flowScore, patternStrength, chaosPct),
     status: 'HRAŤ',
     playMode: 'HRAT',
@@ -153,4 +163,25 @@ function computeConfidenceEngine(overrides) {
     allowPlay: true,
     learn: false
   });
+}
+
+/** Jednotný reader oficiálneho gate — iba číta computeConfidenceEngine. */
+function readOfficialPlayGate(overrides) {
+  if (typeof computeConfidenceEngine !== 'function') return null;
+  try {
+    const g = computeConfidenceEngine(overrides);
+    if (!g) return null;
+    if (g.gateChaosPct == null) g.gateChaosPct = g.chaosPct;
+    if (g.diagnosticChaosPct == null && typeof computeRiskChaosCore === 'function') {
+      try {
+        const rc = computeRiskChaosCore();
+        g.diagnosticChaosPct = rc && rc.chaosLevel != null ? Math.round(Number(rc.chaosLevel)) : g.chaosPct;
+      } catch (e) {
+        g.diagnosticChaosPct = g.chaosPct;
+      }
+    }
+    return g;
+  } catch (e) {
+    return null;
+  }
 }

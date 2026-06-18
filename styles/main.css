@@ -1195,72 +1195,172 @@ margin-bottom:4px;flex-wrap:wrap;padding:0 2px;
 
 .v6-board-ref .board-head-row h2{
 margin:0!important;border:0!important;padding:0!important;
-font-size:13px!important;font-weight:800;color:#9affe8!important;
+font-size:14px!important;font-weight:800;color:#9affe8!important;
 }
 
 .v6-board-ref .board-hint{
-font-size:10px;font-weight:600;color:#7a9e94;
+font-size:11px;font-weight:600;color:#7a9e94;
 }
 
-.v6-keyboard-section .v6-board-ref .roulette-board, .v6-board-top.v6-board-ref .roulette-board, .v6-board-ref .roulette-board{
+/* === RULETOVÁ KLÁVESNICA — layout + hierarchia (makro čitateľnosť) === */
+
+.v6-keyboard-section{
+--kb-num:clamp(16px,1.08vw,18px);
+--kb-num-zero:clamp(18px,1.18vw,20px);
+--kb-pct:clamp(12px,0.88vw,14px);
+--kb-pct-col:clamp(10px,0.72vw,12px);
+--kb-label:clamp(15px,1.02vw,17px);
+--kb-label-macro:clamp(15px,1.05vw,17px);
+--kb-label-col:clamp(10px,0.68vw,12px);
+--kb-label-icon:clamp(20px,1.38vw,24px);
+--kb-row-num:minmax(44px,5.52vh);
+--kb-row-macro:minmax(48px,5.4vh);
+--kb-macro-pct-bg:rgba(0,0,0,.82);
+--kb-macro-pct-border:rgba(255,212,61,.55);
+--kb-col-pct-border:rgba(87,181,255,.58);
+--kb-flow-banner:clamp(13px,0.92vw,15px);
+--kb-flow-lbl:clamp(12px,0.88vw,14px);
+--kb-flow-val:clamp(15px,1.22vw,18px);
+--kb-flow-val-sec:clamp(14px,1.1vw,16px);
+--kb-flow-tag:clamp(10px,0.78vw,12px);
+}
+
+.v6-keyboard-section .v6-board-ref .roulette-board, .v6-keyboard-section .v6-board-top.v6-board-ref .roulette-board, .v6-keyboard-section .v6-board-ref .roulette-board{
 width:100%!important;max-width:100%!important;margin:0!important;box-sizing:border-box;
 padding:8px 4px!important;gap:5px!important;
-grid-template-columns:clamp(40px,3.4%,56px) repeat(12,minmax(0,1fr)) clamp(36px,3%,50px)!important;
-grid-template-rows:repeat(3,minmax(44px,5.52vh)) minmax(32px,3.68vh) minmax(32px,3.68vh)!important;
-min-height:clamp(193px,23vh,276px);
-max-height:min(276px,30vh);
+grid-template-columns:clamp(40px,3.4%,56px) repeat(12,minmax(0,1fr)) clamp(58px,5.4%,76px)!important;
+grid-template-rows:repeat(3,var(--kb-row-num)) var(--kb-row-macro) var(--kb-row-macro)!important;
+min-height:clamp(217px,25vh,310px);
+max-height:none!important;
 border:1px solid rgba(0,255,191,.22)!important;
 border-radius:10px!important;
 box-shadow:inset 0 0 20px rgba(0,255,191,.05),0 4px 13px rgba(0,0,0,.35)!important;
 }
 
-.v6-board-ref .board-zero-col{gap:7px!important;}
+.v6-keyboard-section .v6-board-ref .board-zero-col{gap:7px!important;}
 
-.v6-board-ref .bet{border-radius:7px!important;transition:filter .1s ease!important;}
+.v6-keyboard-section .v6-board-ref .bet{border-radius:7px!important;transition:filter .1s ease!important;}
 
-.v6-board-ref .bet.num{
+.v6-keyboard-section .v6-board-ref .bet.num{
 min-height:44px;padding:5px 3px 3px!important;
-justify-content:center!important;gap:2px!important;
+justify-content:flex-start!important;gap:2px!important;
 }
 
-.v6-board-ref .bet .bet-glow{opacity:.35!important;}
+.v6-keyboard-section .v6-board-ref .bet.num .bet-glow{opacity:.35!important;}
 
-.v6-board-ref .bet .num-val{
-font-size:14px!important;font-weight:800!important;line-height:1!important;
+/* Čísla 0–36 */
+.v6-keyboard-section .v6-board-ref .bet .num-val{
+font-size:var(--kb-num)!important;font-weight:800!important;line-height:1!important;
 text-shadow:none!important;
 }
 
-.v6-board-ref .bet.zero .num-val{font-size:16px!important;}
+.v6-keyboard-section .v6-board-ref .bet.zero .num-val{font-size:var(--kb-num-zero)!important;}
 
-.v6-board-ref .bet .percent, .v6-board-ref .bet .flow-pct{
+/* Percentá pod číslami — čisté, sekundárne, dole */
+.v6-keyboard-section .v6-board-ref .bet.num .percent, .v6-keyboard-section .v6-board-ref .bet.num .flow-pct{
 display:block!important;
-font-size:9px!important;font-weight:700!important;
-color:#d4c878!important;line-height:1!important;
+font-size:var(--kb-pct)!important;font-weight:600!important;
+color:#e8d878!important;line-height:1!important;
 padding:0!important;border:none!important;border-radius:0!important;
 background:transparent!important;box-shadow:none!important;text-shadow:none!important;
+white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;max-width:100%!important;
+margin-top:auto!important;align-self:center!important;
 }
 
-.v6-board-ref .bet.outside, .v6-board-ref .bet.col-bet, .v6-board-ref .bet.dozen{
-min-height:33px;padding:6px 5px!important;
+/* Tucty · stĺpce · outside — rovnaká výška ako čísla, label hore / % dole */
+.v6-keyboard-section .v6-board-ref .bet.outside, .v6-keyboard-section .v6-board-ref .bet.col-bet, .v6-keyboard-section .v6-board-ref .bet.dozen{
+min-height:48px!important;height:100%!important;
+padding:4px 5px 3px!important;
+overflow:hidden!important;
+justify-content:space-between!important;align-items:center!important;
+gap:3px!important;
+border-width:1px!important;
+box-shadow:inset 0 1px 0 rgba(255,255,255,.16),0 3px 10px rgba(0,0,0,.45)!important;
 }
 
-.v6-board-ref .bet.outside .bet-label, .v6-board-ref .bet.dozen .bet-label, .v6-board-ref .bet.col-bet .bet-label{
-font-size:10px!important;font-weight:800!important;
+.v6-keyboard-section .v6-board-ref .bet.outside, .v6-keyboard-section .v6-board-ref .bet.dozen{
+background:linear-gradient(165deg,rgba(22,48,40,.96),rgba(8,18,14,.98))!important;
+border-color:rgba(0,255,191,.42)!important;
 }
 
-.v6-board-ref .bet.outside .percent, .v6-board-ref .bet.col-bet .percent, .v6-board-ref .bet.dozen .percent{
-font-size:10px!important;margin-top:2px!important;
+.v6-keyboard-section .v6-board-ref .bet.col-bet{
+background:linear-gradient(165deg,rgba(16,36,62,.97),rgba(6,14,26,.99))!important;
+border-color:rgba(87,181,255,.48)!important;
 }
 
-.v6-board-ref .bet.hot-number{outline:1px solid rgba(0,255,191,.55)!important;box-shadow:none!important;}
-
-.v6-board-ref .bet.flow-dominant{outline:1px solid rgba(255,212,61,.6)!important;box-shadow:none!important;}
-
-.v6-board-ref .bet.red-diamond .bet-label, .v6-board-ref .bet.black-diamond .bet-label{
-font-size:13px!important;
+.v6-keyboard-section .v6-board-ref .bet.outside .bet-fill, .v6-keyboard-section .v6-board-ref .bet.dozen .bet-fill, .v6-keyboard-section .v6-board-ref .bet.col-bet .bet-fill{
+opacity:.32!important;
 }
 
-.v6-board-ref .bet.num:hover{filter:brightness(1.06);transform:none;}
+.v6-keyboard-section .v6-board-ref .bet.outside .bet-glow, .v6-keyboard-section .v6-board-ref .bet.col-bet .bet-glow, .v6-keyboard-section .v6-board-ref .bet.dozen .bet-glow{opacity:.15!important;}
+
+.v6-keyboard-section .v6-board-ref .bet.outside .percent, .v6-keyboard-section .v6-board-ref .bet.dozen .percent, .v6-keyboard-section .v6-board-ref .bet.col-bet .percent, .v6-keyboard-section .v6-board-ref .bet.outside .flow-pct, .v6-keyboard-section .v6-board-ref .bet.dozen .flow-pct, .v6-keyboard-section .v6-board-ref .bet.col-bet .flow-pct{
+flex:0 0 auto!important;
+display:block!important;
+font-size:var(--kb-pct)!important;font-weight:600!important;
+color:#ffe566!important;line-height:1.1!important;
+padding:2px 6px!important;border-radius:4px!important;
+background:var(--kb-macro-pct-bg)!important;
+border:1px solid var(--kb-macro-pct-border)!important;
+box-shadow:0 1px 4px rgba(0,0,0,.55)!important;
+text-shadow:0 1px 2px rgba(0,0,0,.9)!important;
+white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;max-width:100%!important;
+margin-top:0!important;align-self:center!important;box-sizing:border-box!important;
+min-height:16px!important;
+}
+
+.v6-keyboard-section .v6-board-ref .bet.col-bet .percent, .v6-keyboard-section .v6-board-ref .bet.col-bet .flow-pct{
+font-size:var(--kb-pct-col)!important;
+font-variant-numeric:tabular-nums!important;
+letter-spacing:-.02em!important;
+border-color:var(--kb-col-pct-border)!important;
+padding:1px 4px!important;width:100%!important;max-width:100%!important;
+min-height:14px!important;
+}
+
+.v6-keyboard-section .v6-board-ref .bet.outside .bet-label, .v6-keyboard-section .v6-board-ref .bet.dozen .bet-label, .v6-keyboard-section .v6-board-ref .bet.col-bet .bet-label{
+flex:0 0 auto!important;
+font-size:var(--kb-label)!important;font-weight:800!important;
+line-height:1.1!important;text-align:center!important;
+white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;max-width:100%!important;
+text-shadow:0 1px 3px rgba(0,0,0,.9)!important;
+}
+
+.v6-keyboard-section .v6-board-ref .bet.outside .bet-label, .v6-keyboard-section .v6-board-ref .bet.dozen .bet-label{
+font-size:var(--kb-label-macro)!important;
+color:#f4fffc!important;
+}
+
+.v6-keyboard-section .v6-board-ref .bet.col-bet .bet-label{
+font-size:var(--kb-label-col)!important;font-weight:900!important;
+color:#c8e8ff!important;
+white-space:normal!important;line-height:1.08!important;
+max-height:2.25em!important;
+display:-webkit-box!important;-webkit-box-orient:vertical!important;-webkit-line-clamp:2!important;
+overflow:hidden!important;word-break:break-word!important;
+}
+
+/* Farba ◆ — ikona hore, pill % dole */
+.v6-keyboard-section .v6-board-ref .bet.red-diamond .bet-label, .v6-keyboard-section .v6-board-ref .bet.black-diamond .bet-label{
+font-size:var(--kb-label-icon)!important;line-height:1!important;
+flex:1 1 auto!important;display:flex!important;align-items:center!important;justify-content:center!important;
+}
+
+.v6-keyboard-section .v6-board-ref .bet.hot-number{outline:1px solid rgba(0,255,191,.55)!important;box-shadow:none!important;}
+
+.v6-keyboard-section .v6-board-ref .bet.flow-dominant{outline:1px solid rgba(255,212,61,.6)!important;box-shadow:none!important;}
+
+.v6-keyboard-section .v6-board-ref .bet.num:hover{filter:brightness(1.06);transform:none;}
+
+/* Prepísať staršie v6-cc-board pravidlá v rámci keyboard sekcie */
+.v6-keyboard-section .v6-cc-board .bet .num-val{font-size:var(--kb-num)!important;}
+.v6-keyboard-section .v6-cc-board .bet.zero .num-val{font-size:var(--kb-num-zero)!important;}
+.v6-keyboard-section .v6-cc-board .bet.num .percent, .v6-keyboard-section .v6-cc-board .bet.num .flow-pct{font-size:var(--kb-pct)!important;font-weight:600!important;}
+.v6-keyboard-section .v6-cc-board .bet.outside .percent, .v6-keyboard-section .v6-cc-board .bet.dozen .percent, .v6-keyboard-section .v6-cc-board .bet.col-bet .percent{font-size:var(--kb-pct)!important;font-weight:600!important;}
+.v6-keyboard-section .v6-cc-board .bet.outside .bet-label, .v6-keyboard-section .v6-cc-board .bet.dozen .bet-label{font-size:var(--kb-label)!important;}
+.v6-keyboard-section .v6-cc-board .bet.col-bet .bet-label{font-size:var(--kb-label-col)!important;white-space:normal!important;-webkit-line-clamp:2!important;}
+.v6-keyboard-section .v6-cc-board .bet.col-bet .percent, .v6-keyboard-section .v6-cc-board .bet.col-bet .flow-pct{font-size:var(--kb-pct-col)!important;}
+.v6-keyboard-section .v6-cc-board .bet.red-diamond .bet-label, .v6-keyboard-section .v6-cc-board .bet.black-diamond .bet-label{font-size:var(--kb-label-icon)!important;}
 
 /* === KLÁVESNICA · LIVE AI FLOW — kompaktný pás (max 80px) === */
 
@@ -1279,9 +1379,13 @@ padding:4px 8px;max-height:80px;box-sizing:border-box;
 .v6-kb-flow-panel .kb-flow-banner{
 flex:0 0 auto;align-self:center;
 display:flex;align-items:center;justify-content:center;
-min-width:72px;max-width:108px;padding:4px 8px;border-radius:6px;
+min-width:72px;max-width:112px;padding:4px 8px;border-radius:6px;
 font-weight:800;font-size:11px;line-height:1.15;letter-spacing:.04em;text-align:center;
 white-space:nowrap;transition:background .25s ease,border-color .25s ease,color .25s ease;
+}
+
+.v6-keyboard-section .v6-kb-flow-panel .kb-flow-banner{
+font-size:var(--kb-flow-banner)!important;
 }
 
 .v6-kb-flow-panel .kb-flow-banner.wait{
@@ -1300,6 +1404,10 @@ color:#b8ffe8;background:rgba(12,44,36,.5);border:1px solid rgba(0,255,191,.28);
 flex:1 1 auto;align-self:center;min-width:0;
 padding:4px 8px;border-radius:6px;border:1px dashed rgba(0,255,191,.18);
 background:rgba(0,0,0,.22);font-size:11px;font-weight:700;color:#8ab5a8;line-height:1.2;
+}
+
+.v6-keyboard-section .v6-kb-flow-panel .kb-flow-learn{
+font-size:var(--kb-flow-banner)!important;
 }
 
 .v6-kb-flow-panel .kb-flow-learn-bar{
@@ -1373,6 +1481,63 @@ font-size:clamp(12px,1.15vw,16px);
 
 .v6-kb-flow-panel .kb-flow-box:not(.primary) .kb-val{
 font-size:clamp(11px,1vw,14px);
+}
+
+/* Flow pásy — typografia v keyboard sekcii (layout výšky bez zmeny) */
+
+.v6-keyboard-section .v6-kb-flow-panel .kb-flow-box .kb-lbl{
+font-size:var(--kb-flow-lbl)!important;color:#8aa89e;
+}
+
+.v6-keyboard-section .v6-kb-flow-panel .kb-flow-box .kb-tag{
+font-size:var(--kb-flow-tag)!important;
+}
+
+.v6-keyboard-section .v6-kb-flow-panel .kb-flow-box .kb-val{
+font-size:var(--kb-flow-val-sec)!important;color:#e8fff6;
+}
+
+.v6-keyboard-section .v6-kb-flow-panel .kb-flow-box.primary .kb-val{
+font-size:var(--kb-flow-val)!important;
+}
+
+/* Flow pásy — vizuálna hierarchia (max-height panelu bez zmeny) */
+.v6-keyboard-section .v6-kb-flow-panel .kb-flow-banner, .v6-keyboard-section .v6-ts-po-panel .kb-flow-banner{
+font-weight:900!important;letter-spacing:.06em!important;
+box-shadow:0 2px 10px rgba(0,0,0,.45)!important;
+}
+
+.v6-keyboard-section .v6-kb-flow-panel .kb-flow-learn{
+border-style:solid!important;border-color:rgba(0,255,191,.22)!important;
+color:#9ec4b8!important;
+}
+
+.v6-keyboard-section .v6-kb-flow-panel .kb-flow-box.primary, .v6-keyboard-section .v6-ts-po-panel .kb-flow-box.primary{
+background:rgba(6,26,22,.9)!important;
+border-color:rgba(0,255,191,.34)!important;
+box-shadow:inset 0 0 12px rgba(0,255,191,.06)!important;
+}
+
+.v6-keyboard-section .v6-kb-flow-panel .kb-flow-box.primary .kb-lbl, .v6-keyboard-section .v6-ts-po-panel .kb-flow-box.primary .kb-lbl{
+color:#8ec8b8!important;font-weight:900!important;
+}
+
+.v6-keyboard-section .v6-kb-flow-panel .kb-flow-secondary .kb-flow-box, .v6-keyboard-section .v6-kb-flow-panel .kb-flow-box:not(.primary){
+background:rgba(3,8,12,.72)!important;
+border-color:rgba(100,130,120,.12)!important;
+}
+
+.v6-keyboard-section .v6-kb-flow-panel .kb-flow-secondary .kb-val, .v6-keyboard-section .v6-kb-flow-panel .kb-flow-box:not(.primary) .kb-val{
+color:#b0c8be!important;font-weight:700!important;
+}
+
+.v6-keyboard-section .v6-kb-flow-panel .kb-flow-box.is-hot{
+border-color:rgba(0,255,191,.45)!important;
+box-shadow:0 0 10px rgba(0,255,191,.18)!important;
+}
+
+.v6-keyboard-section .v6-ts-po-panel .kb-flow-box .kb-val{
+font-size:var(--kb-flow-val)!important;color:#e8fff6!important;
 }
 
 .v6-kb-flow-panel .kb-flow-meta{display:none!important;}

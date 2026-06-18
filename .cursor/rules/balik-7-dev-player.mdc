@@ -1,0 +1,29 @@
+---
+description: Balík 7 — DEV vs PLAYER workspace, build hygiene
+globs:
+alwaysApply: true
+---
+
+# DEV vs PLAYER (Balík 7)
+
+## Autorita HTML
+- Jediný zdroj: `index-NOVY-V2.html`
+- Runtime: `index.html` len cez `npm run sync-v2`
+
+## DEV režim
+- `npm run dev` / `npm start` — Electron z `node_modules`
+- Povinné: V2, `index.html`, `main.js`, `scripts/`, `styles/`, `node_modules/`
+- `app/` nie je povinné
+
+## PLAYER režim
+- `app\RULETA.exe` alebo `npm run play`
+- Povinné: `app/`, `index.html`, `styles/`, `scripts/` (bez `scripts/tests/`)
+- `node_modules/` nie je povinné
+
+## Build hygiene
+- Po `npm run dist` beží `postdist` → `clean:build`
+- Zakázané v koreni: `.build-*`, `win-unpacked`, `dist-*`, `_gh_push`, `_gh_clone`, portable `RULETA.exe`
+- Jediný git workspace — žiadne `_gh_push` / `_gh_clone` v projekte
+
+## Audit disku
+- `npm run audit:disk` pred väčším commitom alebo po dist

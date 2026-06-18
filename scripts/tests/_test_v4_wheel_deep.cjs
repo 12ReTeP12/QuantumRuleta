@@ -7,25 +7,38 @@ const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
 const { app, BrowserWindow } = require('electron');
+const { extractV2InlineFromRoot } = require('./v2-inline-extract.cjs');
 
 const root = path.join(__dirname, '..', '..');
 const htmlPath = path.join(root, 'index-NOVY-V2.html');
 const html = fs.readFileSync(htmlPath, 'utf8');
+/* Balík 9A: iba moduly načítané V2 (<script src>), boot/HUD z inline — nie legacy app-init.js */
 const EXTERNAL_JS = [
   'scripts/core/constants.js',
+  'scripts/core/event-bus.js',
   'scripts/core/state.js',
   'scripts/core/helpers.js',
   'scripts/wheel/quantum-wheel.js',
+  'scripts/wheel/wheel-canvas.js',
+  'scripts/wheel/wheel-hud.js',
   'scripts/ai/ai-engine.js',
+  'scripts/ai/confidence-engine.js',
+  'scripts/valid-true/valid-true-v0.js',
   'scripts/ai/lfp-engine.js',
+  'scripts/ai/pred-flow-engine.js',
+  'scripts/ai/pred-dashboard.js',
+  'scripts/wheel/wheel-sector-intel.js',
+  'scripts/wheel/wheel-brain.js',
   'scripts/ai/ai-prediction.js',
+  'scripts/analytics/bah-engine.js',
+  'scripts/analytics/session-stats.js',
   'scripts/analytics/roulette-analytics.js',
-  'scripts/ui/ui-panels.js',
   'scripts/ui/ui-alerts.js',
+  'scripts/ui/session-fatigue.js',
+  'scripts/ui/keyboard-live-ai-flow.js',
   'scripts/analytics/timing-engine.js',
   'scripts/board/board-events.js',
   'scripts/board/board-ui.js',
-  'scripts/bootstrap/app-init.js',
 ];
 let failed = 0;
 const ok = (m) => console.log('OK:', m);
@@ -40,11 +53,7 @@ function readCodeBundle() {
   return bundle;
 }
 
-const inlineStart = html.indexOf('<script>\n/* QRP7-V2');
-const inlineEnd = html.indexOf('</script>\n<script src="scripts/analytics/roulette-analytics.js"');
-const inlineJs = inlineStart >= 0 && inlineEnd > inlineStart
-  ? html.slice(inlineStart + '<script>'.length, inlineEnd)
-  : '';
+const inlineJs = extractV2InlineFromRoot(root);
 const syntaxBundle = inlineJs + EXTERNAL_JS.map((rel) => {
   const p = path.join(root, rel);
   return fs.existsSync(p) ? fs.readFileSync(p, 'utf8') : '';
@@ -62,6 +71,9 @@ fs.unlinkSync(jsPath);
 const codeBundle = readCodeBundle();
 const mustFns = [
   'computeQuantumWheelBrain',
+  'computeWheelSectorIntel',
+  'getSectorAnalysis',
+  'invalidateWheelSectorIntelCache',
   'computeQwFlowScanner',
   'computeQwLiveOutput',
   'qwResolvePriority',
@@ -79,11 +91,15 @@ mustFns.forEach((fn) => {
   else ok('funkcia: ' + fn);
 });
 
-const skText = ['qw-hero-edge', 'KVANTOVÉ KOLESO', 'skQw', 'qwEdgeBanner', 'drawQwInnerPlayRadar', 'VÝHODA AKTÍVNA', 'REŽIM ČAKANIA'];
+const skText = ['qw-hero-edge', 'KVANTOVÉ KOLESO', 'skQw', 'qwEdgeBanner', 'VÝHODA AKTÍVNA', 'REŽIM ČAKANIA'];
 skText.forEach((s) => {
-  if (!html.includes(s)) fail('chýba SK text/kód: ' + s);
+  if (!html.includes(s) && !codeBundle.includes(s)) fail('chýba SK text/kód: ' + s);
   else ok('obsahuje: ' + s);
 });
+if (!codeBundle.includes('function drawQwVzorWheelInner')) fail('chýba drawQwVzorWheelInner (wheel-canvas.js)');
+else ok('wheel-canvas: drawQwVzorWheelInner');
+if (!html.includes('scripts/wheel/wheel-canvas.js')) fail('HTML: chýba script wheel-canvas.js');
+else ok('HTML: wheel-canvas.js');
 
 const badEn = ['WHEEL FLOW SCANNER<small>live behavior', 'LIVE FLOW OUTPUT ·', '⚠ NO EDGE —', 'DEBUG MODE ·', 'Pure Random Picker'];
 badEn.forEach((s) => {
@@ -154,7 +170,7 @@ app.whenReady().then(async () => {
       const bottom = ($('qwPanelBottom') || {}).innerHTML || '';
       const right = ($('qwPanelRight') || {}).innerHTML || '';
       const all = left + right + bottom;
-      const n = document.querySelectorAll('.qw-metric').length;
+      const n = document.querySelectorAll('.qw-metric, .qw-hero-metric').length;
       const banner = !!document.getElementById('qwStatusBanner');
       return all.includes('FLOW STAV')
         && (all.includes('FLOW OBSERVER') || all.includes('HLAVNÝ FLOW INSIGHT'))
@@ -199,8 +215,7 @@ app.whenReady().then(async () => {
     check('invalidate wheel cache', () => {
       const a = computeQuantumWheelBrain();
       if (typeof invalidateWheelCache === 'function') invalidateWheelCache();
-      lastQuantumWheelBrain = null;
-      lastQuantumWheelKey = '';
+      if (typeof invalidateQuantumWheelBrainCache === 'function') invalidateQuantumWheelBrainCache();
       const b = computeQuantumWheelBrain();
       return a.ready && b.ready ? { ok: true, msg: 'cache OK' } : { ok: false, msg: 'cache' };
     });

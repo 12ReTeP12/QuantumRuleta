@@ -1,0 +1,63 @@
+{
+  "measuredAt": "2026-06-03T21:43:58.763Z",
+  "totalMB": 926.92,
+  "dirs": [
+    {
+      "name": "node_modules",
+      "mb": 603.58
+    },
+    {
+      "name": "app",
+      "mb": 318.13
+    },
+    {
+      "name": ".git",
+      "mb": 3.74
+    },
+    {
+      "name": "scripts",
+      "mb": 0.82
+    },
+    {
+      "name": "styles",
+      "mb": 0.12
+    },
+    {
+      "name": "valid-true-export",
+      "mb": 0.01
+    },
+    {
+      "name": ".cursor",
+      "mb": 0
+    },
+    {
+      "name": ".vscode",
+      "mb": 0
+    }
+  ],
+  "files": [
+    {
+      "name": "index-NOVY-V2.html",
+      "mb": 0.165
+    },
+    {
+      "name": "index.html",
+      "mb": 0.165
+    },
+    {
+      "name": "package-lock.json",
+      "mb": 0.139
+    }
+  ],
+  "pass": [
+    "Žiadne .build-* / win-unpacked / _gh_* v koreni",
+    "Žiadne index-NOVY-V1/V4 v koreni",
+    "Žiadny portable RULETA.exe v koreni",
+    "V2 zdroj prítomný",
+    "Veľkosť workspace v normálnom rozsahu"
+  ],
+  "warn": [
+    "Duplicitný Electron runtime: node_modules/electron + app/ (očakávané ak DEV+PLAYER na jednom PC)"
+  ],
+  "fail": []
+}

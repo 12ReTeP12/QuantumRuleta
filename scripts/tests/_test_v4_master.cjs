@@ -6,6 +6,7 @@ const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
 const { app, BrowserWindow } = require('electron');
+const { extractV2InlineFromRoot } = require('./v2-inline-extract.cjs');
 
 const root = path.join(__dirname, '..', '..');
 const htmlPath = path.join(root, 'index-NOVY-V2.html');
@@ -17,11 +18,30 @@ const MODULES = [
   'scripts/core/state.js',
   'scripts/core/helpers.js',
   'scripts/wheel/quantum-wheel.js',
+  'scripts/wheel/wheel-canvas.js',
+  'scripts/wheel/wheel-hud.js',
   'scripts/ai/ai-engine.js',
+  'scripts/ai/confidence-engine.js',
+  'scripts/valid-true/valid-true-v0.js',
   'scripts/ai/lfp-engine.js',
+  'scripts/ai/pred-flow-engine.js',
+  'scripts/ai/pred-dashboard.js',
+  'scripts/wheel/wheel-sector-intel.js',
+  'scripts/wheel/wheel-brain.js',
   'scripts/ai/ai-prediction.js',
+  'scripts/strategy/strategy-engine.js',
+  'scripts/analytics/pressure-engine.js',
+  'scripts/analytics/visual-heat-engine.js',
+  'scripts/analytics/telemetry-engine.js',
+  'scripts/debug/engine-hub.js',
+  'scripts/analytics/bah-engine.js',
+  'scripts/analytics/session-stats.js',
   'scripts/analytics/roulette-analytics.js',
   'scripts/ui/ui-alerts.js',
+  'scripts/ui/session-fatigue.js',
+  'scripts/ui/keyboard-live-ai-flow.js',
+  'scripts/bootstrap/app-boot.js',
+  'scripts/pattern/spin-pattern-observer.js',
   'scripts/analytics/timing-engine.js',
   'scripts/board/board-events.js',
   'scripts/board/board-ui.js',
@@ -31,18 +51,120 @@ const MODULE_EXPORTS = {
   'scripts/core/constants.js': ['wheel', 'reds', 'RED_NUMBERS', 'DOZENS', 'COLUMNS'],
   'scripts/core/state.js': ['spins', 'sessionState', 'spinTimes'],
   'scripts/core/helpers.js': ['getColor', 'getDozen', 'getColumn', 'normalize', 'clamp', 'average'],
-  'scripts/wheel/quantum-wheel.js': ['computeQuantumWheelBrain', 'computeQwFlowScanner', 'invalidateWheelCache'],
+  'scripts/wheel/quantum-wheel.js': ['qwAnalyzeWheelFlow', 'qwResolvePriority', 'qwFlowStateSimple'],
+  'scripts/wheel/wheel-brain.js': [
+    'computeQuantumWheelBrain',
+    'computeQwFlowScanner',
+    'invalidateQuantumWheelBrainCache',
+    'resetQwWheelSessionState',
+  ],
   'scripts/ai/ai-engine.js': ['computeLiveFlowPredictionAI', 'lfpInvalidate', 'buildAIPredictionPanelHTML'],
   'scripts/ai/lfp-engine.js': ['lfpFlowStabilityScore', 'lfpExplainSignal'],
+  'scripts/ai/pred-flow-engine.js': [
+    'predCoreBehaviorEngine',
+    'computeFollowUpFlowEngine',
+    'computeCoreAnalysis',
+    'MODEL',
+  ],
+  'scripts/ai/pred-dashboard.js': ['invalidatePredCache', 'computeHotColdEngine', 'computeInvisibleEngines', 'invalidateWheelCache'],
+  'scripts/wheel/wheel-sector-intel.js': [
+    'computeWheelSectorIntel',
+    'getSectorAnalysis',
+    'invalidateWheelSectorIntelCache',
+    'getWheelSectorStats',
+    'scoreWheelSectorSpinCore',
+  ],
   'scripts/ai/ai-prediction.js': ['computeAIPrediction'],
-  'scripts/analytics/roulette-analytics.js': ['computeRouletteObserverUI', 'computeBehaviorAlerts'],
+  'scripts/strategy/strategy-engine.js': [
+    'computeStrategyEngine',
+    'invalidateStrategyCache',
+    'renderStrategy',
+    'renderAccuracy',
+    'skStrategyMode',
+  ],
+  'scripts/analytics/pressure-engine.js': [
+    'computeWheelPressureEngine',
+    'invalidateWheelPressureCache',
+    'renderPressure',
+  ],
+  'scripts/analytics/visual-heat-engine.js': [
+    'computeVisualHeatEngine',
+    'invalidateVisualHeatCache',
+    'renderHeatmap',
+  ],
+  'scripts/analytics/telemetry-engine.js': [
+    'collectEngineTelemetrySignals',
+    'computeTelemetryEngine',
+    'invalidateTelemetryCache',
+    'renderTelemetry',
+    'computeEngineSynchronization',
+    'computeSignalQuality',
+    'computeConfidenceStability',
+    'computeLiveAIState',
+    'skEngineName',
+  ],
+  'scripts/analytics/bah-engine.js': ['computeBehaviorAlerts', 'computeAlertHub', 'bahResetSession'],
+  'scripts/analytics/session-stats.js': ['entropy', 'getClusters', 'updateStats', 'computePatternEngine'],
+  'scripts/analytics/roulette-analytics.js': ['computeRouletteObserverUI'],
   'scripts/analytics/timing-engine.js': ['computeTimingEngine', 'renderTimingPanel'],
   'scripts/ui/ui-alerts.js': ['renderAlerts', 'renderAlertSystem', 'buildAlertsHTML'],
+  'scripts/ui/session-fatigue.js': ['computeSessionFatigueAnalysis', 'renderSessionFatigue'],
+  'scripts/ui/keyboard-live-ai-flow.js': ['renderKeyboardLiveAIFlow', 'computeKeyboardLiveAIFlow'],
+  'scripts/pattern/spin-pattern-observer.js': [
+    'computeSpinPatternObserver',
+    'renderSpinPatternObserver',
+    'renderTuctyStlpceTip',
+    'tsModuleScoreSpin',
+    'tsModuleUpdateRecommendation',
+  ],
   'scripts/board/board-ui.js': ['renderBoard', 'renderKeyboard', 'buildBoardHTML'],
   'scripts/board/board-events.js': ['bindBoardEvents', 'handleBoardClick'],
+  'scripts/bootstrap/app-boot.js': [
+    'bootApp',
+    'initBoard',
+    'initWheel',
+    'initAI',
+    'bindSpinEventBusListeners',
+    'createBoard',
+  ],
+  'scripts/wheel/wheel-canvas.js': [
+    'renderCanvasWheel',
+    'qwSyncWheelStageSize',
+    'qwBindWheelResize',
+    'qwStartCanvasAnim',
+    'qwStopCanvasAnim',
+    'drawQwVzorWheelInner',
+  ],
+  'scripts/debug/engine-hub.js': [
+    'getClusterSuccessRatePct',
+    'renderEngineHub',
+    'buildEngineHub',
+    'computeEngineHubState',
+    'featureHtml',
+  ],
+  'scripts/wheel/wheel-hud.js': [
+    'renderWheelRadar',
+    'buildQuantumWheelLeftHTML',
+    'buildQuantumWheelRightHTML',
+    'buildQuantumWheelBottomHTML',
+    'buildQuantumWheelModelFootHTML',
+    'qwHudShort',
+    'ensureQuantumWheelDashboardDOM',
+    'qwResolveHudCopy',
+    'qwColorState',
+    'qwEdgeHeroStatus',
+    'skQw',
+    'skWheelUserText',
+    'qwColDozStats',
+    'qwPlayerVoice',
+    'buildQwLiveOutputHTML',
+    'buildQwTrailHTML',
+    'qwHeroMetric',
+    'qwMetric',
+  ],
 };
 
-const V2_INLINE_SYMBOLS = ['renderWheelRadar', 'renderKeyboardLiveAIFlow', 'bootApp'];
+const V2_INLINE_SYMBOLS = [];
 
 let failed = 0;
 let warned = 0;
@@ -82,11 +204,9 @@ MODULES.forEach((rel) => {
   }
 });
 
-const inlineStart = html.indexOf('<script>\n/* QRP7-V2');
-const inlineEnd = html.indexOf('</script>\n<script src="scripts/analytics/roulette-analytics.js"');
-if (inlineStart < 0 || inlineEnd <= inlineStart) fail('inline <script> blok nenájdený');
+const inlineJs = extractV2InlineFromRoot(root);
+if (!inlineJs) fail('inline <script> bloky nenájdené');
 else {
-  const inlineJs = html.slice(inlineStart + '<script>'.length, inlineEnd);
   const tmp = path.join(root, '_test_master_inline.js');
   fs.writeFileSync(tmp, inlineJs);
   try {
@@ -131,7 +251,7 @@ STYLES.forEach((rel) => {
 
 console.log('\n=== MODULY (súbory + symboly v kóde) ===\n');
 const codeBundle = MODULES.map((rel) => fs.readFileSync(path.join(root, rel), 'utf8')).join('\n')
-  + html.slice(inlineStart, inlineEnd);
+  + inlineJs;
 Object.entries(MODULE_EXPORTS).forEach(([rel, syms]) => {
   const src = fs.readFileSync(path.join(root, rel), 'utf8');
   syms.forEach((s) => {
@@ -142,11 +262,111 @@ Object.entries(MODULE_EXPORTS).forEach(([rel, syms]) => {
     else ok(rel + ' · ' + s);
   });
 });
-if (inlineStart >= 0 && inlineEnd > inlineStart) {
-  const inlineOnly = html.slice(inlineStart + '<script>'.length, inlineEnd);
+if (inlineJs) {
+  if (/function\s+bootApp\s*\(/.test(inlineJs)) fail('V2 inline: bootApp má byť v scripts/bootstrap/app-boot.js');
+  else ok('V2 inline: bootApp nie je duplicitný');
+  if (/function\s+renderWheelRadar\s*\(/.test(inlineJs))
+    fail('V2 inline: renderWheelRadar má byť v scripts/wheel/wheel-hud.js');
+  else ok('V2 inline: renderWheelRadar nie je duplicitný');
+  if (/function\s+computeQuantumWheelBrain\s*\(/.test(inlineJs))
+    fail('V2 inline: computeQuantumWheelBrain má byť v scripts/wheel/wheel-brain.js');
+  else ok('V2 inline: computeQuantumWheelBrain nie je duplicitný');
+  if (/function\s+computeQwFlowScanner\s*\(/.test(inlineJs))
+    fail('V2 inline: computeQwFlowScanner má byť v scripts/wheel/wheel-brain.js');
+  else ok('V2 inline: computeQwFlowScanner nie je duplicitný');
+  if (/function\s+renderCanvasWheel\s*\(/.test(inlineJs))
+    fail('V2 inline: renderCanvasWheel má byť v scripts/wheel/wheel-canvas.js');
+  else ok('V2 inline: renderCanvasWheel nie je duplicitný');
+  if (/function\s+qwSyncWheelStageSize\s*\(/.test(inlineJs))
+    fail('V2 inline: qwSyncWheelStageSize má byť v scripts/wheel/wheel-canvas.js');
+  else ok('V2 inline: qwSyncWheelStageSize nie je duplicitný');
+  if (/function\s+renderEngineHub\s*\(/.test(inlineJs))
+    fail('V2 inline: renderEngineHub má byť v scripts/debug/engine-hub.js');
+  else ok('V2 inline: renderEngineHub nie je duplicitný');
+  if (/function\s+getClusterSuccessRatePct\s*\(/.test(inlineJs))
+    fail('V2 inline: getClusterSuccessRatePct má byť v scripts/debug/engine-hub.js');
+  else ok('V2 inline: getClusterSuccessRatePct nie je duplicitný');
+  if (/function\s+predCoreBehaviorEngine\s*\(/.test(inlineJs))
+    fail('V2 inline: predCoreBehaviorEngine má byť v scripts/ai/pred-flow-engine.js');
+  else ok('V2 inline: predCoreBehaviorEngine nie je duplicitný');
+  if (/function\s+computeFollowUpFlowEngine\s*\(/.test(inlineJs))
+    fail('V2 inline: computeFollowUpFlowEngine má byť v scripts/ai/pred-flow-engine.js');
+  else ok('V2 inline: computeFollowUpFlowEngine nie je duplicitný');
+  if (/function\s+invalidatePredCache\s*\(/.test(inlineJs))
+    fail('V2 inline: invalidatePredCache má byť v scripts/ai/pred-dashboard.js');
+  else ok('V2 inline: invalidatePredCache nie je duplicitný');
+  if (/function\s+computeBehaviorAlerts\s*\(/.test(inlineJs))
+    fail('V2 inline: computeBehaviorAlerts má byť v scripts/analytics/bah-engine.js');
+  else ok('V2 inline: computeBehaviorAlerts nie je duplicitný');
+  [
+    ['ensureQuantumWheelDashboardDOM', 'scripts/wheel/wheel-hud.js'],
+    ['qwResolveHudCopy', 'scripts/wheel/wheel-hud.js'],
+    ['qwColorState', 'scripts/wheel/wheel-hud.js'],
+    ['skQw', 'scripts/wheel/wheel-hud.js'],
+    ['skWheelUserText', 'scripts/wheel/wheel-hud.js'],
+    ['qwColDozStats', 'scripts/wheel/wheel-hud.js'],
+    ['buildQwLiveOutputHTML', 'scripts/wheel/wheel-hud.js'],
+  ].forEach(([sym, mod]) => {
+    if (new RegExp('function\\s+' + sym + '\\s*\\(').test(inlineJs))
+      fail('V2 inline: ' + sym + ' má byť v ' + mod + ' (10H-4A)');
+    else ok('V2 inline: ' + sym + ' nie je duplicitný (10H-4A)');
+  });
+  [
+    ['computeWheelSectorIntel', 'scripts/wheel/wheel-sector-intel.js'],
+    ['getSectorAnalysis', 'scripts/wheel/wheel-sector-intel.js'],
+    ['getWheelSectorStats', 'scripts/wheel/wheel-sector-intel.js'],
+    ['scoreWheelSectorSpinCore', 'scripts/wheel/wheel-sector-intel.js'],
+  ].forEach(([sym, mod]) => {
+    if (new RegExp('function\\s+' + sym + '\\s*\\(').test(inlineJs))
+      fail('V2 inline: ' + sym + ' má byť v ' + mod + ' (10H-4B)');
+    else ok('V2 inline: ' + sym + ' nie je duplicitný (10H-4B)');
+  });
+  if (/let lastWheelIntel=/.test(inlineJs))
+    fail('V2 inline: lastWheelIntel má byť v scripts/wheel/wheel-sector-intel.js (10H-4B)');
+  else ok('V2 inline: lastWheelIntel nie je duplicitný (10H-4B)');
+  [
+    ['computeStrategyEngine', 'scripts/strategy/strategy-engine.js'],
+    ['invalidateStrategyCache', 'scripts/strategy/strategy-engine.js'],
+    ['renderStrategy', 'scripts/strategy/strategy-engine.js'],
+    ['renderAccuracy', 'scripts/strategy/strategy-engine.js'],
+    ['skStrategyMode', 'scripts/strategy/strategy-engine.js'],
+  ].forEach(([sym, mod]) => {
+    if (new RegExp('function\\s+' + sym + '\\s*\\(').test(inlineJs))
+      fail('V2 inline: ' + sym + ' má byť v ' + mod + ' (10H-5)');
+    else ok('V2 inline: ' + sym + ' nie je duplicitný (10H-5)');
+  });
+  if (/let lastStrategyEngine=/.test(inlineJs))
+    fail('V2 inline: lastStrategyEngine má byť v scripts/strategy/strategy-engine.js (10H-5)');
+  else ok('V2 inline: lastStrategyEngine nie je duplicitný (10H-5)');
+  [
+    ['computeWheelPressureEngine', 'scripts/analytics/pressure-engine.js'],
+    ['invalidateWheelPressureCache', 'scripts/analytics/pressure-engine.js'],
+    ['renderPressure', 'scripts/analytics/pressure-engine.js'],
+    ['computeVisualHeatEngine', 'scripts/analytics/visual-heat-engine.js'],
+    ['invalidateVisualHeatCache', 'scripts/analytics/visual-heat-engine.js'],
+    ['renderHeatmap', 'scripts/analytics/visual-heat-engine.js'],
+    ['collectEngineTelemetrySignals', 'scripts/analytics/telemetry-engine.js'],
+    ['computeTelemetryEngine', 'scripts/analytics/telemetry-engine.js'],
+    ['invalidateTelemetryCache', 'scripts/analytics/telemetry-engine.js'],
+    ['renderTelemetry', 'scripts/analytics/telemetry-engine.js'],
+    ['skEngineName', 'scripts/analytics/telemetry-engine.js'],
+  ].forEach(([sym, mod]) => {
+    if (new RegExp('function\\s+' + sym + '\\s*\\(').test(inlineJs))
+      fail('V2 inline: ' + sym + ' má byť v ' + mod + ' (10H-6)');
+    else ok('V2 inline: ' + sym + ' nie je duplicitný (10H-6)');
+  });
+  if (/let lastWheelPressureEngine=/.test(inlineJs))
+    fail('V2 inline: lastWheelPressureEngine má byť v scripts/analytics/pressure-engine.js (10H-6)');
+  else ok('V2 inline: lastWheelPressureEngine nie je duplicitný (10H-6)');
+  if (/let lastVisualHeatEngine=/.test(inlineJs))
+    fail('V2 inline: lastVisualHeatEngine má byť v scripts/analytics/visual-heat-engine.js (10H-6)');
+  else ok('V2 inline: lastVisualHeatEngine nie je duplicitný (10H-6)');
+  if (/let lastTelemetryEngine=/.test(inlineJs))
+    fail('V2 inline: lastTelemetryEngine má byť v scripts/analytics/telemetry-engine.js (10H-6)');
+  else ok('V2 inline: lastTelemetryEngine nie je duplicitný (10H-6)');
   V2_INLINE_SYMBOLS.forEach((s) => {
-    const okSym = new RegExp('(?:function\\s+' + s + '|(?:var|let|const)\\s+' + s + '\\s*=)').test(inlineOnly)
-      || inlineOnly.includes(s + '=');
+    const okSym = new RegExp('(?:function\\s+' + s + '|(?:var|let|const)\\s+' + s + '\\s*=)').test(inlineJs)
+      || inlineJs.includes(s + '=');
     if (!okSym) fail('V2 inline: chýba symbol ' + s);
     else ok('V2 inline · ' + s);
   });
@@ -208,7 +428,7 @@ app.whenReady().then(async () => {
       const right = ($('qwPanelRight') || {}).innerHTML || '';
       const bottom = ($('qwPanelBottom') || {}).innerHTML || '';
       const all = left + right + bottom;
-      const n = document.querySelectorAll('.qw-metric').length;
+      const n = document.querySelectorAll('.qw-metric, .qw-hero-metric').length;
       const okUi = $('wheelCanvas') && all.includes('FLOW STAV')
         && (all.includes('FLOW OBSERVER') || all.includes('HLAVNÝ FLOW INSIGHT'))
         && all.includes('STOPA TOKU')
@@ -265,13 +485,13 @@ app.whenReady().then(async () => {
       return got === 17 ? { ok: true, msg: 'emit/listen OK' } : { ok: false, msg: 'got=' + got };
     });
 
-    check('EventBus — 5 engine listenerov', () => {
+    check('EventBus — bez duplicitných render listenerov (2A)', () => {
       if (typeof EventBus === 'undefined') return { ok: false, msg: 'chýba EventBus' };
-      if (typeof bindSpinEventBusListeners === 'function' && !bindSpinEventBusListeners._done) {
-        bindSpinEventBusListeners();
-      }
+      if (typeof bindSpinEventBusListeners === 'function') bindSpinEventBusListeners();
       const n = (EventBus.listeners['spin:add'] || []).length;
-      return n >= 5 ? { ok: true, msg: n + ' listenerov' } : { ok: false, msg: n + ' listenerov' };
+      return n === 0
+        ? { ok: true, msg: '0 built-in spin:add render listenerov' }
+        : { ok: false, msg: n + ' listenerov (očak. 0 po 2A)' };
     });
 
     check('Confidence engine chaos prahy', () => {

@@ -1,0 +1,64 @@
+{
+  "wrapped": {
+    "renderCorePrediction": true,
+    "renderWheelRadar": true,
+    "renderKeyboardLiveAIFlow": true,
+    "renderAlerts": true,
+    "renderHeavy": true,
+    "scheduleWheelRender": true,
+    "renderLight": true
+  },
+  "perSpin": {
+    "renderCorePrediction": 1,
+    "renderWheelRadar": 0,
+    "renderKeyboardLiveAIFlow": 1,
+    "renderAlerts": 1
+  },
+  "totals50": {
+    "renderCorePrediction": 50,
+    "renderWheelRadar": 20,
+    "renderKeyboardLiveAIFlow": 50,
+    "renderAlerts": 50
+  },
+  "perSpinBreakdown": [],
+  "context": {
+    "afterOneSpinCount": 1,
+    "after50SpinCount": 50,
+    "heavyInterval": 5,
+    "expectedHeavyRenders": 10
+  },
+  "duplicateEstimate": [
+    "renderCorePrediction: 1× na spin — bez zjavnej duplicity v tomto meraní.",
+    "renderKeyboardLiveAIFlow: 1× na spin — bez zjavnej duplicity v tomto meraní.",
+    "renderAlerts: 1× na spin — bez zjavnej duplicity v tomto meraní.",
+    "renderWheelRadar (1 spin): 0× — prvý spin bez heavy; wheel len renderCanvasWheel cez scheduleWheelRender().",
+    "Burst 50: renderLight/renderHeavy takmer chýbajú (renderQueued) — používaj paced režim."
+  ],
+  "after2A": [
+    "Odstránenie telies listenerov bindSpinEventBusListeners pre renderCorePrediction, renderAlerts, renderKeyboardLiveAIFlow a scheduleWheelRender/renderWheelRadar.",
+    "Zachovanie onNewSpin → emitEvent(EVENT.RENDER) → renderLight/renderHeavy — finálny DOM by mal zostať rovnaký po jednom rAF cykle.",
+    "Očakávaný pokles na ~1×/spin pre: renderCorePrediction, renderAlerts, renderKeyboardLiveAIFlow (z ~2×).",
+    "renderWheelRadar: z ~2–3×/spin na ~1× (+ 1 extra len na každý 5. spin cez renderHeavy, nie duplicitný EventBus).",
+    "EventBus.emit('spin:add') môže zostať bez listenerov alebo sa odstráni emit — logika výpočtov sa nemení."
+  ],
+  "totals50Burst": {
+    "renderCorePrediction": 1,
+    "renderWheelRadar": 0,
+    "renderKeyboardLiveAIFlow": 1,
+    "renderAlerts": 1
+  },
+  "noteBurst": "Burst: EVENT.RENDER sa zlučuje cez renderQueued — neplatí pre wheel/heavy.",
+  "mode50": "paced",
+  "aux50": {
+    "renderHeavy": 10,
+    "scheduleWheelRender": 50,
+    "renderLight": 50
+  },
+  "method": {
+    "settle": "double rAF + 170ms (wheel debounce 120ms)",
+    "spinEntry": "onNewSpin(number)",
+    "noProductionPatch": true
+  },
+  "measuredAt": "2026-06-03T21:19:54.298Z",
+  "html": "index-NOVY-V2.html"
+}

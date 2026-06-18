@@ -6,6 +6,7 @@ const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
 const { app, BrowserWindow } = require('electron');
+const { extractV2InlineFromRoot } = require('./v2-inline-extract.cjs');
 
 const root = path.join(__dirname, '..', '..');
 const htmlPath = path.join(root, 'index-NOVY-V2.html');
@@ -37,11 +38,7 @@ function readCodeBundle() {
   return bundle;
 }
 
-const inlineStart = html.indexOf('<script>\n/* QRP7-V2');
-const inlineEnd = html.indexOf('</script>\n<script src="scripts/analytics/roulette-analytics.js"');
-const inlineJs = inlineStart >= 0 && inlineEnd > inlineStart
-  ? html.slice(inlineStart + '<script>'.length, inlineEnd)
-  : '';
+const inlineJs = extractV2InlineFromRoot(root);
 const jsPath = path.join(root, '_test_v4_deep_extract.js');
 const syntaxBundle = inlineJs + EXTERNAL_JS.map((rel) => {
   const p = path.join(root, rel);
@@ -177,7 +174,7 @@ app.whenReady().then(async () => {
       const right = ($('qwPanelRight') || {}).innerHTML || '';
       const bottom = ($('qwPanelBottom') || {}).innerHTML || '';
       const all = left + right + bottom;
-      const n = document.querySelectorAll('.qw-metric').length;
+      const n = document.querySelectorAll('.qw-metric, .qw-hero-metric').length;
       const okUi = $('wheelCanvas') && all.includes('FLOW STAV')
         && (all.includes('FLOW OBSERVER') || all.includes('HLAVNÝ FLOW INSIGHT'))
         && all.includes('STOPA TOKU')

@@ -20,12 +20,21 @@ const iv=spinIntervals();
 const volatility=iv.length>=2?clamp(ivStd(iv)*18):0;
 const timingInstability=clamp(100-lastTimingBreakdown.stability);
 const clusterConflict=computeClusterConflict();
+/* A2: zmiernená saturácia — cap ent, nižší váha priamej entropie, slabší druhý entropický člen */
+const entForChaos=Math.min(ent,8);
+/* Diagnostic chaos (can include user timing). */
 const chaosLevel=clamp(
-ent*12+
+entForChaos*8+
 volatility*0.45+
 timingInstability*0.2+
 clusterConflict*0.15+
-(100-lastSpinBreakdown.entropy)*0.12
+Math.max(0,(100-lastSpinBreakdown.entropy)*0.06)
+);
+/* Gate chaos (must not depend on user timing: volatility, timingInstability). */
+const gateChaosLevel=clamp(
+entForChaos*8+
+clusterConflict*0.15+
+Math.max(0,(100-lastSpinBreakdown.entropy)*0.06)
 );
 const stability=scoreEntropyStability();
 const patternReliability=clamp(
@@ -35,10 +44,10 @@ stability*0.22+
 (100-clusterConflict*2)*0.18
 );
 const randomnessPressure=clamp(
-ent*14+
+entForChaos*10+
 volatility*0.55+
 timingInstability*0.12+
-(100-lastSpinBreakdown.entropy)*0.1
+Math.max(0,(100-lastSpinBreakdown.entropy)*0.08)
 );
 const score=clamp(
 chaosLevel*0.34+
@@ -51,6 +60,7 @@ if(score<38)tag='LOW';
 else if(score>=62)tag='HIGH';
 return{
 chaosLevel:Math.round(chaosLevel),
+gateChaosLevel:Math.round(gateChaosLevel),
 stability:Math.round(stability),
 patternReliability:Math.round(patternReliability),
 randomnessPressure:Math.round(randomnessPressure),
@@ -144,6 +154,7 @@ computeSpinCore();
 const liveScore=computeLiveAIScore(cluster,migration,chaos,neighbors);
 const inv=spins.length>=2?computeInvisibleEngines(liveScore):null;
 const playState=resolvePlayState(liveScore,chaos,inv);
+const gate=typeof readOfficialPlayGate==='function'?readOfficialPlayGate():null;
 const timing=runTimingEngineSupport();
 const visual=runVisualFromSpins({cluster,migration,chaos,neighbors,hotCold10:hot10,playState});
 const aiConfidence=clamp(Math.round(liveScore*MODEL.SPINS+timing.core*MODEL.TIMING+visual.core*MODEL.VISUAL));
@@ -153,7 +164,7 @@ ready:true,role:'SPINS ENGINE 70%',liveScore,aiConfidence,playState,cluster,migr
 hotWindows:{w10:hot10,w20:hot20,w30:hot30,w50:hot50},
 patterns:{active:spinMemoryEngine.activePatterns.slice(0,5),dying:spinMemoryEngine.dyingPatterns.slice(0,3)},
 timing,visual,breakdown:lastSpinBreakdown,
-suppressRecommendation:playState.state==='CHAOS'||playState.state==='SAFE'||playState.state==='WAIT'||chaos.noEdge
+suppressRecommendation:gate?!gate.allowPlay:(playState.state==='CHAOS'||playState.state==='SAFE'||playState.state==='WAIT'||chaos.noEdge)
 };
 spinsEngineCache=result;spinsEngineCacheKey=key;
 aiStateMachine.state=playState.state;aiStateMachine.label=skAIState(playState.state);

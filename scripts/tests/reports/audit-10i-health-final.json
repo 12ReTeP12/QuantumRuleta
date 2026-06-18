@@ -1,0 +1,277 @@
+{
+  "timestamp": "2026-06-03T21:21:54.574Z",
+  "v2": {
+    "bytes": 170887,
+    "lines": 3275,
+    "htmlOnly": true
+  },
+  "inlineJs": {
+    "bytes": 130756,
+    "lines": 2827,
+    "functions": 247
+  },
+  "externalModules": {
+    "count": 32,
+    "bytes": 534124,
+    "list": [
+      "scripts/core/constants.js",
+      "scripts/core/event-bus.js",
+      "scripts/core/state.js",
+      "scripts/core/helpers.js",
+      "scripts/wheel/quantum-wheel.js",
+      "scripts/wheel/wheel-canvas.js",
+      "scripts/ai/ai-engine.js",
+      "scripts/ai/confidence-engine.js",
+      "scripts/valid-true/valid-true-v0.js",
+      "scripts/ai/lfp-engine.js",
+      "scripts/ai/pred-flow-engine.js",
+      "scripts/ai/pred-dashboard.js",
+      "scripts/wheel/wheel-sector-intel.js",
+      "scripts/wheel/wheel-brain.js",
+      "scripts/ai/ai-prediction.js",
+      "scripts/strategy/strategy-engine.js",
+      "scripts/analytics/pressure-engine.js",
+      "scripts/analytics/visual-heat-engine.js",
+      "scripts/analytics/telemetry-engine.js",
+      "scripts/debug/engine-hub.js",
+      "scripts/pattern/spin-pattern-observer.js",
+      "scripts/analytics/bah-engine.js",
+      "scripts/analytics/session-stats.js",
+      "scripts/analytics/roulette-analytics.js",
+      "scripts/wheel/wheel-hud.js",
+      "scripts/ui/ui-alerts.js",
+      "scripts/analytics/timing-engine.js",
+      "scripts/board/board-events.js",
+      "scripts/board/board-ui.js",
+      "scripts/ui/session-fatigue.js",
+      "scripts/ui/keyboard-live-ai-flow.js",
+      "scripts/bootstrap/app-boot.js"
+    ]
+  },
+  "modularizationPct": 80.3,
+  "techDebtPct": 19.7,
+  "legacyModuleCount": 3,
+  "legacyFiles": [
+    "C:/Users/Dell/Desktop/QuantumApp/scripts/_legacy/bootstrap/app-init.js",
+    "C:/Users/Dell/Desktop/QuantumApp/scripts/_legacy/pattern/spin-pattern-observer.js",
+    "C:/Users/Dell/Desktop/QuantumApp/scripts/_legacy/ui/ui-panels.js"
+  ],
+  "notLoadedProductionJs": [],
+  "runtimeAuthorityCount": 24,
+  "runtimeAuthorities": [
+    "Gate",
+    "TRUE VALID",
+    "Wheel brain",
+    "Wheel canvas",
+    "Wheel sector intel",
+    "Wheel HUD",
+    "Wheel flow (inline)",
+    "Pattern Observer",
+    "Keyboard Flow",
+    "Session Fatigue",
+    "Bootstrap",
+    "Engine Hub",
+    "Strategy",
+    "Pressure",
+    "Visual Heat",
+    "Telemetry",
+    "Pred dashboard",
+    "AI prediction",
+    "Risk/Chaos facade (inline)",
+    "Risk core (ai-engine)",
+    "HOT/COLD split",
+    "Spin orchestrator (inline)",
+    "Render orchestrator (inline)",
+    "DEBUG shell (inline)"
+  ],
+  "top20InlineFunctions": [
+    {
+      "name": "computeMacroFlowPct",
+      "loc": 78
+    },
+    {
+      "name": "computeWheelFlowEngine",
+      "loc": 66
+    },
+    {
+      "name": "computeComboMixStats",
+      "loc": 59
+    },
+    {
+      "name": "clearSessionData",
+      "loc": 57
+    },
+    {
+      "name": "skUiLabel",
+      "loc": 56
+    },
+    {
+      "name": "computeSpinFlowPressureLayer",
+      "loc": 53
+    },
+    {
+      "name": "renderPatterny",
+      "loc": 53
+    },
+    {
+      "name": "renderHotCold",
+      "loc": 49
+    },
+    {
+      "name": "renderStatsPanel",
+      "loc": 46
+    },
+    {
+      "name": "computeRiskChaosEngine",
+      "loc": 46
+    },
+    {
+      "name": "computeRawStatsEngine",
+      "loc": 43
+    },
+    {
+      "name": "computePredictionsPanel",
+      "loc": 43
+    },
+    {
+      "name": "renderWheelFlow",
+      "loc": 43
+    },
+    {
+      "name": "computeLiveDataState",
+      "loc": 42
+    },
+    {
+      "name": "applySessionPayload",
+      "loc": 41
+    },
+    {
+      "name": "computeVisualCore",
+      "loc": 41
+    },
+    {
+      "name": "hcBuildFromSpins",
+      "loc": 40
+    },
+    {
+      "name": "renderRiskChaos",
+      "loc": 38
+    },
+    {
+      "name": "settle",
+      "loc": 34
+    },
+    {
+      "name": "computeFlowAnalyzer",
+      "loc": 33
+    }
+  ],
+  "duplicateAuthorities": [
+    "HOT/COLD: computeHotColdEngine (ai-engine) + helpers/cache (pred-dashboard) + inline hotColdForWindow/renderHotCold",
+    "Risk/Chaos: computeRiskChaosCore (ai-engine/gate) + computeRiskChaosEngine facade (V2 inline)",
+    "Spins pipeline: runSpinsEnginePipeline (ai-engine) + onNewSpin orchestrator (V2 inline)"
+  ],
+  "deadCodeCandidates": [
+    {
+      "name": "computePredictionsPanel",
+      "loc": 43
+    },
+    {
+      "name": "getSpinsPillarGrade",
+      "loc": 18
+    },
+    {
+      "name": "getVisualPillarGrade",
+      "loc": 18
+    },
+    {
+      "name": "setAreaPct",
+      "loc": 15
+    },
+    {
+      "name": "predictSizeLabel",
+      "loc": 11
+    },
+    {
+      "name": "renderChaos",
+      "loc": 9
+    },
+    {
+      "name": "hcBehaviorRow",
+      "loc": 8
+    },
+    {
+      "name": "predictDozenLabels",
+      "loc": 7
+    },
+    {
+      "name": "predictColumnLabels",
+      "loc": 7
+    },
+    {
+      "name": "qwWheelHealthExplain",
+      "loc": 6
+    },
+    {
+      "name": "aiGroupPctFromScores",
+      "loc": 6
+    },
+    {
+      "name": "renderNeighbors",
+      "loc": 6
+    },
+    {
+      "name": "renderMomentum",
+      "loc": 6
+    },
+    {
+      "name": "spinsUntilActive",
+      "loc": 5
+    },
+    {
+      "name": "isPanelOpen",
+      "loc": 5
+    },
+    {
+      "name": "computeTimingFromBall",
+      "loc": 5
+    },
+    {
+      "name": "corePredLineReason",
+      "loc": 4
+    },
+    {
+      "name": "modelContribution",
+      "loc": 4
+    },
+    {
+      "name": "applyTimingBallPick",
+      "loc": 4
+    },
+    {
+      "name": "lfpMetaCard",
+      "loc": 3
+    },
+    {
+      "name": "skLfpPhase",
+      "loc": 1
+    },
+    {
+      "name": "skConfState",
+      "loc": 1
+    },
+    {
+      "name": "skTier",
+      "loc": 1
+    },
+    {
+      "name": "skAlertType",
+      "loc": 1
+    },
+    {
+      "name": "predictColor",
+      "loc": 1
+    }
+  ],
+  "spinPipelineSectionLines": 1495
+}
