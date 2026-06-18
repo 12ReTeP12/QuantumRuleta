@@ -111,7 +111,7 @@ const hdrMid=(inBlock&&wantV1)
 :'<div class="qw-h-center-badges" aria-hidden="true">'
 +'<span class="qw-badge-pill live"><span class="qw-live-dot"></span> LIVE</span></div>';
 const hdrRight=(inBlock&&wantV1)
-?'<div class="qw-h-right"><span class="qw-h-ai-label">AI FLOW RADAR</span><span class="qw-build-live">3D+15%</span>'
+?'<div class="qw-h-right"><span class="qw-h-ai-label">AI FLOW RADAR</span><span class="qw-build-live">3D-FIX</span>'
 +'<div class="qw-v1-status-banner wait" id="qwStatusBanner" hidden aria-hidden="true"></div></div>'
 :'<div class="qw-h-right qw-h-status-row">'
 +'<span id="qwScannerBadge">—</span></div>';

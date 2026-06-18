@@ -788,7 +788,7 @@ height:100%!important;
 flex:1 1 auto!important;
 min-width:0!important;
 min-height:300px!important;
-overflow:hidden!important;
+overflow:visible!important;
 position:relative!important;
 }
 .v6-block-wheel.v6-radar-v1 .qw-wheel-stage{
@@ -801,8 +801,9 @@ max-height:var(--qw-canvas-px,100%)!important;
 min-width:0!important;
 min-height:0!important;
 display:block!important;
-overflow:hidden!important;
+overflow:visible!important;
 margin:0 auto!important;
+flex:0 0 auto!important;
 flex-shrink:0!important;
 }
 .v6-block-wheel.v6-radar-v1 .qw-v4-wheel-canvas,
