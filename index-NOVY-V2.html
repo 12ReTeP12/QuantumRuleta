@@ -228,6 +228,29 @@ content:'';position:absolute;left:0;right:0;bottom:-1px;height:2px;background:rg
 .sa-live-chip.red{background:rgba(180,30,40,.85);color:#fff;}
 .sa-live-chip.black{background:rgba(28,28,36,.95);color:#f0f0f8;border:1px solid rgba(255,255,255,.12);}
 .sa-live-chip.green{background:rgba(0,140,70,.9);color:#fff;}
+.sa-hc-legend{display:flex;flex-wrap:wrap;gap:12px 20px;margin-bottom:12px;font-size:10px;font-weight:700;color:#8ab5c8;}
+.sa-hc-leg{display:inline-flex;align-items:center;gap:6px;}
+.sa-hc-swatch{width:14px;height:14px;border-radius:4px;border:1px solid rgba(255,255,255,.15);}
+.sa-hc-swatch.hot{background:linear-gradient(145deg,rgba(255,170,50,.85),rgba(255,220,100,.5));box-shadow:0 0 8px rgba(255,180,60,.4);}
+.sa-hc-swatch.cold{background:linear-gradient(145deg,rgba(50,35,110,.9),rgba(30,20,70,.95));box-shadow:inset 0 0 6px rgba(100,80,200,.3);}
+.sa-hc-swatch.neutral{background:rgba(40,55,70,.8);}
+.sa-hc-grid-wrap{display:flex;gap:5px;align-items:stretch;margin-top:4px;}
+.sa-hc-zero-col{flex:0 0 38px;display:flex;align-items:center;}
+.sa-hc-zero{width:100%;min-height:88px;border-radius:6px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;border:1px solid rgba(255,255,255,.12);position:relative;overflow:hidden;}
+.sa-hc-matrix{flex:1;display:grid;grid-template-columns:repeat(12,minmax(0,1fr));grid-template-rows:repeat(3,minmax(0,1fr));gap:3px;min-width:0;}
+.sa-hc-cell{position:relative;border-radius:5px;padding:3px 1px;text-align:center;min-height:34px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;border:1px solid rgba(255,255,255,.1);overflow:hidden;}
+.sa-hc-cell.red{background:linear-gradient(160deg,rgba(170,32,45,.88),rgba(110,18,28,.95));}
+.sa-hc-cell.black{background:linear-gradient(160deg,rgba(36,36,48,.95),rgba(16,16,24,.98));}
+.sa-hc-cell.green{background:linear-gradient(160deg,rgba(0,150,75,.9),rgba(0,90,48,.95));}
+.sa-hc-cell.hot{box-shadow:0 0 14px rgba(255,170,40,.45),inset 0 0 12px rgba(255,200,80,.25);border-color:rgba(255,200,90,.55)!important;}
+.sa-hc-cell.hot::before{content:'';position:absolute;inset:0;background:linear-gradient(145deg,rgba(255,200,60,.42),rgba(255,140,30,.18));pointer-events:none;}
+.sa-hc-cell.cold{box-shadow:inset 0 0 14px rgba(70,50,160,.45);border-color:rgba(90,70,200,.4)!important;}
+.sa-hc-cell.cold::before{content:'';position:absolute;inset:0;background:linear-gradient(145deg,rgba(55,40,120,.55),rgba(25,18,60,.45));pointer-events:none;}
+.sa-hc-num{font-size:11px;font-weight:900;line-height:1;color:#fff;position:relative;z-index:1;text-shadow:0 1px 2px rgba(0,0,0,.8);}
+.sa-hc-cnt{font-size:9px;font-weight:800;line-height:1;color:#e8fff4;position:relative;z-index:1;opacity:.92;}
+.sa-hc-cell.cold .sa-hc-cnt{color:#b8a8e8;}
+.sa-hc-cell.hot .sa-hc-cnt{color:#fff8d0;}
+.sa-hc-note{margin:10px 0 0;font-size:10px;color:#6a9088;font-weight:600;}
 </style>
 </head>
 <body>
@@ -436,6 +459,17 @@ title="Nie je hracia stratégia. Iba náhodný čo-keby hod bez logiky.">
 <button type="button" class="sa-btn sa-btn-primary" id="saBtnCloseAnalyze">[ UZAVRIEŤ A ANALYZOVAŤ TERAZ ]</button>
 <button type="button" class="sa-btn sa-btn-success" id="saBtnReboot" disabled>[ VYMAZAŤ A ZAČAŤ HRU Č. 2 ]</button>
 </div>
+</div>
+<div class="sa-panel" id="saHotColdPanel">
+<h2>Hot &amp; Cold Matrix — vizuálna mapa relácie</h2>
+<p class="sa-panel-intro">Zmenšené plátno 0–36 s počítadlom výskytov v aktuálnej hre. Aktualizuje sa pri každom spine (aj počas zberu). Po resete sa vynuluje.</p>
+<div class="sa-hc-legend">
+<span class="sa-hc-leg"><span class="sa-hc-swatch hot"></span> Hot — 4× a viac</span>
+<span class="sa-hc-leg"><span class="sa-hc-swatch cold"></span> Cold — 0–1× (spáči)</span>
+<span class="sa-hc-leg"><span class="sa-hc-swatch neutral"></span> Neutrál — 2–3×</span>
+</div>
+<div id="saHotColdGrid" class="sa-hc-grid-wrap" aria-label="Hot and Cold mriežka 0-36"></div>
+<p class="sa-hc-note" id="saHotColdNote">Zatiaľ žiadne spiny v tejto relácii.</p>
 </div>
 <div class="sa-panel" id="saResultsPanel">
 <h2>Výsledky hĺbkovej analýzy</h2>
@@ -3727,6 +3761,58 @@ arr.forEach(function(x){if(!seen[x]){seen[x]=1;out.push(x);}});
 return out;
 }
 
+function saPocetVyskyty(pole){
+var c=[];
+for(var i=0;i<=36;i++)c[i]=0;
+(pole||[]).forEach(function(n){if(typeof n==='number'&&n>=0&&n<=36)c[n]++;});
+return c;
+}
+
+function saHotColdTrida(cnt){
+if(cnt>=4)return 'hot';
+if(cnt<=1)return 'cold';
+return 'neutral';
+}
+
+function saFarbaCisla(n){
+if(n===0)return 'green';
+return reds.includes(n)?'red':'black';
+}
+
+function saRenderHotColdGrid(){
+var wrap=document.getElementById('saHotColdGrid');
+var note=document.getElementById('saHotColdNote');
+if(!wrap)return;
+var counts=saPocetVyskyty(poleHistorieRelacie);
+var hotN=0,coldN=0;
+for(var i=0;i<=36;i++){
+var t=saHotColdTrida(counts[i]);
+if(t==='hot')hotN++;
+if(t==='cold')coldN++;
+}
+function cellHtml(n){
+var cnt=counts[n];
+var cls='sa-hc-cell '+saFarbaCisla(n)+' '+saHotColdTrida(cnt);
+return '<div class="'+cls+'" data-n="'+n+'"><span class="sa-hc-num">'+n+'</span><span class="sa-hc-cnt">'+cnt+'×</span></div>';
+}
+var zeroHtml='<div class="sa-hc-zero-col">'+cellHtml(0).replace('class="sa-hc-cell','class="sa-hc-zero sa-hc-cell')+'</div>';
+var matrixHtml='<div class="sa-hc-matrix">';
+if(typeof BOARD_LAYOUT!=='undefined'){
+BOARD_LAYOUT.forEach(function(row){
+row.forEach(function(n){matrixHtml+=cellHtml(n);});
+});
+}else{
+for(var n=1;n<=36;n++)matrixHtml+=cellHtml(n);
+}
+matrixHtml+='</div>';
+wrap.innerHTML=zeroHtml+matrixHtml;
+if(note){
+if(!poleHistorieRelacie.length)note.textContent='Zatiaľ žiadne spiny v tejto relácii.';
+else if(relaciaUzavreta)note.textContent='Relácia uzavretá · Hot: '+hotN+' čísel · Cold (spáči): '+coldN+' čísel · periférne skontroluj oranžové clustre.';
+else note.textContent='Live zber · Hot: '+hotN+' · Cold: '+coldN+' · (4+ = oranžová, 0–1 = fialová/modrá).';
+}
+}
+
 function saRenderVysledky(data){
 var wrap=document.getElementById('saResultsWrap');
 if(!wrap)return;
@@ -3772,6 +3858,7 @@ var cls=n===0?'green':(reds.includes(n)?'red':'black');
 return '<span class="sa-live-chip '+cls+'">'+n+'</span>';
 }).join('');
 }
+saRenderHotColdGrid();
 }
 
 function saRenderArchiv(){
