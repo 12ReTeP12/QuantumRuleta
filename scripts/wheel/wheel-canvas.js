@@ -34,14 +34,19 @@ let centerH=center.clientHeight;
 if(centerH<240){
 centerH=Math.max(bodyH-headerH-bottomH-modelH,body.clientHeight-headerH-bottomH-modelH,480);
 }
-const baseSide=parseInt(getComputedStyle(block).getPropertyValue('--qw-side-w'),10)||168;
+const MIN_SIDE=136;
+const WHEEL_GROW=1.15;
+const baseSide=Math.max(MIN_SIDE,parseInt(getComputedStyle(block).getPropertyValue('--qw-side-w'),10)||168);
 const blockW=Math.max(block.clientWidth||0,480);
 const layoutH=layout?layout.clientHeight:0;
 const areaH=Math.max(layoutH,bodyH-headerH-bottomH-modelH,centerH,480);
 const maxH=Math.max(areaH-legH-6,320);
-const availW=Math.max(blockW-baseSide*2,280);
-let drawn=Math.max(Math.floor(Math.min(availW,maxH)),280);
-let leftW=baseSide,rightW=baseSide;
+const availW=Math.max(blockW-MIN_SIDE*2,280);
+let drawn=Math.floor(Math.min(availW,maxH));
+if(maxH<availW)drawn=Math.min(Math.floor(drawn*WHEEL_GROW),availW);
+else drawn=availW;
+drawn=Math.max(drawn,280);
+let leftW=MIN_SIDE,rightW=MIN_SIDE;
 const slack=blockW-leftW-drawn-rightW;
 if(slack>0){leftW+=Math.floor(slack/2);rightW+=slack-Math.floor(slack/2);}
 block.style.setProperty('--qw-canvas-px',drawn+'px');
@@ -245,10 +250,34 @@ function drawQwVzorGoldBand(ctx,cx,cy,pocketIn){
 const bandOut=pocketIn*1.022,bandIn=pocketIn*0.992;
 ctx.save();
 ctx.beginPath();ctx.arc(cx,cy,bandOut,0,Math.PI*2);ctx.arc(cx,cy,bandIn,0,Math.PI*2,true);ctx.closePath();
-const g=ctx.createLinearGradient(cx-bandOut,cy-bandOut,cx+bandOut,cy+bandOut);
-g.addColorStop(0,'#6a5840');g.addColorStop(0.35,'#a89058');g.addColorStop(0.55,'#c4a86a');g.addColorStop(1,'#5a4830');
+const g=ctx.createLinearGradient(cx-bandOut,cy-bandOut*1.15,cx+bandOut*0.85,cy+bandOut*0.95);
+g.addColorStop(0,'#8a7048');g.addColorStop(0.28,'#c8aa68');g.addColorStop(0.52,'#e8d088');g.addColorStop(0.72,'#a08850');g.addColorStop(1,'#4a3828');
 ctx.fillStyle=g;ctx.fill();
-ctx.strokeStyle='rgba(0,0,0,0.45)';ctx.lineWidth=1;ctx.stroke();
+ctx.strokeStyle='rgba(0,0,0,0.55)';ctx.lineWidth=1.2;ctx.stroke();
+ctx.beginPath();ctx.arc(cx,cy,bandOut,Math.PI*1.02,Math.PI*1.58);
+ctx.strokeStyle='rgba(255,240,180,0.42)';ctx.lineWidth=bandOut*0.009;ctx.lineCap='round';ctx.stroke();
+ctx.beginPath();ctx.arc(cx,cy,bandIn,Math.PI*0.18,Math.PI*0.82);
+ctx.strokeStyle='rgba(0,0,0,0.38)';ctx.lineWidth=1.1;ctx.stroke();
+ctx.restore();
+}
+/** Finálny 3D dojem — vnútorný tieň + chrómový lem */
+function drawQwVzorDepthFinish(ctx,cx,cy,outerR,pulse){
+ctx.save();
+const ao=ctx.createRadialGradient(cx,cy,outerR*0.42,cx,cy,outerR*0.99);
+ao.addColorStop(0,'rgba(0,0,0,0)');ao.addColorStop(0.7,'rgba(0,0,0,0)');ao.addColorStop(0.9,'rgba(0,0,0,0.22)');ao.addColorStop(1,'rgba(0,0,0,0.48)');
+ctx.fillStyle=ao;ctx.beginPath();ctx.arc(cx,cy,outerR*0.99,0,Math.PI*2);ctx.fill();
+ctx.beginPath();ctx.arc(cx,cy+outerR*0.015,outerR*0.992,Math.PI*0.04,Math.PI*0.96);
+ctx.strokeStyle='rgba(0,0,0,0.32)';ctx.lineWidth=outerR*0.024;ctx.lineCap='round';ctx.stroke();
+ctx.beginPath();ctx.arc(cx,cy,outerR*1.008,Math.PI*1.12,Math.PI*1.58);
+ctx.strokeStyle='rgba(255,255,255,'+(0.22+0.09*pulse)+')';ctx.lineWidth=outerR*0.02;ctx.lineCap='round';ctx.stroke();
+ctx.save();
+ctx.globalCompositeOperation='lighter';
+ctx.globalAlpha=0.22+0.06*pulse;
+const lip=ctx.createLinearGradient(cx-outerR,cy-outerR,cx+outerR,cy-outerR*0.2);
+lip.addColorStop(0,'rgba(120,200,255,0)');lip.addColorStop(0.5,'rgba(180,240,255,0.35)');lip.addColorStop(1,'rgba(120,200,255,0)');
+ctx.strokeStyle=lip;ctx.lineWidth=outerR*0.012;
+ctx.beginPath();ctx.arc(cx,cy,outerR*1.018,Math.PI*1.2,Math.PI*1.52);ctx.stroke();
+ctx.restore();
 ctx.restore();
 }
 /** Popisy STĹPEC/TUCET na canvas — vždy viditeľné (vzor obr.2) */
@@ -981,7 +1010,7 @@ const Q=computeQuantumWheelBrain();
 const dashEl=document.getElementById('wheelRadarData');
 const radarVzor=!!(dashEl&&dashEl.closest('.v6-block-wheel.v6-radar-v1'));
 const radarMinimal=radarVzor;
-const outerR=Math.min(W,H)*(radarMinimal?0.496:0.47);
+const outerR=Math.min(W,H)*(radarMinimal?0.532:0.47);
 const midR=outerR*0.7;
 const hubR=outerR*0.14;
 const segment=(Math.PI*2)/wheel.length;
@@ -1059,6 +1088,7 @@ ctx.restore();
 });
 /* V2 mockup: popisy STĹPEC/TUCET v kolese ako obr.2 */
 drawQwVzorLabelsCanvas(ctx,cx,cy,outerR,st,W);
+drawQwVzorDepthFinish(ctx,cx,cy,outerR,pulse);
 renderQwFlowRadarSvg(Q,st,hm,coreState,pulse,chaosSess);
 ctx.beginPath();ctx.arc(cx,cy,outerR+3,0,Math.PI*2);
 ctx.strokeStyle='rgba(80,160,140,0.22)';ctx.lineWidth=1.4;ctx.stroke();

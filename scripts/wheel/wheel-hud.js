@@ -78,7 +78,7 @@ return'qw-atmos-active';
 function ensureQuantumWheelDashboardDOM(root){
 const wantV1=!!(root.closest&&root.closest('.v6-radar-v1'));
 const inBlock=!!(root.closest&&root.closest('.v6-block-wheel'));
-const QW_DOM_BUILD='v2-obr2-tight1-20260531';
+const QW_DOM_BUILD='v2-obr2-3d2-20260531';
 const hasLayout=!!(root.querySelector('#wheelCanvas')&&root.querySelector('.quantum-hero-layout')
 &&root.querySelector('#qwPanelLeft')&&root.querySelector('#qwPanelRight'));
 if(root.dataset.qwDomBuild===QW_DOM_BUILD&&hasLayout){
@@ -111,7 +111,7 @@ const hdrMid=(inBlock&&wantV1)
 :'<div class="qw-h-center-badges" aria-hidden="true">'
 +'<span class="qw-badge-pill live"><span class="qw-live-dot"></span> LIVE</span></div>';
 const hdrRight=(inBlock&&wantV1)
-?'<div class="qw-h-right"><span class="qw-h-ai-label">AI FLOW RADAR</span><span class="qw-build-live">TIGHT-1</span>'
+?'<div class="qw-h-right"><span class="qw-h-ai-label">AI FLOW RADAR</span><span class="qw-build-live">3D+15%</span>'
 +'<div class="qw-v1-status-banner wait" id="qwStatusBanner" hidden aria-hidden="true"></div></div>'
 :'<div class="qw-h-right qw-h-status-row">'
 +'<span id="qwScannerBadge">—</span></div>';

@@ -12,7 +12,7 @@
 <link rel="stylesheet" href="styles/ai.css">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
-<link rel="stylesheet" href="styles/wheel.css?v=obr2-tight-1">
+<link rel="stylesheet" href="styles/wheel.css?v=obr2-3d-2">
 <style>
 /* Patterny a opakovateľnosť — Readability Pack (úroveň AI PREDIKCIA) */
 .v6-pattern-observer.card{width:100%;padding:16px 18px;border-radius:14px;border:1px solid rgba(0,255,191,.16);background:linear-gradient(180deg,rgba(8,16,22,.98),rgba(2,6,10,.98));box-shadow:0 0 24px rgba(0,0,0,.35);}
@@ -251,7 +251,7 @@ content:'';position:absolute;left:0;right:0;bottom:-1px;height:2px;background:rg
 </div>
 </div>
 </div>
-<section class="v6-block-wheel v6-cc-wheel v6-radar-v1 v6-obr2-wheel" data-qw-file="index-NOVY-V2.html" data-v2-build="obr2-tight-1" data-obr2-ver="tight-1" aria-label="Kvantové koleso">
+<section class="v6-block-wheel v6-cc-wheel v6-radar-v1 v6-obr2-wheel" data-qw-file="index-NOVY-V2.html" data-v2-build="obr2-3d-2" data-obr2-ver="3d-2" aria-label="Kvantové koleso">
 <div id="wheelRadarData" class="qw-dashboard">
 <div class="qw-dash-wait">Zadaj 2+ spiny — živý radar správania…</div>
 </div>
@@ -388,7 +388,7 @@ title="Nie je hracia stratégia. Iba náhodný čo-keby hod bez logiky.">
 <script src="scripts/core/state.js"></script>
 <script src="scripts/core/helpers.js"></script>
 <script src="scripts/wheel/quantum-wheel.js?v=hero-layout-4"></script>
-<script src="scripts/wheel/wheel-canvas.js?v=obr2-3d-1"></script>
+<script src="scripts/wheel/wheel-canvas.js?v=obr2-3d-2"></script>
 <script src="scripts/ai/ai-engine.js"></script>
 <script src="scripts/ai/confidence-engine.js"></script>
 <script src="scripts/valid-true/valid-true-v0.js"></script>
@@ -3278,7 +3278,7 @@ if(down)down.addEventListener('click',function(){body.scrollBy({top:step(),behav
 <script src="scripts/analytics/bah-engine.js"></script>
 <script src="scripts/analytics/session-stats.js"></script>
 <script src="scripts/analytics/roulette-analytics.js"></script>
-<script src="scripts/wheel/wheel-hud.js?v=obr2-tight-1"></script>
+<script src="scripts/wheel/wheel-hud.js?v=obr2-3d-2"></script>
 <script src="scripts/ui/ui-alerts.js"></script>
 <script src="scripts/analytics/timing-engine.js"></script>
 <script src="scripts/board/board-events.js"></script>
@@ -3399,7 +3399,7 @@ flex:none!important;max-height:none!important;overflow-y:auto!important;
 .v6-block-wheel.v6-radar-v1:not(.v6-block-wheel) .qw-dashboard{min-height:clamp(820px,92vh,1040px)!important;}
 }
 /* ═══ OBR.2 FINAL — 100% mockup ═══ */
-.v6-block-wheel.v6-radar-v1{--qw-side-w:168px!important;--qh-bottom:108px!important;min-height:clamp(880px,95vh,1100px)!important;background:#0a0e14!important;border:1px solid rgba(70,150,220,.28)!important;border-radius:12px!important;box-shadow:0 8px 40px rgba(0,0,0,.65)!important;}
+.v6-block-wheel.v6-radar-v1{--qw-side-w:140px!important;--qh-bottom:108px!important;min-height:clamp(880px,95vh,1100px)!important;background:#0a0e14!important;border:1px solid rgba(70,150,220,.28)!important;border-radius:12px!important;box-shadow:0 8px 40px rgba(0,0,0,.65)!important;}
 .v6-obr2-wheel{margin:0 0 10px!important;border:none!important;border-radius:12px!important;}
 .v6-block-wheel.v6-radar-v1 #qwPanelLeft,.v6-block-wheel.v6-radar-v1 #qwPanelRight,.v6-block-wheel.v6-radar-v1 .hero-left-hud,.v6-block-wheel.v6-radar-v1 .hero-right-hud{padding:4px 4px!important;overflow:hidden!important;display:flex!important;flex-direction:column!important;}
 .v6-block-wheel.v6-radar-v1 .hero-hud-stack,.v6-block-wheel.v6-radar-v1 .qw-metric-stack{flex:1 1 0!important;height:100%!important;justify-content:stretch!important;gap:3px!important;}
@@ -3457,7 +3457,7 @@ flex:none!important;max-height:none!important;overflow-y:auto!important;
 .v6-block-wheel.v6-radar-v1 .hero-right-hud{border-left:1px solid rgba(70,150,220,.4)!important;}
 .v6-block-wheel.v6-radar-v1 .qw-build-live{font-size:9px!important;font-weight:900!important;color:#42ff74!important;margin-left:10px!important;letter-spacing:.12em!important;text-shadow:0 0 10px rgba(66,255,116,.55)!important;}
 .v6-obr2-wheel.obr2-live-loaded{box-shadow:0 0 0 2px rgba(66,255,116,.5),0 12px 48px rgba(0,0,0,.7)!important;}
-/* TIGHT-1 — presný pixel grid, koleso = stĺpec, bez medzier */
+/* TIGHT-2 / 3D+15% — presný pixel grid, koleso +15%, bez medzier */
 .v6-block-wheel.v6-radar-v1 .quantum-hero-layout{
 width:100%!important;max-width:100%!important;margin:0!important;
 display:grid!important;
@@ -3473,7 +3473,7 @@ min-height:280px!important;align-items:stretch!important;justify-content:flex-st
 .v6-block-wheel.v6-radar-v1 .qw-wheel-stage{width:100%!important;height:var(--qw-canvas-px,380px)!important;margin:0!important;flex:0 0 auto!important;}
 .v6-block-wheel.v6-radar-v1 #wheelCanvas,.v6-block-wheel.v6-radar-v1 .qw-wheel-stage canvas{
 width:100%!important;height:100%!important;max-width:100%!important;margin:0!important;display:block!important;
-filter:drop-shadow(0 12px 32px rgba(0,0,0,.7)) drop-shadow(0 0 40px rgba(40,180,255,.25)) drop-shadow(0 0 20px rgba(66,255,116,.12))!important;
+filter:drop-shadow(0 14px 34px rgba(0,0,0,.78)) drop-shadow(0 0 48px rgba(40,180,255,.22)) drop-shadow(0 0 24px rgba(66,255,116,.14))!important;
 }
 .v6-block-wheel.v6-radar-v1 .hero-left-hud{
 grid-area:left!important;display:flex!important;flex-direction:column!important;
@@ -3495,9 +3495,9 @@ box-shadow:inset 0 1px 0 rgba(120,200,255,.12),0 2px 8px rgba(0,0,0,.35)!importa
 </style>
 <script>
 (function(){
-var w=document.querySelector('.v6-block-wheel[data-obr2-ver="tight-1"]');
-if(w){w.classList.add('obr2-live-loaded');w.setAttribute('data-loaded','tight-1');}
-try{localStorage.setItem('qwBuild','obr2-tight-1');}catch(e){}
+var w=document.querySelector('.v6-block-wheel[data-obr2-ver="3d-2"]');
+if(w){w.classList.add('obr2-live-loaded');w.setAttribute('data-loaded','3d-2');}
+try{localStorage.setItem('qwBuild','obr2-3d-2');}catch(e){}
 })();
 </script>
 
