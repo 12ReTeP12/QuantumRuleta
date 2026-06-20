@@ -18,6 +18,9 @@
     "test:v2:layout": "electron scripts/tests/_test_v4.cjs",
     "test:v2:sk": "electron scripts/tests/_test_v4_sk_full.cjs",
     "test:v2:master": "electron scripts/tests/_test_v4_master.cjs",
+    "test:v2:sbpo": "node scripts/tests/_test_sbpo_compute.cjs",
+    "test:v2:zdc": "node scripts/tests/_test_zdc_compute.cjs",
+    "test:v2:zdc:xlsx": "node scripts/tests/_test_zdc_xlsx.cjs",
     "test:v2:all": "node scripts/sync-v2.cjs && electron scripts/tests/_test_v4_sk_full.cjs",
     "test:v2:ci": "npm run test:v2:master && npm run test:v2 && npm run test:v2:audit && npm run test:v2:wheel && npm run test:v2:deep && npm run test:v2:layout",
     "audit:b2a": "electron scripts/tests/audit-b2a-render-duplicates.cjs",
@@ -56,5 +59,8 @@
       "executableName": "RULETA",
       "signAndEditExecutable": false
     }
+  },
+  "dependencies": {
+    "xlsx": "^0.18.5"
   }
 }

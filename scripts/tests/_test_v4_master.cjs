@@ -20,6 +20,7 @@ const MODULES = [
   'scripts/wheel/quantum-wheel.js',
   'scripts/wheel/wheel-canvas.js',
   'scripts/wheel/wheel-hud.js',
+  'scripts/wheel/wheel-flow-panel.js',
   'scripts/ai/ai-engine.js',
   'scripts/ai/confidence-engine.js',
   'scripts/valid-true/valid-true-v0.js',
@@ -35,16 +36,26 @@ const MODULES = [
   'scripts/analytics/telemetry-engine.js',
   'scripts/debug/engine-hub.js',
   'scripts/analytics/bah-engine.js',
+  'scripts/analytics/hot-cold-engine.js',
+  'scripts/analytics/raw-stats-engine.js',
+  'scripts/analytics/statistics-panel.js',
   'scripts/analytics/session-stats.js',
+  'scripts/analytics/patterns-panel.js',
+  'scripts/analytics/risk-chaos-panel.js',
+  'scripts/analytics/persistence-engine-panel.js',
   'scripts/analytics/roulette-analytics.js',
   'scripts/ui/ui-alerts.js',
   'scripts/ui/session-fatigue.js',
   'scripts/ui/keyboard-live-ai-flow.js',
   'scripts/bootstrap/app-boot.js',
   'scripts/pattern/spin-pattern-observer.js',
+  'scripts/pattern/spin-binary-pattern-observer.js',
   'scripts/analytics/timing-engine.js',
   'scripts/board/board-events.js',
   'scripts/board/board-ui.js',
+  'scripts/analytics/zber-dat-0-36.js',
+  'scripts/analytics/zber-dat-0-36-xlsx.js',
+  'scripts/analytics/zber-dat-0-36-ui.js',
 ];
 
 const MODULE_EXPORTS = {
@@ -104,7 +115,27 @@ const MODULE_EXPORTS = {
     'skEngineName',
   ],
   'scripts/analytics/bah-engine.js': ['computeBehaviorAlerts', 'computeAlertHub', 'bahResetSession'],
+  'scripts/analytics/hot-cold-engine.js': [
+    'renderHotCold',
+    'hcBuildFromSpins',
+    'hcCountSpins',
+    'hcRebuildSpinRecordsFromHistory',
+    'hcHumanHotHint',
+  ],
+  'scripts/analytics/raw-stats-engine.js': [
+    'computeRawStatsEngine',
+    'buildComboMixStatsHTML',
+    'rawSpinCounts',
+    'computeComboMixStats',
+    'countColorStats',
+    'countEvenOdd',
+    'countHighLow',
+  ],
+  'scripts/analytics/statistics-panel.js': ['renderStatsPanel', 'computeStatsRetroEngine', 'bindStatsExportBtn'],
   'scripts/analytics/session-stats.js': ['entropy', 'getClusters', 'updateStats', 'computePatternEngine'],
+  'scripts/analytics/patterns-panel.js': ['renderPatterny', 'renderClusters', 'renderNeighbors'],
+  'scripts/analytics/risk-chaos-panel.js': ['renderRiskChaos', 'renderPersistence', 'renderChaos'],
+  'scripts/analytics/persistence-engine-panel.js': ['renderPersistencePanel', 'computePersistenceEnginePanel'],
   'scripts/analytics/roulette-analytics.js': ['computeRouletteObserverUI'],
   'scripts/analytics/timing-engine.js': ['computeTimingEngine', 'renderTimingPanel'],
   'scripts/ui/ui-alerts.js': ['renderAlerts', 'renderAlertSystem', 'buildAlertsHTML'],
@@ -116,6 +147,11 @@ const MODULE_EXPORTS = {
     'renderTuctyStlpceTip',
     'tsModuleScoreSpin',
     'tsModuleUpdateRecommendation',
+  ],
+  'scripts/pattern/spin-binary-pattern-observer.js': [
+    'computeSpinBinaryPattern',
+    'renderSpinBinaryPatternObserver',
+    'bindSbpoTabs',
   ],
   'scripts/board/board-ui.js': ['renderBoard', 'renderKeyboard', 'buildBoardHTML'],
   'scripts/board/board-events.js': ['bindBoardEvents', 'handleBoardClick'],
@@ -162,6 +198,7 @@ const MODULE_EXPORTS = {
     'qwHeroMetric',
     'qwMetric',
   ],
+  'scripts/wheel/wheel-flow-panel.js': ['renderWheelFlow', 'renderMigration', 'renderMomentum'],
 };
 
 const V2_INLINE_SYMBOLS = [];
@@ -298,6 +335,45 @@ if (inlineJs) {
   if (/function\s+computeBehaviorAlerts\s*\(/.test(inlineJs))
     fail('V2 inline: computeBehaviorAlerts má byť v scripts/analytics/bah-engine.js');
   else ok('V2 inline: computeBehaviorAlerts nie je duplicitný');
+  if (/function\s+renderStatsPanel\s*\(/.test(inlineJs))
+    fail('V2 inline: renderStatsPanel má byť v scripts/analytics/statistics-panel.js');
+  else ok('V2 inline: renderStatsPanel nie je duplicitný');
+  if (/function\s+computeRawStatsEngine\s*\(/.test(inlineJs))
+    fail('V2 inline: computeRawStatsEngine má byť v scripts/analytics/raw-stats-engine.js');
+  else ok('V2 inline: computeRawStatsEngine nie je duplicitný');
+  if (/function\s+rawSpinCounts\s*\(/.test(inlineJs))
+    fail('V2 inline: rawSpinCounts má byť v scripts/analytics/raw-stats-engine.js');
+  else ok('V2 inline: rawSpinCounts nie je duplicitný');
+  if (/function\s+countColorStats\s*\(/.test(inlineJs))
+    fail('V2 inline: countColorStats má byť v scripts/analytics/raw-stats-engine.js');
+  else ok('V2 inline: countColorStats nie je duplicitný');
+  if (/function\s+countEvenOdd\s*\(/.test(inlineJs))
+    fail('V2 inline: countEvenOdd má byť v scripts/analytics/raw-stats-engine.js');
+  else ok('V2 inline: countEvenOdd nie je duplicitný');
+  if (/function\s+countHighLow\s*\(/.test(inlineJs))
+    fail('V2 inline: countHighLow má byť v scripts/analytics/raw-stats-engine.js');
+  else ok('V2 inline: countHighLow nie je duplicitný');
+  if (/function\s+renderHotCold\s*\(/.test(inlineJs))
+    fail('V2 inline: renderHotCold má byť v scripts/analytics/hot-cold-engine.js');
+  else ok('V2 inline: renderHotCold nie je duplicitný');
+  if (/function\s+hcBuildFromSpins\s*\(/.test(inlineJs))
+    fail('V2 inline: hcBuildFromSpins má byť v scripts/analytics/hot-cold-engine.js');
+  else ok('V2 inline: hcBuildFromSpins nie je duplicitný');
+  if (/function\s+renderPatterny\s*\(/.test(inlineJs))
+    fail('V2 inline: renderPatterny má byť v scripts/analytics/patterns-panel.js');
+  else ok('V2 inline: renderPatterny nie je duplicitný');
+  if (/function\s+renderWheelFlow\s*\(/.test(inlineJs))
+    fail('V2 inline: renderWheelFlow má byť v scripts/wheel/wheel-flow-panel.js');
+  else ok('V2 inline: renderWheelFlow nie je duplicitný');
+  if (/function\s+renderRiskChaos\s*\(/.test(inlineJs))
+    fail('V2 inline: renderRiskChaos má byť v scripts/analytics/risk-chaos-panel.js');
+  else ok('V2 inline: renderRiskChaos nie je duplicitný');
+  if (/function\s+renderPersistencePanel\s*\(/.test(inlineJs))
+    fail('V2 inline: renderPersistencePanel má byť v scripts/analytics/persistence-engine-panel.js');
+  else ok('V2 inline: renderPersistencePanel nie je duplicitný');
+  if (/function\s+computePersistenceEnginePanel\s*\(/.test(inlineJs))
+    fail('V2 inline: computePersistenceEnginePanel má byť v scripts/analytics/persistence-engine-panel.js');
+  else ok('V2 inline: computePersistenceEnginePanel nie je duplicitný');
   [
     ['ensureQuantumWheelDashboardDOM', 'scripts/wheel/wheel-hud.js'],
     ['qwResolveHudCopy', 'scripts/wheel/wheel-hud.js'],
@@ -544,12 +620,97 @@ app.whenReady().then(async () => {
       return L && L.flowIntel ? { ok: true, msg: L.flow.state } : { ok: false, msg: 'LFP' };
     });
 
+    check('SBPO Farba panel', () => {
+      if (typeof computeSpinBinaryPattern !== 'function') return { ok: false, msg: 'computeSpinBinaryPattern' };
+      [1,3,5,7,9,12].forEach(n => spin(n));
+      const R = computeSpinBinaryPattern('color');
+      if (!R.ready) return { ok: false, msg: '!ready' };
+      sbpoActiveTab = 'color';
+      renderSpinBinaryPatternObserver();
+      const p = $('sbpoPanelColor');
+      const h = (p || {}).innerHTML || '';
+      const okGlance = h.includes('Zhrnutie — FARBA') && h.includes('Kto dominuje');
+      const okPanels = h.includes('spo-step') && h.includes('Posledných 6 krokov') && h.includes('Šanca zmeny lídra');
+      const spo = ($('spinPatternObserver') || {}).innerHTML || '';
+      const spoOk = spo.includes('Tucty') || spo.includes('spo-wait');
+      return okGlance && okPanels && spoOk ? { ok: true, msg: 'Farba F1–F11 + SPO OK' } : { ok: false, msg: 'panel HTML' };
+    });
+
+    check('SBPO Malé/Veľké panel', () => {
+      if (typeof computeSpinBinaryPattern !== 'function') return { ok: false, msg: 'computeSpinBinaryPattern' };
+      const R = computeSpinBinaryPattern('size');
+      if (!R.ready) return { ok: false, msg: '!ready size' };
+      sbpoActiveTab = 'size';
+      renderSpinBinaryPatternObserver();
+      const p = $('sbpoPanelSize');
+      const h = (p || {}).innerHTML || '';
+      const okGlance = h.includes('Zhrnutie — MALÉ A VEĽKÉ') && h.includes('Malé');
+      const okPanels = h.includes('spo-step') && h.includes('Posledných 6 krokov') && h.includes('Počty v celej histórii');
+      const colorP = $('sbpoPanelColor');
+      const colorStill = colorP && (colorP.innerHTML || '').includes('Zhrnutie — FARBA');
+      return okGlance && okPanels && colorStill ? { ok: true, msg: 'Size F1–F11 + Farba panel intact' } : { ok: false, msg: 'size panel' };
+    });
+
+    check('SBPO Párne/Nepárne panel', () => {
+      if (typeof computeSpinBinaryPattern !== 'function') return { ok: false, msg: 'computeSpinBinaryPattern' };
+      const R = computeSpinBinaryPattern('parity');
+      if (!R.ready) return { ok: false, msg: '!ready parity' };
+      sbpoActiveTab = 'parity';
+      renderSpinBinaryPatternObserver();
+      const p = $('sbpoPanelParity');
+      const h = (p || {}).innerHTML || '';
+      const okGlance = h.includes('Zhrnutie — PÁRNE A NEPÁRNE') && /Párne|Nepárne|párne|nepárne/.test(h);
+      const okPanels = h.includes('spo-step') && h.includes('Šanca zmeny lídra') && h.includes('Podobný sled v minulosti');
+      sbpoActiveTab = 'color';
+      renderSpinBinaryPatternObserver();
+      const colorOk = (($('sbpoPanelColor') || {}).innerHTML || '').includes('Zhrnutie — FARBA');
+      sbpoActiveTab = 'size';
+      renderSpinBinaryPatternObserver();
+      const sizeOk = (($('sbpoPanelSize') || {}).innerHTML || '').includes('Zhrnutie — MALÉ A VEĽKÉ');
+      return okGlance && okPanels && colorOk && sizeOk ? { ok: true, msg: 'Parity F1–F11 + Color + Size OK' } : { ok: false, msg: 'parity:'+(!okGlance?'glance ':'')+(!okPanels?'panels ':'')+(!colorOk?'color ':'')+(!sizeOk?'size':'') };
+    });
+
     check('board click delegácia', () => {
       const btn = document.getElementById('num-17');
       if (!btn) return { ok: false, msg: 'chýba num-17' };
       const before = spins.length;
       btn.click();
       return spins.length === before + 1 ? { ok: true, msg: 'spin 17' } : { ok: false, msg: 'click' };
+    });
+
+    check('ZBER DÁT 0–36 smoke', () => {
+      if (typeof zdcNewStore !== 'function' || typeof zdcOnSpin !== 'function' || typeof zdcCloseSession !== 'function') {
+        return { ok: false, msg: 'chýba zdc API' };
+      }
+      var st = zdcNewStore();
+      var i;
+      for (i = 0; i < 120; i++) zdcOnSpin(st, i % 37);
+      var cr = zdcCloseSession(st);
+      if (!cr.ok) return { ok: false, msg: 'close fail ' + (cr.reason || '') };
+      if (!st.closed.length || !st.closed[0].report) return { ok: false, msg: 'no report' };
+      if (!st.closed[0].report.returnTable || !st.closed[0].report.returnHighlights) return { ok: false, msg: 'no returnTable' };
+      try {
+        localStorage.setItem('zdcStore_v1', JSON.stringify(st));
+      } catch (e) { return { ok: false, msg: 'persist fail' }; }
+      if (typeof zdcRefreshUI === 'function') zdcRefreshUI();
+      if (typeof showSession === 'function') showSession();
+      var rep = ($('saResultsWrap') || {}).innerHTML || '';
+      var okRep = rep.includes('Návraty čísel') || rep.includes('Report session') || rep.length > 200;
+      var okXlsx = typeof zdcXlsxExport !== 'undefined' && zdcXlsxExport.buildWorkbook;
+      var wbOk = false;
+      if (okXlsx) {
+        var wb = zdcXlsxExport.buildWorkbook(st, { exportType: 'session', session: st.closed[0] });
+        wbOk = wb && wb.SheetNames && wb.SheetNames.indexOf('SESSION_01') >= 0;
+      }
+      var undoOk = typeof zdcUndoLastSpin === 'function';
+      if (undoOk) {
+        zdcOnSpin(st, 0);
+        var u = zdcUndoLastSpin(st);
+        undoOk = u.ok && u.removed === 0;
+      }
+      return okRep && wbOk && undoOk
+        ? { ok: true, msg: 'session+report+xlsx+undo OK' }
+        : { ok: false, msg: 'rep=' + okRep + ' xlsx=' + wbOk + ' undo=' + undoOk };
     });
 
     return out;

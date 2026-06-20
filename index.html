@@ -124,6 +124,21 @@
 .spo-muted{font-size:var(--ui-text-sm);color:#8ab5a8;line-height:1.5;margin:6px 0 0;}
 .spo-mem{font-size:var(--ui-text-md);color:#c5d5d0;line-height:1.5;margin:0;font-weight:600;}
 .spo-wait{padding:24px;text-align:center;font-size:var(--ui-text-md);color:#8fa8a0;font-weight:700;line-height:1.5;}
+/* SBPO — binárne patterny (Farba / Malé-Veľké / Párne-Nepárne) */
+.sbpo-tabnav{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 14px;padding:0;border-bottom:1px solid rgba(255,255,255,.1);}
+.sbpo-tab{
+padding:8px 14px;border:1px solid rgba(255,255,255,.12);border-radius:8px 8px 0 0;
+background:rgba(0,0,0,.35);color:#9ec4b8;font-size:var(--ui-text-sm);font-weight:800;
+letter-spacing:.04em;cursor:pointer;transition:background .15s,color .15s,border-color .15s;
+}
+.sbpo-tab:hover:not(:disabled){color:#e8fff6;background:rgba(255,255,255,.08);border-color:rgba(0,255,191,.25);}
+.sbpo-tab.active{color:#e8fff6;background:rgba(0,255,191,.12);border-color:rgba(0,255,191,.35);box-shadow:0 -2px 12px rgba(0,255,191,.08);}
+.sbpo-tab:disabled,.sbpo-tab.sbpo-tab-soon{opacity:.45;cursor:not-allowed;}
+.sbpo-panels{margin-bottom:16px;}
+.sbpo-panel-wrap[hidden]{display:none!important;}
+.sbpo-col-color{box-shadow:inset 3px 0 0 rgba(255,80,80,.35);}
+.sbpo-col-size{box-shadow:inset 3px 0 0 rgba(100,180,255,.35);}
+.sbpo-col-parity{box-shadow:inset 3px 0 0 rgba(180,120,255,.35);}
 /* Spodné panely 1–11 — rovnaká čitateľnosť ako AI PREDIKCIA */
 .v6-pattern-observer .spo-panel h4{font-size:var(--ui-text-md)!important;color:var(--yellow)!important;margin-bottom:10px!important;}
 .v6-pattern-observer .spo-panel .spo-lead,.v6-pattern-observer .spo-panel .spo-lead-strong{font-size:var(--ui-text-lg)!important;line-height:1.5!important;}
@@ -133,9 +148,6 @@
 .v6-pattern-observer .spo-panel-quiet{opacity:1!important;}
 @media(max-width:1200px){.spo-hero-row{grid-template-columns:1fr;}.spo-two-col{grid-template-columns:1fr;}}
 @media(max-width:640px){.spo-two-col{grid-template-columns:1fr;}}
-.v6-ts-po-panel{margin:0!important;width:100%;max-width:100%;flex-shrink:0;}
-.v6-keyboard-section .v6-ts-po-panel .kb-flow-row{flex:1 1 auto;}
-.v6-keyboard-section .v6-ts-po-panel .kb-flow-primary{flex:1 1 0;}
 .v6-keyboard-section{margin-bottom:0!important;}
 /* PeTeR RULETA GAME — 3D titulok + Excel karty */
 .peter-game-header{flex-direction:column!important;align-items:stretch!important;padding:10px 32px 0 16px!important;min-height:auto!important;gap:0!important;}
@@ -167,7 +179,8 @@ font-size:clamp(12px,0.78vw,15px)!important;font-weight:800!important;line-heigh
 color:#9ec4b4!important;letter-spacing:.04em!important;
 text-shadow:0 1px 2px rgba(0,0,0,.88),0 0 10px rgba(100,200,150,.28)!important;
 }
-.peter-excel-tabs{display:flex;align-items:flex-end;gap:3px;margin-top:8px;padding-left:2px;}
+.peter-excel-tabs{display:flex;align-items:flex-end;justify-content:flex-start;gap:3px;margin-top:8px;padding:0 6px 0 2px;width:100%;box-sizing:border-box;}
+.peter-excel-tabs .peter-tab-stats{margin-left:auto;}
 .peter-tab{
 position:relative;padding:7px 16px 9px;border:1px solid rgba(90,140,190,.35);border-bottom:none;
 border-radius:9px 9px 0 0;background:linear-gradient(180deg,rgba(28,42,58,.98),rgba(10,16,24,.99));
@@ -189,15 +202,123 @@ content:'';position:absolute;left:0;right:0;bottom:-1px;height:2px;background:rg
 .peter-timing-shell{max-width:820px;margin:0 auto;padding:16px 14px 24px;}
 .peter-timing-shell .v6-essential-timing{max-width:100%;}
 .peter-timing-intro{margin:0 0 12px;font-size:12px;color:#8ab5c8;font-weight:600;line-height:1.45;}
-.peter-game-header.timing-open .peter-game-title{cursor:pointer;user-select:none;}
-.peter-game-header.timing-open .peter-game-title:hover{filter:drop-shadow(0 3px 2px rgba(0,0,0,.85)) drop-shadow(0 0 24px rgba(120,220,255,.65));}
-.peter-game-header.timing-open .peter-game-title:focus-visible{outline:2px solid rgba(66,255,116,.55);outline-offset:3px;border-radius:4px;}
-.peter-game-header.session-open .peter-game-title{cursor:pointer;user-select:none;}
-.peter-game-header.session-open .peter-game-title:hover{filter:drop-shadow(0 3px 2px rgba(0,0,0,.85)) drop-shadow(0 0 24px rgba(120,220,255,.65));}
-/* Session Analyzer — Hlboká analýza relácií */
-.sa-sidebar-link{width:100%;margin-top:8px;padding:10px 12px!important;border:1px solid rgba(90,180,255,.35)!important;border-radius:10px!important;background:linear-gradient(145deg,rgba(8,28,48,.95),rgba(4,10,18,.98))!important;color:#8ed4ff!important;font-size:11px!important;font-weight:800!important;letter-spacing:.04em!important;cursor:pointer;text-align:left;line-height:1.35!important;transition:border-color .15s,box-shadow .15s;}
-.sa-sidebar-link:hover{border-color:rgba(66,255,116,.5)!important;box-shadow:0 0 16px rgba(66,255,116,.12)!important;color:#b8ecff!important;}
+#peterTabTiming,#peterTabStats{font-size:15px!important;padding:8px 18px 10px!important;}
+.peter-timing-shell .v6-essential-timing h2{font-size:17px!important;font-weight:900!important;letter-spacing:.04em!important;color:#b8e4ff!important;margin-bottom:10px!important;}
+.peter-game-header.timing-open .peter-game-title,.peter-game-header.session-open .peter-game-title,.peter-game-header.stats-open .peter-game-title{cursor:pointer;user-select:none;}
+.peter-game-header.timing-open .peter-game-title:hover,.peter-game-header.session-open .peter-game-title:hover,.peter-game-header.stats-open .peter-game-title:hover{filter:drop-shadow(0 3px 2px rgba(0,0,0,.85)) drop-shadow(0 0 24px rgba(120,220,255,.65));}
+.peter-game-header.timing-open .peter-game-title:focus-visible,.peter-game-header.session-open .peter-game-title:focus-visible,.peter-game-header.stats-open .peter-game-title:focus-visible{outline:2px solid rgba(66,255,116,.55);outline-offset:3px;border-radius:4px;}
+.peter-stats-shell{max-width:none!important;width:100%!important;padding:14px 20px 24px!important;box-sizing:border-box;}
+.peter-stats-intro{margin:0 0 14px;font-size:12px;color:#8ab5c8;font-weight:600;line-height:1.45;}
+#peterViewStats.active{min-height:calc(100vh - 70px);}
+.peter-stats-shell .stats-full-grid{display:grid;grid-template-columns:1fr;gap:12px;align-items:start;}
+@media (min-width:760px){.peter-stats-shell .stats-full-grid{grid-template-columns:repeat(2,minmax(0,1fr));}}
+@media (min-width:1100px){.peter-stats-shell .stats-full-grid{grid-template-columns:repeat(3,minmax(0,1fr));}}
+.peter-stats-shell .stats-col{padding:12px 14px!important;min-height:0;overflow:visible!important;height:auto!important;align-self:start;}
+.peter-stats-shell .stats-col.stats-col-raw{grid-column:1/-1;}
+@media (min-width:1100px){.peter-stats-shell .stats-col.stats-col-raw{grid-column:auto;}}
+.peter-stats-shell .stats-raw-split{display:grid;grid-template-columns:1fr;gap:4px 16px;margin-top:4px;}
+@media (min-width:520px){.peter-stats-shell .stats-raw-split{grid-template-columns:repeat(2,minmax(0,1fr));}}
+.peter-stats-shell .stats-raw-col{min-width:0;}
+.peter-stats-shell .stats-col-title{margin:0 0 10px!important;font-size:14px!important;font-weight:900!important;letter-spacing:.04em!important;color:#42ff74!important;text-transform:uppercase;}
+.peter-stats-shell .stats-col-body .section-label{margin-top:6px!important;font-size:11px!important;}
+.peter-stats-shell .stats-col-body .section-label:first-child{margin-top:0!important;}
+.peter-stats-shell .panel-line{padding:5px 0!important;font-size:13px!important;}
+.peter-stats-shell .panel-line b{font-size:14px!important;}
+.peter-stats-shell .combo-stats-block{margin-top:0!important;padding:0!important;border:none!important;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 10px;}
+.peter-stats-shell .combo-stats-title{grid-column:1/-1;font-size:12px!important;margin:0 0 4px!important;}
+.peter-stats-shell .combo-stat-row{padding:5px 8px!important;margin:2px 0!important;}
+.peter-stats-shell .combo-stats-sect{margin-bottom:8px!important;}
+.peter-stats-shell .combo-stats-sect-title{font-size:10px!important;margin-bottom:4px!important;}
+.peter-stats-shell .combo-lbl,.peter-stats-shell .combo-pct{font-size:11px!important;}
+.peter-stats-shell .stats-retro-wrap{margin-top:14px;display:flex;flex-direction:column;gap:12px;}
+.peter-stats-shell .stats-retro-section{padding:12px 14px;border-radius:10px;border:1px solid rgba(80,160,230,.18);background:linear-gradient(165deg,rgba(8,18,32,.92),rgba(4,10,18,.96));}
+.peter-stats-shell .stats-retro-title{margin:0 0 10px;font-size:12px;font-weight:900;letter-spacing:.06em;color:#5eb8ff;text-transform:uppercase;}
+.peter-stats-shell .stats-retro-sub{margin:-6px 0 10px;font-size:10px;font-weight:700;color:#6a8ea8;letter-spacing:.04em;text-transform:uppercase;}
+.peter-stats-shell .stats-retro-foot{margin:8px 0 0;font-size:10px;color:#6a8aa0;line-height:1.45;}
+.peter-stats-shell .stats-retro-text{font-size:12px;line-height:1.55;color:#9ec4b8;}
+.peter-stats-shell .stats-retro-text .panel-line{padding:4px 0!important;}
+.peter-stats-shell .stats-retro-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;}
+@media(max-width:900px){.peter-stats-shell .stats-retro-row{grid-template-columns:1fr;}}
+.peter-stats-shell .stats-heat-block{margin-top:10px;padding-top:10px;border-top:1px solid rgba(80,160,230,.12);}
+.peter-stats-shell .stats-heat-legend{display:flex;flex-wrap:wrap;gap:8px 14px;margin-bottom:8px;font-size:10px;font-weight:700;color:#7a9eb4;}
+.peter-stats-shell .stats-heat-legend span{display:inline-flex;align-items:center;gap:5px;}
+.peter-stats-shell .stats-heat-swatch{width:10px;height:10px;border-radius:3px;display:inline-block;}
+.peter-stats-shell .stats-heat-swatch.hot{background:linear-gradient(135deg,#ffb347,#ff8c00);box-shadow:0 0 8px rgba(255,160,50,.45);}
+.peter-stats-shell .stats-heat-swatch.warm{background:rgba(120,160,190,.35);border:1px solid rgba(150,190,220,.25);}
+.peter-stats-shell .stats-heat-swatch.cold{background:linear-gradient(135deg,rgba(40,50,120,.9),rgba(25,30,80,.95));box-shadow:inset 0 0 6px rgba(80,100,200,.25);}
+.peter-stats-shell .stats-heat-grid{display:grid;grid-template-columns:repeat(13,minmax(0,1fr));gap:4px;}
+.peter-stats-shell .stats-heat-cell{text-align:center;padding:5px 2px;border-radius:6px;font-size:11px;font-weight:800;line-height:1.2;border:1px solid rgba(255,255,255,.06);}
+.peter-stats-shell .stats-heat-cell.hot{color:#1a1000;background:linear-gradient(145deg,rgba(255,180,60,.35),rgba(255,120,20,.2));border-color:rgba(255,180,80,.35);}
+.peter-stats-shell .stats-heat-cell.warm{color:#c8dce8;background:rgba(0,0,0,.28);}
+.peter-stats-shell .stats-heat-cell.cold{color:#a8b8e8;background:linear-gradient(145deg,rgba(30,40,100,.55),rgba(18,22,60,.7));border-color:rgba(80,100,200,.25);}
+.peter-stats-shell .stats-heat-cell .hc-n{display:block;font-size:12px;}
+.peter-stats-shell .stats-heat-cell .hc-c{display:block;font-size:9px;opacity:.85;font-weight:700;}
+.peter-stats-shell .stats-trend-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;}
+.peter-stats-shell .stats-trend-item{padding:8px 10px;border-radius:8px;background:rgba(0,0,0,.28);border:1px solid rgba(255,255,255,.05);}
+.peter-stats-shell .stats-trend-item .st-lbl{font-size:9px;font-weight:800;text-transform:uppercase;color:#7a9eb4;letter-spacing:.06em;}
+.peter-stats-shell .stats-trend-item .st-val{font-size:13px;font-weight:900;margin-top:4px;}
+.peter-stats-shell .stats-trend-item .st-delta{font-size:11px;font-weight:700;margin-top:2px;}
+.peter-stats-shell .stats-trend-delta-up{color:#42ff74;font-weight:800;text-shadow:0 0 12px rgba(66,255,116,.65),0 0 4px rgba(66,255,116,.35);}
+.peter-stats-shell .stats-trend-delta-down{color:#ff5c4a;font-weight:800;text-shadow:0 0 12px rgba(255,80,60,.55),0 0 4px rgba(255,70,50,.3);}
+.peter-stats-shell .stats-trend-delta-flat{color:#9ec4b8;font-weight:700;}
+.peter-stats-shell .stats-top-nums-list{display:flex;flex-direction:column;gap:6px;margin-bottom:4px;}
+.peter-stats-shell .stats-top-num-row{display:flex;align-items:flex-start;gap:8px;padding:7px 9px;border-radius:8px;background:rgba(0,0,0,.32);border:1px solid rgba(80,160,230,.12);}
+.peter-stats-shell .stats-top-num-rank{flex:0 0 auto;font-size:11px;font-weight:800;color:#5eb8ff;opacity:.85;padding-top:2px;}
+.peter-stats-shell .stats-top-num-body{flex:1;min-width:0;}
+.peter-stats-shell .stats-top-num-main{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;}
+.peter-stats-shell .stats-top-num-main b{font-size:16px!important;font-weight:900;line-height:1;}
+.peter-stats-shell .stats-top-num-count{font-size:11px;font-weight:700;color:#8ab5c8;}
+.peter-stats-shell .stats-top-num-metrics{display:flex;gap:10px;margin-top:5px;flex-wrap:wrap;}
+.peter-stats-shell .stnm-item{display:inline-flex;align-items:baseline;gap:5px;font-size:10px;}
+.peter-stats-shell .stnm-item em{font-style:normal;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:#6a8ea8;}
+.peter-stats-shell .stnm-item b{font-size:12px!important;font-weight:900;color:#c8e8f8;}
+.peter-stats-shell .stnm-item.stnm-drought b{color:#ffb347;}
+.peter-stats-shell .stnm-item.stnm-drought.stnm-hot b{color:#ff8a7a;text-shadow:0 0 8px rgba(255,120,90,.35);}
+.peter-stats-shell .stats-never-hit{display:flex;flex-wrap:wrap;gap:4px 6px;margin-top:4px;}
+.peter-stats-shell .stats-never-chip{font-size:10px;font-weight:800;padding:2px 6px;border-radius:5px;background:rgba(30,40,100,.45);color:#a8b8e8;border:1px solid rgba(80,100,200,.25);}
+.peter-stats-shell .stats-heat-cell .hc-s,.peter-stats-shell .stats-heat-cell .hc-g{display:block;font-size:8px;opacity:.8;font-weight:700;line-height:1.15;}
+.peter-stats-shell .stats-heat-cell .hc-g{color:#8ab5c8;}
+.peter-stats-shell .stats-heat-cell .hc-s{color:#ffb347;}
+.peter-stats-shell .stats-meta-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 12px;margin-bottom:8px;}
+.peter-stats-shell .stats-theory-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px 10px;}
+.peter-stats-shell .stats-export-bar{margin-top:10px;padding-top:10px;border-top:1px solid rgba(80,160,230,.12);}
+.peter-stats-shell .stats-btn-export{font-size:11px;font-weight:800;padding:8px 12px;border-radius:8px;border:1px solid rgba(66,255,116,.35);background:rgba(66,255,116,.08);color:#42ff74;cursor:pointer;letter-spacing:.04em;}
+.peter-stats-shell .stats-btn-export:hover{background:rgba(66,255,116,.15);}
+.peter-stats-shell .stats-num-abs-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px 10px;}
+.peter-stats-shell .stats-full-seq-wrap{max-height:140px;overflow-y:auto;margin-top:4px;padding:8px;border-radius:8px;background:rgba(0,0,0,.28);border:1px solid rgba(80,160,230,.1);}
+.peter-stats-shell .stats-full-seq{display:flex;flex-wrap:wrap;gap:4px;}
+.peter-stats-shell .stats-seq-chip{font-size:10px;font-weight:800;padding:2px 6px;border-radius:5px;border:1px solid rgba(255,255,255,.08);}
+.peter-stats-shell .stats-seq-chip.red{color:#ffb0a8;background:rgba(120,30,30,.35);}
+.peter-stats-shell .stats-seq-chip.black{color:#d8e8f0;background:rgba(20,30,40,.5);}
+.peter-stats-shell .stats-seq-chip.green{color:#8affe0;background:rgba(20,80,50,.35);}
+.peter-stats-shell .stats-num-table-wrap{max-height:320px;overflow:auto;margin-top:6px;border-radius:8px;border:1px solid rgba(80,160,230,.12);}
+.peter-stats-shell .stats-num-table{width:100%;border-collapse:collapse;font-size:10px;}
+.peter-stats-shell .stats-num-table th,.peter-stats-shell .stats-num-table td{padding:4px 6px;text-align:left;border-bottom:1px solid rgba(255,255,255,.05);}
+.peter-stats-shell .stats-num-table th{font-size:9px;text-transform:uppercase;color:#6a8ea8;letter-spacing:.04em;position:sticky;top:0;background:rgba(8,18,32,.98);}
+.peter-stats-shell .stats-num-table tr:hover td{background:rgba(255,255,255,.03);}
+.peter-stats-shell .stats-export-bar{display:flex;flex-wrap:wrap;gap:8px;}
+.peter-stats-shell .stats-btn-export-json{border-color:rgba(94,184,255,.35)!important;color:#5eb8ff!important;background:rgba(94,184,255,.08)!important;}
+.peter-stats-shell .stats-cum-grid{display:flex;flex-wrap:wrap;gap:4px 8px;}
+.peter-stats-shell .stats-cum-chip{font-size:10px;font-weight:700;padding:3px 7px;border-radius:6px;background:rgba(0,0,0,.28);border:1px solid rgba(255,255,255,.06);}
+.sa-green-nav-card{
+display:block;width:100%;margin:0 0 10px;padding:11px 14px;border:none;border-radius:9px;cursor:pointer;text-align:left;
+background:linear-gradient(145deg,rgba(8,72,38,.92),rgba(4,42,22,.98))!important;
+border:1px solid rgba(66,255,116,.5)!important;
+color:#42ff74!important;font-size:13px!important;font-weight:800!important;letter-spacing:.04em!important;line-height:1.35!important;
+box-shadow:inset 0 1px 0 rgba(120,255,160,.15),0 2px 10px rgba(0,0,0,.35)!important;
+transition:border-color .15s,box-shadow .15s,color .15s,background .15s;
+}
+.sa-green-nav-card:hover,.sa-green-nav-card.active{
+background:linear-gradient(145deg,rgba(12,96,48,.95),rgba(6,52,28,.99))!important;
+color:#6aff94!important;border-color:rgba(90,255,140,.65)!important;
+box-shadow:inset 0 1px 0 rgba(140,255,180,.22),0 0 18px rgba(66,255,116,.18)!important;
+}
+.sa-green-nav-card.active{outline:1px solid rgba(66,255,116,.35);outline-offset:1px;}
+/* ZBER DÁT 0–36 — samostatná karta (dátový archivátor spinov) */
 .peter-session-shell{max-width:980px;margin:0 auto;padding:16px 14px 28px;}
+.sa-page-head{margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid rgba(70,150,220,.28);}
+.sa-page-title{margin:0 0 8px;font-size:clamp(18px,2vw,22px);font-weight:900;color:#e8f4ff;letter-spacing:.04em;text-shadow:0 0 20px rgba(66,255,116,.2);}
+.sa-page-intro{margin:0;font-size:12px;color:#8ab5c8;line-height:1.5;font-weight:600;}
 .sa-status-bar{display:flex;flex-wrap:wrap;gap:10px 18px;padding:12px 16px;margin-bottom:14px;border:1px solid rgba(70,150,220,.35);border-radius:10px;background:linear-gradient(145deg,rgba(6,18,32,.96),rgba(2,8,14,.99));box-shadow:inset 0 1px 0 rgba(120,200,255,.1);}
 .sa-status-item{font-size:12px;font-weight:800;color:#8ab5c8;letter-spacing:.05em;}
 .sa-status-item strong{color:#42ff74;font-size:14px;margin-left:6px;}
@@ -206,15 +327,16 @@ content:'';position:absolute;left:0;right:0;bottom:-1px;height:2px;background:rg
 .sa-panel h2{margin:0 0 10px;font-size:15px;font-weight:900;color:#e8f4ff;letter-spacing:.04em;}
 .sa-panel-intro{margin:0 0 12px;font-size:12px;color:#8ab5c8;line-height:1.45;}
 .sa-actions{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:14px;}
+.sa-actions-reboot{margin-top:4px;}
 .sa-btn{padding:10px 16px;border-radius:8px;border:1px solid rgba(90,180,255,.4);background:linear-gradient(180deg,rgba(20,50,80,.9),rgba(8,20,36,.98));color:#b8e4ff;font-size:11px;font-weight:800;letter-spacing:.05em;cursor:pointer;transition:all .15s;}
-.sa-btn:hover{border-color:rgba(66,255,116,.55);color:#42ff74;box-shadow:0 0 14px rgba(66,255,116,.15);}
+.sa-btn:hover:not(:disabled){border-color:rgba(66,255,116,.55);color:#42ff74;box-shadow:0 0 14px rgba(66,255,116,.15);}
+.sa-btn:disabled{opacity:.45;cursor:not-allowed;}
 .sa-btn-primary{border-color:rgba(255,180,60,.5);color:#ffd43d;background:linear-gradient(180deg,rgba(60,40,10,.85),rgba(30,20,6,.98));}
-.sa-btn-primary:hover{border-color:rgba(255,212,80,.7);color:#ffe566;}
-.sa-btn-success{border-color:rgba(66,255,116,.5);color:#42ff74;background:linear-gradient(180deg,rgba(0,50,36,.85),rgba(0,24,18,.98));}
-.sa-btn:disabled{opacity:.45;cursor:not-allowed;box-shadow:none;}
+.sa-btn-primary:hover:not(:disabled){border-color:rgba(255,212,80,.7);color:#ffe566;}
+.sa-btn-success{border-color:rgba(66,255,116,.45);color:#42ff74;background:linear-gradient(180deg,rgba(10,50,30,.85),rgba(4,18,10,.98));}
 .sa-results-table{width:100%;border-collapse:collapse;font-size:12px;}
-.sa-results-table th,.sa-results-table td{padding:9px 10px;border-bottom:1px solid rgba(70,150,220,.15);text-align:left;vertical-align:top;}
-.sa-results-table th{font-size:10px;font-weight:800;color:#5eb8ff;text-transform:uppercase;letter-spacing:.08em;background:rgba(0,0,0,.25);}
+.sa-results-table th,.sa-results-table td{padding:8px 10px;text-align:left;border-bottom:1px solid rgba(70,150,220,.18);}
+.sa-results-table th{font-size:10px;font-weight:800;color:#7ad4b8;letter-spacing:.08em;text-transform:uppercase;}
 .sa-results-table td{color:#d8ece4;line-height:1.45;}
 .sa-results-table tr.sa-row-magnet td:first-child{color:#ff9a6a;}
 .sa-results-table tr.sa-row-streak td:first-child{color:#ffd43d;}
@@ -251,6 +373,55 @@ content:'';position:absolute;left:0;right:0;bottom:-1px;height:2px;background:rg
 .sa-hc-cell.cold .sa-hc-cnt{color:#b8a8e8;}
 .sa-hc-cell.hot .sa-hc-cnt{color:#fff8d0;}
 .sa-hc-note{margin:10px 0 0;font-size:10px;color:#6a9088;font-weight:600;}
+.sa-archive-row{display:flex;align-items:flex-start;gap:8px;margin:0 0 8px;}
+.sa-archive-item{flex:1;margin:0;padding:8px 10px;border-left:3px solid rgba(66,255,116,.45);background:rgba(6,14,24,.8);font-size:11px;color:#b8d8cc;line-height:1.45;}
+.sa-btn-copy{flex:0 0 auto;padding:5px 10px;border-radius:6px;border:1px solid rgba(90,180,255,.35);background:rgba(8,24,40,.95);color:#8ed4ff;font-size:9px;font-weight:800;letter-spacing:.04em;cursor:pointer;white-space:nowrap;}
+.sa-btn-copy:hover{border-color:rgba(66,255,116,.5);color:#42ff74;}
+.sa-btn-copy.copied{border-color:rgba(66,255,116,.6);color:#42ff74;}
+.zdc-min-note{margin:0 0 10px;font-size:11px;color:#8ab5c8;font-weight:700;}
+.zdc-cycle-info{font-size:11px;color:#7ad4b8;font-weight:700;}
+.zdc-panel-main{border-color:rgba(66,255,116,.25);}
+.zdc-trigger-wrap{overflow-x:auto;margin-top:8px;max-height:420px;overflow-y:auto;border-radius:8px;border:1px solid rgba(70,150,220,.2);}
+.zdc-trigger-table{width:100%;min-width:1400px;border-collapse:collapse;font-size:11px;}
+.zdc-trigger-table th,.zdc-trigger-table td{padding:6px 8px;text-align:left;border-bottom:1px solid rgba(70,150,220,.15);vertical-align:top;}
+.zdc-trigger-table th{position:sticky;top:0;background:rgba(8,20,32,.98);font-size:9px;font-weight:800;color:#7ad4b8;letter-spacing:.06em;text-transform:uppercase;z-index:1;}
+.zdc-trigger-table td{color:#d8ece4;line-height:1.35;}
+.zdc-trigger-table .zdc-num{font-weight:900;font-size:13px;color:#42ff74;}
+.zdc-trigger-table .zdc-next{max-width:180px;font-size:10px;}
+.zdc-trigger-table .zdc-comment{min-width:220px;font-size:10px;color:#b8e4cc;}
+.zdc-trigger-table .zdc-anom{font-size:10px;color:#ffd43d;}
+.zdc-report-lead{margin:0 0 10px;font-size:13px;color:#e8f4ff;line-height:1.5;font-weight:700;}
+.zdc-report-meta{margin:0 0 6px;font-size:11px;color:#8ab5c8;line-height:1.45;}
+.zdc-report-h3{margin:12px 0 6px;font-size:12px;font-weight:900;color:#7ad4b8;}
+.zdc-report-list{margin:0 0 8px;padding-left:18px;font-size:11px;color:#b8d8cc;line-height:1.45;}
+.zdc-raw-details{margin-top:10px;font-size:11px;color:#8ab5c8;}
+.zdc-raw-text{margin:6px 0 0;font-size:10px;color:#6a9088;word-break:break-all;line-height:1.4;}
+.zdc-archive-active .sa-archive-item{border-left-color:#ffd43d;}
+.zdc-panel-master{border-color:rgba(255,212,80,.35);}
+.zdc-panel-raw{border-color:rgba(66,255,116,.22);}
+.zdc-raw-meta{margin:0 0 8px;font-size:11px;color:#7ad4b8;font-weight:700;}
+.zdc-raw-actions{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px;}
+.zdc-raw-full{margin:0;padding:10px 12px;border-radius:8px;border:1px solid rgba(70,150,220,.2);background:rgba(0,0,0,.35);font-size:11px;color:#b8e4cc;line-height:1.5;word-break:break-all;max-height:160px;overflow-y:auto;}
+.zdc-raw-visible{margin:10px 0;font-size:11px;color:#b8e4cc;line-height:1.45;word-break:break-all;}
+.zdc-meta-block{margin:8px 0 12px;padding:10px 12px;border-radius:8px;border:1px solid rgba(70,150,220,.18);background:rgba(0,0,0,.25);}
+.zdc-quality{color:#ffd43d;font-weight:800;}
+.zdc-bond-strong{color:#42ff74;font-size:10px;}
+.zdc-bond-weak{color:#9ab8ff;font-size:10px;}
+.zdc-bond-rare{color:#ff9a6a;font-size:10px;}
+.zdc-view-toggle{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 6px;}
+.zdc-view-btn{font-size:10px;padding:4px 14px;opacity:.75;}
+.zdc-view-btn.active{opacity:1;border-color:rgba(66,255,116,.55);background:rgba(66,255,116,.12);color:#42ff74;}
+.zdc-mini-table{width:100%;max-width:640px;border-collapse:collapse;font-size:11px;margin:8px 0 12px;}
+.zdc-mini-table th,.zdc-mini-table td{padding:5px 10px;text-align:left;border-bottom:1px solid rgba(70,150,220,.15);vertical-align:top;}
+.zdc-mini-table th{font-size:9px;font-weight:800;color:#7ad4b8;letter-spacing:.06em;text-transform:uppercase;}
+.zdc-mini-table td{color:#b8d8cc;}
+.zdc-trigger-table.zdc-table-overview{min-width:720px;}
+.zdc-table-scroll .zdc-table-overview{min-width:720px;}
+.zdc-master-warn{margin:8px 0;padding:10px 12px;border-radius:8px;border:1px solid rgba(255,180,60,.45);background:rgba(255,180,60,.1);color:#ffd43d;font-size:11px;line-height:1.45;font-weight:700;}
+.zdc-master-head{margin:0 0 12px;padding:10px 12px;border-radius:8px;border:1px solid rgba(70,150,220,.2);background:rgba(0,0,0,.22);}
+.zdc-report-h4{margin:10px 0 4px;font-size:11px;font-weight:800;color:#9ad4b8;}
+.zdc-return-table{max-width:100%;min-width:480px;}
+.sa-live-strip{max-height:none;}
 </style>
 </head>
 <body>
@@ -261,8 +432,8 @@ content:'';position:absolute;left:0;right:0;bottom:-1px;height:2px;background:rg
 <div class="topbar-v6-time"><span class="topbar-clock" id="liveClock">00:00:00</span><span class="topbar-date" id="liveDate">—</span></div>
 </div>
 <nav class="peter-excel-tabs" role="tablist" aria-label="Karty programu">
-<button type="button" class="peter-tab" role="tab" id="peterTabTiming" data-peter-tab="timing" aria-selected="false" aria-controls="peterViewTiming">⏱ Kvantová timing · 20%</button>
-<button type="button" class="peter-tab" role="tab" id="peterTabSession" data-peter-tab="session" aria-selected="false" aria-controls="peterViewSession">📊 Hlboká analýza relácií</button>
+<button type="button" class="peter-tab" role="tab" id="peterTabTiming" data-peter-tab="timing" aria-selected="false" aria-controls="peterViewTiming">⏱ Kvantová timming</button>
+<button type="button" class="peter-tab peter-tab-stats" role="tab" id="peterTabStats" data-peter-tab="stats" aria-selected="false" aria-controls="peterViewStats">📊 Štatistiky a dáta spinov</button>
 </nav>
 </div>
 </header>
@@ -273,13 +444,13 @@ content:'';position:absolute;left:0;right:0;bottom:-1px;height:2px;background:rg
 <div class="card card-history-only">
 <div class="card-head-row"><h2>História čísel</h2>
 <button type="button" class="btn-icon-sm btn-clear-hist" id="btnClearSession" title="Vymazať históriu" aria-label="Vymazať históriu">🗑</button></div>
+<button type="button" class="sa-green-nav-card" id="saOpenFromHistory" aria-controls="peterViewSession">📊 ZBER DÁT 0–36</button>
 <div class="history-empty visible" id="historyEmpty">Zatiaľ žiadne spiny — klikni číslo na klávesnici.</div>
 <div class="history" id="history"></div>
 <div class="history-footer">
 <button type="button" class="btn btn-undo" id="btnUndoLast" disabled>RESET · posledné číslo</button>
 <div id="sessionStatus" class="session-status">Relácia: prázdna</div>
 </div></div>
-<button type="button" class="sa-sidebar-link" id="saOpenFromSidebar" title="Otvoriť Generátor Relácií a Hlbokej Štatistiky">📊 Generátor Relácií a Hlbokej Štatistiky</button>
 <div class="card card-sfa v6-cc-tertiary"><h2>Únava relácie</h2>
 <div id="sessionFatiguePanel" class="session-fatigue-panel"></div></div>
 </aside>
@@ -303,28 +474,25 @@ content:'';position:absolute;left:0;right:0;bottom:-1px;height:2px;background:rg
 <div class="kb-flow-meta" id="kbFlowMeta" hidden></div>
 </div>
 </div>
-<div class="v6-ts-po-panel v6-kb-flow-panel" id="tuctyStlpceTipStrip" aria-label="Tucty a stĺpce — Pattern Observer, samostatný modul">
-<div class="kb-flow-strip">
-<div class="kb-flow-banner wait" id="tsPoBanner">⚪ ČAKÁM</div>
-<div class="kb-flow-row" id="tsPoRow">
-<div class="kb-flow-primary" id="tsPoPrimary"></div>
-</div>
-</div>
-</div>
 </div>
 <section class="v6-block-wheel v6-cc-wheel v6-radar-v1 v6-obr2-wheel" data-qw-file="index-NOVY-V2.html" data-v2-build="obr2-3d-2" data-obr2-ver="3d-2" aria-label="Kvantové koleso">
 <div id="wheelRadarData" class="qw-dashboard">
 <div class="qw-dash-wait">Zadaj 2+ spiny — živý radar správania…</div>
 </div>
 </section>
-<div class="card mini-card v6-valid-true-card" aria-label="TRUE VALID V0 — oficiálna metrika">
-<h2>TRUE VALID V0</h2>
-<div id="validTruePanel"></div>
-</div>
 <section class="v6-pattern-observer card" id="spinPatternSection" aria-label="Patterny a opakovateľnosť">
 <div class="spo-head">
 <h2>Patterny a opakovateľnosť</h2>
-<p class="spo-sub">Vľavo celý príbeh tuctov · vpravo celý príbeh stĺpcov — bez spoločných panelov (bez tipov)</p>
+</div>
+<nav class="sbpo-tabnav" role="tablist" aria-label="Binárne patterny" id="sbpoTabNav">
+<button type="button" class="sbpo-tab" role="tab" id="sbpoTabColor" data-sbpo-tab="color" aria-selected="false" aria-controls="sbpoPanelColor">Farba</button>
+<button type="button" class="sbpo-tab" role="tab" id="sbpoTabSize" data-sbpo-tab="size" aria-selected="false" aria-controls="sbpoPanelSize">Malé a veľké čísla</button>
+<button type="button" class="sbpo-tab" role="tab" id="sbpoTabParity" data-sbpo-tab="parity" aria-selected="false" aria-controls="sbpoPanelParity">Párne a nepárne čísla</button>
+</nav>
+<div class="sbpo-panels" id="sbpoPanels">
+<div id="sbpoPanelColor" class="sbpo-panel-wrap" role="tabpanel" aria-labelledby="sbpoTabColor" hidden></div>
+<div id="sbpoPanelSize" class="sbpo-panel-wrap" role="tabpanel" aria-labelledby="sbpoTabSize" hidden></div>
+<div id="sbpoPanelParity" class="sbpo-panel-wrap" role="tabpanel" aria-labelledby="sbpoTabParity" hidden></div>
 </div>
 <div id="spinPatternObserver"><div class="spo-wait">Zadaj aspoň 2 spiny s číslom (0 sa nepočíta). Vľavo tucty, vpravo stĺpce — každý stĺpec je samostatný príbeh.</div></div>
 </section>
@@ -344,32 +512,39 @@ content:'';position:absolute;left:0;right:0;bottom:-1px;height:2px;background:rg
 <div class="v6-zone-body" id="alerts"></div>
 </div></div>
 </div>
-<div class="v6-play-panels-open" aria-label="Timing, štatistiky, RNG, random">
-<section class="v6-rng-behavior card" aria-label="Analýza RNG správania">
-<h2>ANALÝZA RNG SPRÁVANIA</h2>
+<div class="v6-hub-two v6-cc-hub v6-hub-rng-random v6-hub-priority" aria-label="RNG správanie a čistý random výber">
+<div class="card ai-card-compact v6-zone-card v6-zone-rng">
+<div class="card-head-row"><h2>ANALÝZA RNG SPRÁVANIA</h2></div>
+<div class="v6-zone-scroll v6-zone-open" data-zone="rng">
+<div class="v6-zone-body">
 <div id="rngBehaviorPanel" class="rng-panel"></div>
-</section>
-<div class="v6-essential-strip v6-cc-essential" aria-label="Hlavné dáta pre hranie">
-<div class="v6-essential-left">
-<div class="card mini-card v6-random-pick rsp-zone" id="randomPickZone" aria-label="Čistý random výber"
+</div>
+</div>
+</div>
+<div class="card ai-card-compact v6-zone-card v6-zone-random rsp-zone" id="randomPickZone" aria-label="Čistý random výber"
 title="Nie je hracia stratégia. Iba náhodný čo-keby hod bez logiky.">
-<div class="rsp-head">
-<div class="rsp-title"><span class="rsp-icon" aria-hidden="true">🎲</span><h2>ČISTÝ RANDOM VÝBER</h2></div>
-<span class="rsp-mode-badge">ČISTÁ NÁHODNOSŤ</span>
+<div class="card-head-row">
+<h2>ČISTÝ RANDOM VÝBER</h2>
+<span class="v6-zone-badge">ČISTÁ NÁHODNOSŤ</span>
 </div>
-<p class="rsp-tagline">Náhodný „čo keby“ — nie je to stratégia ani odporúčanie.</p>
-<p class="rsp-refresh-hint">🎲 Po ďalšom spine sa hod obnoví</p>
+<div class="v6-zone-scroll v6-zone-open" data-zone="random">
+<div class="v6-zone-body">
+<p class="v6-zone-intro">Náhodný „čo keby“ — nie je to stratégia ani odporúčanie.</p>
+<p class="v6-zone-hint">🎲 Po ďalšom spine sa hod obnoví</p>
 <div id="randomSessionPick" class="rsp-panel"></div>
-<p class="rsp-info">Čistá náhodnosť: nič nehodnotí, nič nevidí, nič neodporúča.</p>
-<p class="rsp-foot">Iba doplnok — nie výhodnejší smer ako AI ani koleso.</p>
+<p class="v6-zone-foot">Iba doplnok — nie výhodnejší smer ako AI ani koleso.</p>
 </div>
 </div>
-<div class="card v6-essential-stats"><h2>Štatistiky · surové dáta spinov</h2>
-<p class="manual-hint" style="margin:-2px 0 6px">Raw spiny · kombinačné % mix</p>
-<div id="statsPanel"></div></div>
 </div>
 </div>
 <div class="v6-engine-advanced-wrap v6-debug-wrap">
+<div class="v6-valid-true-wrap">
+<button type="button" class="engine-advanced-toggle valid-true-toggle" id="btnValidTrue" aria-expanded="false" aria-controls="validTruePanelWrap">▶ ✓ TRUE VALID · oficiálna metrika stĺpca</button>
+<p class="debug-mode-hint valid-true-hint">Oficiálna metrika stĺpca · read-only log · export pre audit</p>
+<div id="validTruePanelWrap" class="valid-true-panel-wrap collapsed" role="region" aria-label="TRUE VALID — oficiálna metrika">
+<div id="validTruePanel" class="valid-true-panel"></div>
+</div>
+</div>
 <button type="button" class="engine-advanced-toggle debug-mode-toggle" id="btnEngineAdvanced" aria-expanded="false" aria-controls="engineAdvancedPanel">▶ 🔧 LADIACI REŽIM · AI a engine diagnostika</button>
 <p class="debug-mode-hint">Interné systémy ostávajú aktívne — panel je len skrytý. Otvor len pri ladení.</p>
 <div id="engineAdvancedPanel" class="engine-advanced-panel debug-mode-panel collapsed" role="region" aria-label="Ladiaci režim — AI a engine diagnostika">
@@ -422,7 +597,6 @@ title="Nie je hracia stratégia. Iba náhodný čo-keby hod bez logiky.">
 </main>
 <aside class="col-right col-right-v6">
 <div class="card card-hotcold card-hotcold-side"><h2>AKTÍVNE / NEAKTÍVNE ČÍSLA</h2>
-<p class="hc-behavior-intro hc-card-intro">Len z histórie spinov · reset pri vymazaní histórie</p>
 <div id="hotCold"></div></div>
 <div class="card card-alerts-live card-alerts-compact"><h2>Upozornenia</h2><p class="bah-intro">Živý radar správania · max 2 upozornenia · pokojný pozorovateľ · plné vysvetlenie od 12. spinu</p><div id="warning"></div><div id="alertSystem"></div></div>
 </aside>
@@ -431,7 +605,7 @@ title="Nie je hracia stratégia. Iba náhodný čo-keby hod bez logiky.">
 <div id="peterViewTiming" class="peter-view" role="tabpanel" aria-labelledby="peterTabTiming">
 <div class="shell peter-timing-shell">
 <p class="peter-timing-intro">Meranie času guličky · 20% váha modelu · ŠTART pri točeniu, STOP pri dopade, potom zadaj číslo 0–36.</p>
-<div class="card mini-card v6-essential-timing"><h2>Kvantová timing · 20%</h2>
+<div class="card mini-card v6-essential-timing"><h2>Kvantová timming</h2>
 <div class="timing-btns">
 <button type="button" class="btn btn-start" id="btnStart">ŠTART</button>
 <button type="button" class="btn btn-stop" id="btnStop">STOP</button>
@@ -444,41 +618,76 @@ title="Nie je hracia stratégia. Iba náhodný čo-keby hod bez logiky.">
 <div id="timing"></div></div>
 </div>
 </div>
-<div id="peterViewSession" class="peter-view" role="tabpanel" aria-labelledby="peterTabSession">
+<div id="peterViewSession" class="peter-view" role="tabpanel" aria-labelledby="saOpenFromHistory">
 <div class="shell peter-session-shell">
-<div class="sa-panel">
-<h2>Generátor Relácií a Hlbokej Štatistiky</h2>
-<p class="sa-panel-intro">Samostatný modul hĺbkovej analýzy uzavretých relácií. Spiny z klávesnice sa zapisujú do internej histórie tejto karty (max 100). Live hra na prvej karte zostáva nedotknutá.</p>
+<header class="sa-page-head">
+<h2 class="sa-page-title">ZBER DÁT 0–36</h2>
+<p class="sa-page-intro">Digitálna kniha rulety — samostatný zber dát z reálnych spinov (čísla 0–36). Nie predikcia, len dokumentácia minulosti: čo padlo a čo nasledovalo po každom čísle. Spiny z klávesnice sa ukladajú do tejto karty. Live hra, AI, patterny a klávesnica ostávajú nedotknuté.</p>
+</header>
 <div class="sa-status-bar" id="saStatusBar">
-<span class="sa-status-item" id="saStatusGame">AKTUÁLNA RELÁCIA: <strong>HRA č. 1</strong></span>
-<span class="sa-status-item" id="saStatusSpins">ZADANÝCH SPINOV: <strong>0</strong></span>
+<span class="sa-status-item" id="saStatusGame">AKTUÁLNA SESSION: <strong>SESSION č. 1</strong></span>
+<span class="sa-status-item" id="saStatusSpins">ZADANÝCH SPINU: <strong>0</strong></span>
 <span class="sa-status-item" id="saStatusMode">STAV: <strong>Zber dát</strong></span>
 </div>
-<div class="sa-live-strip" id="saLiveStrip" aria-label="Spiny aktuálnej relácie v tomto module"></div>
-<div class="sa-actions">
-<button type="button" class="sa-btn sa-btn-primary" id="saBtnCloseAnalyze">[ UZAVRIEŤ A ANALYZOVAŤ TERAZ ]</button>
-<button type="button" class="sa-btn sa-btn-success" id="saBtnReboot" disabled>[ VYMAZAŤ A ZAČAŤ HRU Č. 2 ]</button>
+<div class="sa-live-strip" id="saLiveStrip" aria-label="Raw spiny aktuálnej session"></div>
+<div class="sa-panel zdc-panel-raw" id="zdcRawPanel">
+<h2>Raw spiny — pôvodné poradie</h2>
+<p class="sa-panel-intro">Najdôležitejšie dáta modulu. Kompletný zoznam spinov sa nikdy neskryje — vždy v pôvodnom poradí.</p>
+<p class="zdc-raw-meta" id="zdcRawMeta">Počet: 0</p>
+<div class="zdc-raw-actions">
+<button type="button" class="sa-btn sa-btn-copy" id="zdcBtnCopyRaw">[ Kopírovať spiny ]</button>
+<button type="button" class="sa-btn" id="zdcBtnUndoSpin">[ Zrušiť posledný spin ]</button>
+<button type="button" class="sa-btn" id="zdcBtnExportRaw">[ Export RAW (.xlsx) ]</button>
 </div>
+<p class="zdc-raw-full" id="zdcRawText">Zatiaľ žiadne spiny — zadávaj z klávesnice.</p>
+</div>
+<p class="zdc-min-note" id="zdcMinNote">Do plnohodnotnej session treba minimálne 120 spinov.</p>
+<div class="sa-actions sa-actions-top">
+<button type="button" class="sa-btn sa-btn-primary" id="saBtnCloseAnalyze">[ UZAVRIEŤ SESSION ]</button>
+<button type="button" class="sa-btn" id="zdcBtnExport">[ EXPORT XLSX ]</button>
+</div>
+<div class="sa-panel zdc-panel-main" id="zdcTriggerPanel">
+<h2>Tabuľka čísel 0–36 — čo padlo po každom čísle</h2>
+<p class="sa-panel-intro">Pre každé číslo vidíš, čo nasledovalo v tejto session. Toto je zber dát z minulosti, nie predikcia ďalšieho spinu.</p>
+<div class="zdc-view-toggle">
+<button type="button" class="sa-btn zdc-view-btn active" data-view="overview">Prehľad</button>
+<button type="button" class="sa-btn zdc-view-btn" data-view="detail">Detail</button>
+</div>
+<div id="zdcTriggerTableWrap" class="zdc-trigger-wrap" aria-label="Tabuľka trigger 0-36"></div>
+</div>
+<div class="sa-panel" id="saResultsPanel">
+<h2>Report session</h2>
+<div id="saResultsWrap"><p class="sa-empty">Session ešte nebola uzavretá. Zadávaj spiny z klávesnice alebo ju uzavri po dosiahnutí minima spinov.</p></div>
 </div>
 <div class="sa-panel" id="saHotColdPanel">
-<h2>Hot &amp; Cold Matrix — vizuálna mapa relácie</h2>
-<p class="sa-panel-intro">Zmenšené plátno 0–36 s počítadlom výskytov v aktuálnej hre. Aktualizuje sa pri každom spine (aj počas zberu). Po resete sa vynuluje.</p>
+<h2>Hot &amp; Cold — prehľad čísel 0–36</h2>
+<p class="sa-panel-intro">Počet výskytov každého čísla v aktuálnej session. Hot = 4× a viac (oranžová), Cold = 0–1× (fialová/modrá).</p>
 <div class="sa-hc-legend">
 <span class="sa-hc-leg"><span class="sa-hc-swatch hot"></span> Hot — 4× a viac</span>
 <span class="sa-hc-leg"><span class="sa-hc-swatch cold"></span> Cold — 0–1× (spáči)</span>
 <span class="sa-hc-leg"><span class="sa-hc-swatch neutral"></span> Neutrál — 2–3×</span>
 </div>
 <div id="saHotColdGrid" class="sa-hc-grid-wrap" aria-label="Hot and Cold mriežka 0-36"></div>
-<p class="sa-hc-note" id="saHotColdNote">Zatiaľ žiadne spiny v tejto relácii.</p>
+<p class="sa-hc-note" id="saHotColdNote">Zatiaľ žiadne spiny v tejto session.</p>
 </div>
-<div class="sa-panel" id="saResultsPanel">
-<h2>Výsledky hĺbkovej analýzy</h2>
-<div id="saResultsWrap"><p class="sa-empty">Relácia ešte nebola uzavretá. Zadávaj spiny z klávesnice alebo uzavri manuálne.</p></div>
+<div class="sa-actions sa-actions-reboot">
+<span class="zdc-cycle-info" id="zdcCycleInfo">Archív: max. 12 session v pamäti · po 12. session vznikne master report</span>
 </div>
-<div class="sa-panel">
-<h2>História uzavretých relácií</h2>
-<div class="sa-archive" id="saArchiveLog"><p class="sa-empty">Zatiaľ žiadna uzavretá relácia.</p></div>
+<div class="sa-panel sa-panel-archive">
+<h2>Archív uzavretých session</h2>
+<div class="sa-archive" id="saArchiveLog"><p class="sa-empty">Zatiaľ žiadna uzavretá session.</p></div>
 </div>
+<div class="sa-panel zdc-panel-master" id="zdcMasterPanel" style="display:none">
+<h2 id="zdcMasterTitle">Master report — 12 session spolu</h2>
+<div id="zdcMasterWrap"></div>
+<div id="zdcMasterTableWrap" class="zdc-trigger-wrap"></div>
+</div>
+</div>
+</div>
+<div id="peterViewStats" class="peter-view peter-stats-view" role="tabpanel" aria-labelledby="peterTabStats">
+<div class="shell peter-stats-shell">
+<p class="peter-stats-intro">Čo padlo v tejto hre — len fakty, žiadne tipy. Kombinované skupiny, mapa čísel a podrobný audit relácie.</p>
+<div id="statsPanel" class="peter-stats-panel"></div>
 </div>
 </div>
 <script src="scripts/core/constants.js"></script>
@@ -974,7 +1183,7 @@ const now=Date.now();
 emitEvent(EVENT.BEFORE_SPIN,{number,now});
 tsModuleScoreSpin(number);
 pipelineScorePreviousSpin(number);
-/* TRUE VALID V0 — read-only log po vyhodnotení predchádzajúcej predikcie */
+/* TRUE VALID — read-only log po vyhodnotení predchádzajúcej predikcie */
 if(typeof ValidTrueV0!=='undefined'&&ValidTrueV0.onSpinScored)ValidTrueV0.onSpinScored(number);
 pipelineRecordSpin(number,now);
 sessionFatigueOnSpin(now);
@@ -1035,7 +1244,6 @@ return{ready:true,modelLabel:'Engine pamäte spinov',active:spinMemoryEngine.act
 }
 function computeSessionIntelEngine(){return{ready:hasMinSpins(),mode:sessionState.mode,label:sessionState.label,score:sessionState.score};}
 function computeAIStateMachineEngine(){return{ready:true,state:aiState.state,label:aiState.label,aggression:Math.round(aiState.aggression*100),confMult:aiState.confMult};}
-function computePersistenceEnginePanel(){return{ready:spins.length>=1,maxLife:persistenceEngine.maxLife,dozen:persistenceEngine.dozenLife};}
 function computePerformanceEnginePanel(){return Object.assign({ready:performanceEngine.sampleSize>0},performanceEngine);}
 function computeFutureFlowPanel(){
 if(spins.length<3)return{ready:false,note:'Čakám na 3+ spiny'};
@@ -1058,10 +1266,6 @@ el.innerHTML='<div class="section-label">Inteligencia relácie</div><div class="
 function renderAIStatePanel(){
 const el=document.getElementById('aiStatePanel');if(!el)return;const A=computeAIStateMachineEngine();
 el.innerHTML='<div class="section-label">'+skUiLabel('AI State Machine')+'</div><div class="panel-line"><span>Stav</span><b class="greenTxt">'+A.label+'</b></div><div class="panel-line"><span>Agresivita</span><b class="yellowTxt">'+A.aggression+'%</b></div><div class="panel-line"><span>'+skUiLabel('Mult')+'</span><b class="blueTxt">'+A.confMult.toFixed(2)+'</b></div>';
-}
-function renderPersistencePanel(){
-const el=document.getElementById('persistenceEnginePanel');if(!el)return;const P=computePersistenceEnginePanel();
-el.innerHTML='<div class="section-label">'+skUiLabel('Persistence')+'</div><div class="panel-line"><span>Max život</span><b class="greenTxt">'+P.maxLife+'</b></div><div class="panel-line"><span>Tucety</span><b>'+P.dozen[0]+'·'+P.dozen[1]+'·'+P.dozen[2]+'</b></div>';
 }
 function renderPredictionArchive(){
 const el=document.getElementById('predictionArchivePanel');if(!el)return;const rows=predictionArchive.slice(-6).reverse();
@@ -1352,9 +1556,6 @@ function weightedTotal(){if(!spins.length)return 1;let t=0;for(let i=0;i<spins.l
 function spinsSince(num){for(let i=spins.length-1;i>=0;i--)if(spins[i]===num)return spins.length-1-i;return spins.length;}
 function wheelStep(fromNum,toNum){const a=wheel.indexOf(fromNum),b=wheel.indexOf(toNum);if(a<0||b<0)return 0;let d=b-a;if(d>wheel.length/2)d-=wheel.length;if(d<-wheel.length/2)d+=wheel.length;return d;}
 function ivStd(iv){if(iv.length<2)return 0;const avg=iv.reduce((a,b)=>a+b,0)/iv.length;return Math.sqrt(iv.reduce((s,t)=>s+Math.pow(t-avg,2),0)/iv.length);}
-function countColorStats(){let r=0,b=0,g=0;spins.forEach(n=>{if(n===0)g++;else if(reds.includes(n))r++;else b++;});const t=spins.length||1;return{r,b,g,rp:+(r/t*100).toFixed(1),bp:+(b/t*100).toFixed(1)};}
-function countEvenOdd(){let e=0,o=0;spins.forEach(n=>{if(n===0)return;if(n%2===0)e++;else o++;});const t=Math.max(1,e+o);return{e,o,ep:+(e/t*100).toFixed(1),op:+(o/t*100).toFixed(1)};}
-function countHighLow(){let hi=0,lo=0;spins.forEach(n=>{if(n===0)return;if(n>=19)hi++;else lo++;});const t=Math.max(1,hi+lo);return{hi,lo,hip:+(hi/t*100).toFixed(1),lop:+(lo/t*100).toFixed(1)};}
 function predictColor(){if(spins.length<2)return '—';const s=spins.slice(-15);let r=0,b=0;s.forEach(n=>{if(n===0)return;if(reds.includes(n))r++;else b++;});return r>=b?'ČERVENÁ':'ČIERNA';}
 function predictEvenOdd(){if(spins.length<2)return '—';const s=spins.slice(-15);let e=0,o=0;s.forEach(n=>{if(n===0)return;if(n%2===0)e++;else o++;});return e>=o?'PÁRNE':'NEPÁRNE';}
 function predictHighLow(){if(spins.length<2)return '—';const s=spins.slice(-15);let hi=0,lo=0;s.forEach(n=>{if(n===0)return;if(n>=19)hi++;else lo++;});return hi>=lo?'VEĽKÉ':'MALÉ';}
@@ -1500,182 +1701,7 @@ el.innerHTML=
 +'<div class="panel-line"><span>'+skUiLabel('AI score')+'</span><b class="greenTxt">'+d.aiScore+'%</b></div>'
 +(d.pillars?'<div class="panel-line"><span>'+skUiLabel('Core pulse')+'</span><b style="font-size:11px">'+d.pillars.spin+' · '+d.pillars.timing+' · '+d.pillars.visual+'</b></div>':'');
 }
-function computeRawStatsEngine(){
-const raw=rawSpinCounts();
-const total=spins.length;
-const colors=countColorStats();
-const evenOdd=countEvenOdd();
-const highLow=countHighLow();
-const topNums=[];
-for(let n=0;n<=36;n++){
-const c=raw[n]||0;
-if(c>0)topNums.push({n,c,pct:total?(c/total*100).toFixed(1):'0.0'});
-}
-topNums.sort((a,b)=>b.c-a.c||a.n-b.n);
-const neverHit=[];
-for(let n=0;n<=36;n++)if(!raw[n])neverHit.push(n);
-const dozens=DOZENS.map((nums,i)=>{
-let hits=0;
-spins.forEach(n=>{if(nums.includes(n))hits++;});
-return{id:i+1,hits,pct:total?(hits/total*100).toFixed(1):'0.0'};
-});
-const colHits=[0,0,0];
-spins.forEach(n=>{
-if(n>=1&&n<=36)colHits[(n-1)%3]++;
-});
-const columns=colHits.map((hits,i)=>({
-id:i+1,hits,pct:total?(hits/total*100).toFixed(1):'0.0'
-}));
-const zeroHits=raw[0]||0;
-return{
-modelLabel:'Štatistiky · surové dáta spinov',
-total,
-colors,
-evenOdd,
-highLow,
-topNums:topNums.slice(0,10),
-zeroHits,
-zeroPct:total?(zeroHits/total*100).toFixed(1):'0.0',
-neverHit:neverHit.slice(0,14),
-dozens,
-columns,
-recent:spins.slice(-12),
-combo:computeComboMixStats()
-};
-}
-function comboPctFromHits(hits,total){
-if(!total)return 0;
-return Math.round(hits/total*100);
-}
-function comboPctHeatClass(pct){
-if(pct>=55)return'pct-hi';
-if(pct>=35)return'pct-mid';
-return'pct-lo';
-}
-function computeComboMixStats(){
-const list=spins.filter(n=>n>0);
-const t=list.length;
-if(!t)return{ready:false,total:0};
-let c12=0,c13=0,c23=0,d12=0,d13=0,d23=0;
-let crMa=0,crVe=0,ciMa=0,ciVe=0;
-let crPa=0,crNe=0,ciPa=0,ciNe=0;
-let maPa=0,maNe=0,vePa=0,veNe=0;
-list.forEach(n=>{
-const col=getColumn(n);
-const doz=getDozen(n);
-if(col===0||col===1)c12++;
-if(col===0||col===2)c13++;
-if(col===1||col===2)c23++;
-if(doz===0||doz===1)d12++;
-if(doz===0||doz===2)d13++;
-if(doz===1||doz===2)d23++;
-const red=reds.includes(n);
-const even=n%2===0;
-const low=n<19;
-if(red&&low)crMa++;else if(red&&!low)crVe++;
-else if(!red&&low)ciMa++;else ciVe++;
-if(red&&even)crPa++;else if(red&&!even)crNe++;
-else if(!red&&even)ciPa++;else ciNe++;
-if(low&&even)maPa++;else if(low&&!even)maNe++;
-else if(!low&&even)vePa++;else veNe++;
-});
-return{
-ready:true,total:t,
-columns:[
-{label:'1 + 2',pct:comboPctFromHits(c12,t)},
-{label:'1 + 3',pct:comboPctFromHits(c13,t)},
-{label:'2 + 3',pct:comboPctFromHits(c23,t)}
-],
-dozens:[
-{label:'1 + 2',pct:comboPctFromHits(d12,t)},
-{label:'1 + 3',pct:comboPctFromHits(d13,t)},
-{label:'2 + 3',pct:comboPctFromHits(d23,t)}
-],
-colorSize:[
-{label:'ČERVENÁ MALÁ',pct:comboPctFromHits(crMa,t)},
-{label:'ČERVENÁ VEĽKÁ',pct:comboPctFromHits(crVe,t)},
-{label:'ČIERNA MALÁ',pct:comboPctFromHits(ciMa,t)},
-{label:'ČIERNA VEĽKÁ',pct:comboPctFromHits(ciVe,t)}
-],
-colorParity:[
-{label:'ČERVENÁ PÁRNA',pct:comboPctFromHits(crPa,t)},
-{label:'ČERVENÁ NEPÁRNA',pct:comboPctFromHits(crNe,t)},
-{label:'ČIERNA PÁRNA',pct:comboPctFromHits(ciPa,t)},
-{label:'ČIERNA NEPÁRNA',pct:comboPctFromHits(ciNe,t)}
-],
-sizeParity:[
-{label:'MALÉ PÁRNE',pct:comboPctFromHits(maPa,t)},
-{label:'MALÉ NEPÁRNE',pct:comboPctFromHits(maNe,t)},
-{label:'VEĽKÉ PÁRNE',pct:comboPctFromHits(vePa,t)},
-{label:'VEĽKÉ NEPÁRNE',pct:comboPctFromHits(veNe,t)}
-]
-};
-}
-function buildComboMixSection(title,icon,rows){
-if(!rows||!rows.length)return'';
-let h='<div class="combo-stats-sect"><div class="combo-stats-sect-title">'+title+'</div>';
-rows.forEach(r=>{
-h+='<div class="combo-stat-row '+comboPctHeatClass(r.pct)+'">'
-+'<span class="combo-lbl">'+icon+' '+r.label+'</span>'
-+'<b class="combo-pct">'+r.pct+'%</b></div>';
-});
-return h+'</div>';
-}
-function buildComboMixStatsHTML(combo){
-if(!combo||!combo.ready)return'';
-return'<div class="combo-stats-block"><div class="combo-stats-title">KOMBINAČNÉ % ŠTATISTIKY</div>'
-+buildComboMixSection('STĹPCE MIX %','📈',combo.columns)
-+buildComboMixSection('TUCTY MIX %','📊',combo.dozens)
-+buildComboMixSection('FARBA + VEĽKOSŤ %','🔥',combo.colorSize)
-+buildComboMixSection('FARBA + PÁRNOSŤ %','⚡',combo.colorParity)
-+buildComboMixSection('VEĽKOSŤ + PÁRNOSŤ %','🎯',combo.sizeParity)
-+'</div>';
-}
 
-function renderStatsPanel(){
-const el=document.getElementById('statsPanel');
-if(!el)return;
-if(!spins.length){
-el.innerHTML='<div class="alert">Čakám na spiny — raw štatistiky…</div>';
-return;
-}
-const s=computeRawStatsEngine();
-const c=s.colors;
-const eo=s.evenOdd;
-const hl=s.highLow;
-let html='<div class="section-label">'+s.modelLabel+'</div>'
-+'<div class="panel-line"><span>Celkom spinov</span><b>'+s.total+'</b></div>'
-+'<div class="section-label">Farba (raw)</div>'
-+'<div class="panel-line"><span>Červená</span><b class="redTxt">'+c.r+'× · '+c.rp+'%</b></div>'
-+'<div class="panel-line"><span>Čierna</span><b>'+c.b+'× · '+c.bp+'%</b></div>'
-+'<div class="panel-line"><span>Zelená (0)</span><b class="greenTxt">'+c.g+'× · '+s.zeroPct+'%</b></div>'
-+'<div class="section-label">Pár / nepár (raw)</div>'
-+'<div class="panel-line"><span>Párne</span><b>'+eo.e+'× · '+eo.ep+'%</b></div>'
-+'<div class="panel-line"><span>Nepárne</span><b>'+eo.o+'× · '+eo.op+'%</b></div>'
-+'<div class="section-label">Veľkosť (raw)</div>'
-+'<div class="panel-line"><span>Veľké 19–36</span><b>'+hl.hi+'× · '+hl.hip+'%</b></div>'
-+'<div class="panel-line"><span>Malé 1–18</span><b>'+hl.lo+'× · '+hl.lop+'%</b></div>'
-+'<div class="section-label">Tucty · stĺpce (raw)</div>';
-s.dozens.forEach(d=>{
-html+='<div class="panel-line"><span>Tucet '+d.id+'</span><b class="yellowTxt">'+d.hits+'× · '+d.pct+'%</b></div>';
-});
-s.columns.forEach(col=>{
-html+='<div class="panel-line"><span>Stĺpec '+col.id+'</span><b class="blueTxt">'+col.hits+'× · '+col.pct+'%</b></div>';
-});
-html+=buildComboMixStatsHTML(s.combo);
-html+='<div class="section-label">Top čísla (raw počet)</div>';
-s.topNums.slice(0,6).forEach((t,i)=>{
-const cls=t.n===0?'greenTxt':reds.includes(t.n)?'redTxt':'';
-html+='<div class="panel-line"><span>'+(i+1)+'.</span><b class="'+cls+'">'+t.n+' · '+t.c+'× ('+t.pct+'%)</b></div>';
-});
-if(s.neverHit.length){
-html+='<div class="section-label">Bez zásahu</div>'
-+'<div class="panel-line"><span>Čísla</span><b style="font-size:11px">'+s.neverHit.join(' · ')+'</b></div>';
-}
-html+='<div class="section-label">Posledných '+s.recent.length+'</div>'
-+'<div class="panel-line"><span>Sekvencia</span><b style="font-size:11px">'+s.recent.join(' · ')+'</b></div>';
-el.innerHTML=html;
-}
 let lastRiskChaosEngine=null;
 let lastRiskChaosKey='';
 function invalidateRiskChaosCache(){
@@ -2705,318 +2731,8 @@ cell.appendChild(dot);
 historyEl.appendChild(cell);
 });
 }
-/* ======================================
-HOT / COLD
-====================================== */
 
-function rawSpinCounts(){
-const c={};
-for(let i=0;i<=36;i++)c[i]=0;
-spins.forEach(n=>{if(n>=0&&n<=36)c[n]++;});
-return c;
-}
-function numColorClass(n){
-if(n===0)return'green';
-return reds.includes(n)?'red':'black';
-}
-function hcCountSpins(arr){
-const m={};
-for(let n=0;n<=36;n++)m[n]=0;
-(arr||[]).forEach(n=>{if(n>=0&&n<=36)m[n]++;});
-return m;
-}
-function hcSpinSince(num){
-for(let i=spins.length-1;i>=0;i--)if(spins[i]===num)return spins.length-1-i;
-return spins.length;
-}
-function hcSpinStreak(num){
-let s=0;
-for(let i=spins.length-1;i>=0&&spins[i]===num;i--)s++;
-return s;
-}
-/** AKTÍVNE / NEAKTÍVNE panel — výhradne raw pole spins (počty, since, streak). */
-function hcBuildFromSpins(){
-const total=spins.length;
-const winRecent=Math.min(30,total);
-const recentSlice=spins.slice(-winRecent);
-const sessionCounts=hcCountSpins(spins);
-const recentCounts=hcCountSpins(recentSlice);
-const rows=[];
-for(let n=0;n<=36;n++){
-rows.push({
-n,
-c:sessionCounts[n]||0,
-cRecent:recentCounts[n]||0,
-since:hcSpinSince(n),
-streak:hcSpinStreak(n)
-});
-}
-const active=rows.filter(x=>x.c>=1)
-.sort((a,b)=>b.c-a.c||b.cRecent-a.cRecent||b.streak-a.streak||a.since-b.since)
-.slice(0,8);
-const inactive=rows.filter(x=>x.c===0&&x.since>=1)
-.sort((a,b)=>b.since-a.since||a.n-b.n)
-.slice(0,8);
-const recovering=rows.filter(x=>x.c>=1&&x.cRecent===0&&x.since>=6)
-.sort((a,b)=>b.since-a.since)
-.slice(0,5);
-const overheated=rows.filter(x=>x.cRecent>=3||x.streak>=4)
-.sort((a,b)=>b.cRecent-a.cRecent||b.streak-a.streak||b.c-a.c)
-.slice(0,5);
-const sectors=[];
-for(let i=0;i<wheel.length;i++){
-const nums=[];
-for(let j=-2;j<=2;j++)nums.push(wheel[(i+j+wheel.length)%wheel.length]);
-let hits=0;
-recentSlice.forEach(sn=>{if(nums.includes(sn))hits++;});
-sectors.push({center:wheel[i],nums,hits});
-}
-sectors.sort((a,b)=>b.hits-a.hits);
-return{active,inactive,recovering,overheated,sectors:sectors.slice(0,4),total,winRecent,lastN:lastSpinNum(),
-trail:spins.slice(-12)};
-}
-function hcHumanHotHint(item,rank){
-if(item.streak>=5)return'streak ×'+item.streak+' na konci';
-if(item.c>=8)return'často padá v histórii';
-if(rank<=2&&item.c>=3)return'silný návrat';
-if(item.cRecent>=2&&item.since<=2)return'čerstvo aktívne';
-if(item.c>=2)return'opakované padnutie';
-return'padlo v histórii';
-}
-function hcHumanColdHint(item){
-if(item.c===0&&item.since>=1)return'bez návratu '+item.since+' spinov';
-return'neaktívne';
-}
-function hcHumanRecoveryHint(item){
-if(item.since>=12)return'dlho nepadalo · '+item.c+'× v minulosti';
-return'kedysi padalo · teraz mlčí';
-}
-function hcHumanOverheatHint(item){
-if(item.streak>=4)return'streak ×'+item.streak+' — veľa za sebou';
-if(item.cRecent>=5)return item.cRecent+'× v posledných '+Math.min(30,spins.length)+' spinoch';
-return'vysoká frekvencia nedávno';
-}
-function hcHumanSectorHint(s,rank){
-if(rank===0&&s.hits>=3)return'najviac hitov na pásu';
-if(s.hits>=2)return'návraty v pásme';
-if(s.hits>=1)return'občasný hit';
-return'slabý pás';
-}
-function hcBehaviorRow(item,hint,meta){
-return'<div class="hc-row">'
-+'<span class="hc-n '+numColorClass(item.n)+'">'+item.n+'</span>'
-+'<div class="hc-row-body">'
-+'<span class="hc-meta">'+(meta||'—')+'</span>'
-+'<span class="hc-hint">'+hint+'</span>'
-+'</div></div>';
-}
-function hcCompactLine(item,rank,kind,extra){
-return'<div class="hc-line"><span class="hc-rank">'+rank+'.</span>'
-+'<span class="hc-num '+numColorClass(item.n)+'">'+item.n+'</span>'
-+'<b class="hc-count '+kind+'">'+extra+'</b></div>';
-}
-function renderHotCold(){
-const hotColdEl=document.getElementById('hotCold');
-if(!hotColdEl)return;
-if(!spins.length){
-hotColdEl.innerHTML='<div class="hc-empty-msg">Čakám na spiny…</div>';
-return;
-}
-const e=computeHotColdEngine();
-const hot=e.hot.slice(0,12);
-const cold=e.cold.slice(0,12);
-let html='<div class="section-label">Vážené · frekvencia · decay '+HC_DECAY_POW+'</div>';
-html+='<div class="hc-grid hc-grid-main">';
-html+='<div class="hc-col"><div class="hc-title hot">🔥 AKTÍVNE (12)</div>';
-if(hot.length){
-hot.forEach((item,i)=>{html+=hcCompactLine(item,i+1,'hot',item.c+'× w'+item.wShare.toFixed(1)+'%');});
-}else html+='<div class="hc-empty-msg">Zatiaľ bez hitov</div>';
-html+='</div><div class="hc-col"><div class="hc-title cold">❄ NEAKTÍVNE (12)</div>';
-if(cold.length){
-cold.forEach((item,i)=>{
-const extra=item.c===0?('0× gap '+item.since):(item.c+'× gap '+item.since);
-html+=hcCompactLine(item,i+1,'cold',extra);
-});
-}else html+='<div class="hc-empty-msg">Všetky čísla už padli</div>';
-html+='</div></div>';
-const more=e.recovering.length||e.overheated.length||(e.sectorHeat.length&&e.sectorHeat[0].heat>0);
-if(more){
-html+='<details class="hc-more-fold"><summary>Ďalšie signály (návrat · prehriatie · sektor)</summary><div class="inner">';
-if(e.recovering.length){
-html+='<div class="section-label">Studená obnova</div>';
-e.recovering.slice(0,5).forEach((item,i)=>{
-html+='<div class="panel-line"><span>'+(i+1)+'. '+item.n+'</span><b class="blueTxt">rec '+item.recoveryScore.toFixed(0)+'</b></div>';
-});
-}
-if(e.overheated.length){
-html+='<div class="section-label">Prehriatie</div>';
-e.overheated.slice(0,5).forEach((item,i)=>{
-html+='<div class="panel-line"><span>'+(i+1)+'. '+item.n+'</span><b class="redTxt">+'+item.overheatScore.toFixed(0)+'</b></div>';
-});
-}
-if(e.sectorHeat.length&&e.sectorHeat[0].heat>0){
-html+='<div class="section-label">Teplo sektora</div>';
-e.sectorHeat.slice(0,3).forEach((s,i)=>{
-html+='<div class="panel-line"><span>'+(i+1)+'. pás '+s.center+'</span><b class="greenTxt">'+s.heatPct.toFixed(1)+'%</b></div>';
-});
-}
-html+='</div></details>';
-}
-hotColdEl.innerHTML=html;
-}
-function hcRebuildSpinRecordsFromHistory(){
-spinRecords=spins.map((n,i)=>spinMeta(n,spinTimes[i]||Date.now()));
-}
-function renderPatterny(){
-const clustersEl=document.getElementById('clusters');
-const neighborsEl=document.getElementById('neighbors');
-if(!clustersEl&&!neighborsEl)return;
-const p=computePatternEngine();
-if(spins.length<2){
-const wait='<div class="alert">Čakám na spiny — engine patternov…</div>';
-if(clustersEl)clustersEl.innerHTML=wait;
-if(neighborsEl)neighborsEl.innerHTML='';
-return;
-}
-if(clustersEl){
-let html='<div class="section-label">'+p.modelLabel+'</div>'
-+'<div class="panel-line"><span>Zdroje</span><b style="font-size:11px">'+p.sources+'</b></div>'
-+'<div class="panel-line"><span>Skóre patternov</span><b class="greenTxt">'+p.patternScore+'%</b></div>';
-p.activeClusters.forEach(c=>{
-html+='<div class="panel-line"><span>Klaster '+c.rank+(c.active?' · AKTÍVNY':'')+'</span><b class="'+(c.active?'greenTxt':'blueTxt')+'">'+c.nums.join(' · ')+'</b></div>';
-});
-html+='<div class="section-label">Reťazce opakovaní</div>';
-if(p.repeatChains.length){
-p.repeatChains.forEach(r=>{
-html+='<div class="panel-line"><span>×'+r.len+'</span><b class="yellowTxt">'+r.num+'</b></div>';
-});
-}else html+='<div class="panel-line"><span>'+skUiLabel('Repeat')+'</span><b>—</b></div>';
-html+='<div class="section-label">Dráhy migrácie</div>'
-+'<div class="panel-line"><span>Smer</span><b class="blueTxt">'+p.migrationPaths.dir+'</b></div>'
-+'<div class="panel-line"><span>'+skUiLabel('Path')+'</span><b style="font-size:11px">'+p.migrationPaths.pathLabel+'</b></div>'
-+'<div class="section-label">'+skUiLabel('Echo patterny')+'</div>';
-if(p.echoPatterns.length){
-p.echoPatterns.slice(0,3).forEach(e=>{
-html+='<div class="panel-line"><span>'+e.num+' (gap '+e.gap+')</span><b class="yellowTxt">'+e.strength+'%</b></div>';
-});
-}else html+='<div class="panel-line"><span>'+skUiLabel('Echo')+'</span><b>—</b></div>';
-clustersEl.innerHTML=html;
-}
-if(neighborsEl){
-const seq=p.spinSequence;
-let nhtml='<div class="section-label">'+skUiLabel('Spin sequence · neighbor · repeat · path')+'</div>'
-+'<div class="panel-line"><span>'+skUiLabel('Sequence')+'</span><b class="blueTxt">'+seq.signature+'</b></div>'
-+'<div class="panel-line"><span>Trend</span><b class="greenTxt">'+seq.trend+'</b></div>'
-+'<div class="panel-line"><span>'+skUiLabel('Neighbor chain')+'</span><b class="greenTxt">'+p.neighborChain.len+'/'+p.neighborChain.max+'</b></div>'
-+'<div class="panel-line"><span>'+skUiLabel('Repeat rate')+'</span><b class="yellowTxt">'+p.repeats.rate.toFixed(0)+'% · beh ×'+p.repeats.numRun+'</b></div>'
-+'<div class="section-label">'+skUiLabel('AI Prediction')+'</div>';
-if(p.prediction){
-nhtml+='<div class="panel-line"><span>Tip · sektor</span><b class="greenTxt">'+p.prediction.tip+' · '+p.prediction.sector+'</b></div>'
-+'<div class="panel-line"><span>'+skUiLabel('Align klaster')+'</span><b class="'+(p.prediction.align?'greenTxt':'yellowTxt')+'">'+(p.prediction.align?'ÁNO':'slabé')+' · '+p.prediction.confidence+'%</b></div>';
-}else nhtml+='<div class="panel-line"><span>Predikcia</span><b>—</b></div>';
-nhtml+='<div class="section-label">'+skUiLabel('AI Comment')+'</div>'
-+'<div class="panel-line"><span>'+skUiLabel('Blend')+'</span><b class="blueTxt">'+p.comment.blend+'% ('+skUiLabel('data')+' '+p.comment.data+' · '+skUiLabel('reasoning')+' '+p.comment.reasoning+')</b></div>'
-+'<div class="panel-line"><span>'+skUiLabel('Insight')+'</span><b style="font-size:11px">'+p.comment.insight+(p.comment.insight.length>=72?'…':'')+'</b></div>';
-neighborsEl.innerHTML=nhtml;
-}
-}
-function renderClusters(){renderPatterny();}
-function renderNeighbors(){renderPatterny();}
 
-/* ======================================
-MIGRATION
-====================================== */
-
-function renderWheelFlow(){
-const migrationEl=document.getElementById('migration');
-const momentumEl=document.getElementById('momentum');
-if(!migrationEl&&!momentumEl)return;
-const w=computeWheelFlowEngine();
-if(spins.length<2){
-const wait='<div class="alert">Čakám na spiny — wheel flow engine…</div>';
-if(migrationEl)migrationEl.innerHTML=wait;
-if(momentumEl)momentumEl.innerHTML='';
-return;
-}
-if(migrationEl){
-const m=w.migrationDirection;
-migrationEl.innerHTML=
-'<div class="section-label">'+w.modelLabel+'</div>'
-+'<div class="panel-line"><span>Zdroje</span><b style="font-size:11px">'+w.sources+'</b></div>'
-+'<div class="panel-line"><span>'+skUiLabel('Clockwise flow')+'</span><b class="greenTxt">'+w.clockwiseFlow+'% · '+m.cw+' krokov</b></div>'
-+'<div class="panel-line"><span>'+skUiLabel('Counter flow')+'</span><b class="blueTxt">'+w.counterFlow+'% · '+m.ccw+' krokov</b></div>'
-+'<div class="panel-line"><span>Momentum</span><b class="yellowTxt">'+w.momentum+'%</b></div>'
-+'<div class="panel-line"><span>'+skUiLabel('Migration direction')+'</span><b class="'+(m.dir==='CW'?'greenTxt':m.dir==='CCW'?'blueTxt':'yellowTxt')+'">'+m.dir+'</b></div>'
-+'<div class="panel-line"><span>Smer</span><b style="font-size:11px">'+m.label+'</b></div>';
-}
-if(momentumEl){
-const q=w.quantum;
-const dom=q&&q.dominant?q.dominant:null;
-let html='<div class="section-label">'+skUiLabel('Quantum Wheel · direction · neighbors')+'</div>';
-if(dom){
-html+='<div class="panel-line"><span>'+skUiLabel('Dominant sektor')+'</span><b class="greenTxt">'+dom.nums.join(' · ')+' · '+((dom.displayPct!=null?dom.displayPct:dom.pct)||0).toFixed(1)+'%</b></div>';
-}
-html+='<div class="panel-line"><span>'+skUiLabel('Wheel pressure')+'</span><b class="greenTxt">'+(q?q.wheelPressure:0)+'%</b></div>'
-+'<div class="panel-line"><span>'+skUiLabel('Direction engine')+'</span><b class="blueTxt">'+w.directionScore+'%</b></div>'
-+'<div class="panel-line"><span>'+skUiLabel('Neighbor transition')+'</span><b class="yellowTxt">'+w.neighbors.dist+' poz · reťaz '+w.neighbors.chain+'/11</b></div>'
-+'<div class="section-label">'+skUiLabel('AI Prediction')+'</div>';
-if(w.prediction){
-html+='<div class="panel-line"><span>Tip · sektor</span><b class="greenTxt">'+w.prediction.tip+' · '+w.prediction.sector+'</b></div>'
-+'<div class="panel-line"><span>'+skUiLabel('Align quantum')+'</span><b class="'+(w.prediction.sectorAlign?'greenTxt':'yellowTxt')+'">'+(w.prediction.sectorAlign?'ÁNO':'slabé')+' · '+w.prediction.confidence+'%</b></div>';
-}else html+='<div class="panel-line"><span>Predikcia</span><b>—</b></div>';
-html+='<div class="section-label">'+skUiLabel('AI Comment')+'</div>'
-+'<div class="panel-line"><span>'+skUiLabel('Blend')+'</span><b class="blueTxt">'+w.comment.blend+'%</b></div>'
-+'<div class="panel-line"><span>'+skUiLabel('Insight')+'</span><b style="font-size:11px">'+w.comment.insight+(w.comment.insight.length>=72?'…':'')+'</b></div>';
-momentumEl.innerHTML=html;
-}
-}
-function renderMigration(){renderWheelFlow();}
-function renderMomentum(){renderWheelFlow();}
-
-/* ======================================
-PERSISTENCE
-====================================== */
-
-function renderRiskChaos(){
-const chaosEl=document.getElementById('chaos');
-const persistenceEl=document.getElementById('persistence');
-if(!chaosEl&&!persistenceEl)return;
-const r=computeRiskChaosEngine();
-if(spins.length<2){
-const wait='<div class="alert">Čakám na spiny — risk / chaos engine…</div>';
-if(chaosEl)chaosEl.innerHTML=wait;
-if(persistenceEl)persistenceEl.innerHTML='';
-return;
-}
-if(chaosEl){
-chaosEl.innerHTML=
-'<div class="section-label">'+r.modelLabel+'</div>'
-+'<div class="panel-line"><span>Zdroje</span><b style="font-size:11px">'+r.sources+'</b></div>'
-+'<div class="panel-line"><span>'+skUiLabel('Chaos level')+'</span><b class="'+(r.chaosLevel>=58?'redTxt':'yellowTxt')+'">'+r.chaosLevel+'%</b></div>'
-+'<div class="panel-line"><span>'+skUiLabel('Stability')+'</span><b class="'+(r.stability>=65?'greenTxt':'yellowTxt')+'">'+r.stability+'%</b></div>'
-+'<div class="panel-line"><span>Spoľahlivosť patternov</span><b class="'+(r.patternReliability>=60?'greenTxt':'redTxt')+'">'+r.patternReliability+'%</b></div>'
-+'<div class="panel-line"><span>'+skUiLabel('Randomness pressure')+'</span><b class="redTxt">'+r.randomnessPressure+'%</b></div>'
-+'<div class="panel-line"><span>Skóre rizika</span><b class="'+(r.tag==='HIGH'?'redTxt':r.tag==='LOW'?'greenTxt':'yellowTxt')+'">'+r.score+'% · '+skTag(r.tag)+'</b></div>';
-}
-if(persistenceEl){
-let html='<div class="section-label">'+skUiLabel('Vstupy · entropy · vol · timing · cluster')+'</div>'
-+'<div class="panel-line"><span>Entropia</span><b class="'+(r.entropy>5?'redTxt':'greenTxt')+'">'+r.entropy.toFixed(2)+' · signál '+r.entropySignal+'%</b></div>'
-+'<div class="panel-line"><span>Volatilita</span><b class="yellowTxt">'+r.volatility+'%</b></div>'
-+'<div class="panel-line"><span>Timing nestabilita</span><b class="redTxt">'+r.timingInstability+'%</b></div>'
-+'<div class="panel-line"><span>'+skUiLabel('Cluster conflict')+'</span><b class="blueTxt">'+r.clusterConflict+'%</b></div>'
-+'<div class="section-label">'+skUiLabel('AI Prediction')+'</div>';
-if(r.prediction){
-html+='<div class="panel-line"><span>'+skUiLabel('Tip · confidence')+'</span><b class="greenTxt">'+r.prediction.tip+' · '+r.prediction.confidence+'%</b></div>'
-+'<div class="panel-line"><span>'+skUiLabel('Chaos penalty')+'</span><b class="yellowTxt">×'+(r.prediction.chaosPenalty!=null?r.prediction.chaosPenalty.toFixed(2):'1')+'</b></div>';
-}else html+='<div class="panel-line"><span>Predikcia</span><b>—</b></div>';
-html+='<div class="section-label">'+skUiLabel('AI Comment')+'</div>'
-+'<div class="panel-line"><span>'+skUiLabel('Blend')+'</span><b class="blueTxt">'+r.comment.blend+'% · '+skUiLabel('data')+' '+r.comment.data+' · '+skUiLabel('reasoning')+' '+r.comment.reasoning+'</b></div>'
-+'<div class="panel-line"><span>'+skUiLabel('Insight')+'</span><b style="font-size:11px">'+r.comment.insight+(r.comment.insight.length>=72?'…':'')+'</b></div>';
-persistenceEl.innerHTML=html;
-}
-}
-function renderPersistence(){renderRiskChaos();}
-function renderChaos(){renderRiskChaos();}
 
 /* Visual heat engine → scripts/analytics/visual-heat-engine.js (10H-6) */
 
@@ -3228,7 +2944,6 @@ renderAlerts();
 renderKeyboardLiveAIFlow();
 if(typeof ValidTrueV0!=='undefined'&&ValidTrueV0.renderPanel)ValidTrueV0.renderPanel();
 initV6ZoneScroll();
-try{renderTuctyStlpceTip();}catch(e){console.error('tuctyStlpceTip',e);}
 if(opts.wheelImmediate)flushWheelRender();
 else scheduleWheelRender(!!(opts&&opts.heavy));
 renderEngineAdvancedPanels();
@@ -3237,6 +2952,7 @@ function renderHeavy(){
 try{renderHotCold();}catch(e){console.error('hotCold',e);}
 try{renderWheelRadar();}catch(e){console.error('wheelRadar',e);}
 try{renderSpinPatternObserver();}catch(e){console.error('patternObserver',e);}
+try{renderSpinBinaryPatternObserver();}catch(e){console.error('binaryPatternObserver',e);}
 renderEngineAdvancedPanels();
 }
 
@@ -3251,16 +2967,19 @@ dateEl.textContent=now.toLocaleDateString('sk-SK');
 }
 function bindPeterTabs(){
 const tabTiming=document.getElementById('peterTabTiming');
-const tabSession=document.getElementById('peterTabSession');
+const tabStats=document.getElementById('peterTabStats');
+const saHistBtn=document.getElementById('saOpenFromHistory');
 const titleEl=document.getElementById('peterGameTitle');
 const headerEl=document.querySelector('.peter-game-header');
 const viewGame=document.getElementById('peterViewGame');
 const viewTiming=document.getElementById('peterViewTiming');
 const viewSession=document.getElementById('peterViewSession');
+const viewStats=document.getElementById('peterViewStats');
 if(!viewGame||!viewTiming)return;
 function deactivateTabs(){
 if(tabTiming){tabTiming.classList.remove('active');tabTiming.setAttribute('aria-selected','false');}
-if(tabSession){tabSession.classList.remove('active');tabSession.setAttribute('aria-selected','false');}
+if(tabStats){tabStats.classList.remove('active');tabStats.setAttribute('aria-selected','false');}
+if(saHistBtn)saHistBtn.classList.remove('active');
 }
 function setTitleHome(on){
 if(!titleEl)return;
@@ -3278,51 +2997,67 @@ titleEl.removeAttribute('tabindex');
 }
 function showGame(){
 deactivateTabs();
-if(headerEl){headerEl.classList.remove('timing-open');headerEl.classList.remove('session-open');}
+if(headerEl){headerEl.classList.remove('timing-open');headerEl.classList.remove('session-open');headerEl.classList.remove('stats-open');}
 setTitleHome(false);
 viewGame.classList.add('active');
 viewTiming.classList.remove('active');
 if(viewSession)viewSession.classList.remove('active');
+if(viewStats)viewStats.classList.remove('active');
 }
 function showTiming(){
 deactivateTabs();
 if(tabTiming){tabTiming.classList.add('active');tabTiming.setAttribute('aria-selected','true');}
-if(headerEl){headerEl.classList.add('timing-open');headerEl.classList.remove('session-open');}
+if(headerEl){headerEl.classList.add('timing-open');headerEl.classList.remove('session-open');headerEl.classList.remove('stats-open');}
 setTitleHome(true);
 viewGame.classList.remove('active');
 viewTiming.classList.add('active');
 if(viewSession)viewSession.classList.remove('active');
+if(viewStats)viewStats.classList.remove('active');
 if(typeof renderTiming==='function')renderTiming();
 }
-function showSession(){
+function showStats(){
 deactivateTabs();
-if(tabSession){tabSession.classList.add('active');tabSession.setAttribute('aria-selected','true');}
-if(headerEl){headerEl.classList.add('session-open');headerEl.classList.remove('timing-open');}
+if(tabStats){tabStats.classList.add('active');tabStats.setAttribute('aria-selected','true');}
+if(headerEl){headerEl.classList.add('stats-open');headerEl.classList.remove('timing-open');headerEl.classList.remove('session-open');}
 setTitleHome(true);
 viewGame.classList.remove('active');
 viewTiming.classList.remove('active');
+if(viewSession)viewSession.classList.remove('active');
+if(viewStats)viewStats.classList.add('active');
+if(typeof renderStatsPanel==='function')renderStatsPanel();
+}
+function showSession(){
+deactivateTabs();
+if(saHistBtn)saHistBtn.classList.add('active');
+if(headerEl){headerEl.classList.add('session-open');headerEl.classList.remove('timing-open');headerEl.classList.remove('stats-open');}
+setTitleHome(true);
+viewGame.classList.remove('active');
+viewTiming.classList.remove('active');
+if(viewStats)viewStats.classList.remove('active');
 if(viewSession)viewSession.classList.add('active');
-if(typeof saRefreshUI==='function')saRefreshUI();
+if(typeof zdcRefreshUI==='function')zdcRefreshUI();
+else if(typeof saRefreshUI==='function')saRefreshUI();
 }
 if(tabTiming)tabTiming.addEventListener('click',showTiming);
-if(tabSession)tabSession.addEventListener('click',showSession);
-const saSide=document.getElementById('saOpenFromSidebar');
-if(saSide)saSide.addEventListener('click',showSession);
+if(tabStats)tabStats.addEventListener('click',showStats);
+if(saHistBtn)saHistBtn.addEventListener('click',showSession);
 if(titleEl){
 titleEl.addEventListener('click',function(){
-if(viewTiming.classList.contains('active')||viewSession&&viewSession.classList.contains('active'))showGame();
+if(viewTiming.classList.contains('active')||viewSession&&viewSession.classList.contains('active')||viewStats&&viewStats.classList.contains('active'))showGame();
 });
 titleEl.addEventListener('keydown',function(e){
-if(!viewTiming.classList.contains('active')&&!(viewSession&&viewSession.classList.contains('active')))return;
+if(!viewTiming.classList.contains('active')&&!(viewSession&&viewSession.classList.contains('active'))&&!(viewStats&&viewStats.classList.contains('active')))return;
 if(e.key==='Enter'||e.key===' '){e.preventDefault();showGame();}
 });
 }
 window.PeterNav=window.PeterNav||{};
 window.PeterNav.showGame=showGame;
 window.PeterNav.showSession=showSession;
+window.PeterNav.showStats=showStats;
 }
 function bindUi(){
 bindPeterTabs();
+if(typeof bindSbpoTabs==='function')bindSbpoTabs();
 updateClock();
 if(!clockTimer)clockTimer=setInterval(updateClock,1000);
 const btnStart=document.getElementById('btnStart');
@@ -3364,6 +3099,15 @@ numInput.onkeydown=(e)=>{if(e.key==='Enter'){e.preventDefault();submitTimingNumb
 numInput.onchange=()=>{if(numInput.value!=='')submitTimingNumber();};
 }
 if(btnUndoEl)btnUndoEl.onclick=()=>undoLastBallTiming();
+const btnValidTrue=document.getElementById('btnValidTrue');
+const validTrueWrap=document.getElementById('validTruePanelWrap');
+if(btnValidTrue&&validTrueWrap)btnValidTrue.onclick=()=>{
+const closed=validTrueWrap.classList.toggle('collapsed');
+btnValidTrue.classList.toggle('open',!closed);
+btnValidTrue.setAttribute('aria-expanded',closed?'false':'true');
+btnValidTrue.textContent=closed?'▶ ✓ TRUE VALID · oficiálna metrika stĺpca':'▼ ✓ TRUE VALID · oficiálna metrika stĺpca';
+if(!closed&&typeof ValidTrueV0!=='undefined'&&ValidTrueV0.renderPanel)ValidTrueV0.renderPanel();
+};
 const btnEngAdv=document.getElementById('btnEngineAdvanced');
 const engAdvPanel=document.getElementById('engineAdvancedPanel');
 if(btnEngAdv&&engAdvPanel)btnEngAdv.onclick=()=>{
@@ -3396,12 +3140,25 @@ if(up)up.addEventListener('click',function(){body.scrollBy({top:-step(),behavior
 if(down)down.addEventListener('click',function(){body.scrollBy({top:step(),behavior:'smooth'});});
 });
 }
+
 </script>
+<script src="scripts/analytics/hot-cold-engine.js"></script>
+<script src="scripts/analytics/raw-stats-engine.js"></script>
+<script src="scripts/analytics/statistics-panel.js"></script>
 <script src="scripts/pattern/spin-pattern-observer.js"></script>
+<script src="scripts/pattern/spin-binary-pattern-observer.js"></script>
+<script src="scripts/vendor/xlsx.full.min.js"></script>
+<script src="scripts/analytics/zber-dat-0-36.js"></script>
+<script src="scripts/analytics/zber-dat-0-36-xlsx.js"></script>
+<script src="scripts/analytics/zber-dat-0-36-ui.js"></script>
 <script src="scripts/analytics/bah-engine.js"></script>
 <script src="scripts/analytics/session-stats.js"></script>
+<script src="scripts/analytics/patterns-panel.js"></script>
+<script src="scripts/analytics/risk-chaos-panel.js"></script>
+<script src="scripts/analytics/persistence-engine-panel.js"></script>
 <script src="scripts/analytics/roulette-analytics.js"></script>
 <script src="scripts/wheel/wheel-hud.js?v=obr2-3d-2"></script>
+<script src="scripts/wheel/wheel-flow-panel.js"></script>
 <script src="scripts/ui/ui-alerts.js"></script>
 <script src="scripts/analytics/timing-engine.js"></script>
 <script src="scripts/board/board-events.js"></script>
@@ -3488,17 +3245,9 @@ border-top:1px solid rgba(70,150,220,.12)!important;
 .v6-block-wheel.v6-radar-v1 #wheelCanvas{border-radius:50%!important;}
 .v6-block-wheel.v6-radar-v1 .qw-flow-legend{font-size:10px!important;padding:6px 10px!important;gap:16px!important;color:#8ab5c8!important;font-weight:700!important;}
 .v6-block-wheel.v6-radar-v1 .qw-flow-legend .qw-leg-line.mid{background:linear-gradient(90deg,#e8a030,#ffc850)!important;}
-/* Spodok 4 stĺpce */
-.v6-block-wheel.v6-radar-v1 .hero-bottom-hud{max-height:var(--qh-bottom)!important;min-height:var(--qh-bottom)!important;display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:8px!important;padding:10px 14px!important;width:100%!important;}
-.v6-block-wheel.v6-radar-v1 .qw-bottom-cell{padding:8px 10px!important;border:1px solid rgba(0,255,191,.14)!important;background:rgba(5,14,20,.9)!important;border-radius:6px!important;}
-.v6-block-wheel.v6-radar-v1 .qw-panel-kicker{font-size:9px!important;font-weight:800!important;color:#5ee8b8!important;letter-spacing:.08em!important;margin-bottom:5px!important;text-transform:uppercase!important;}
-.v6-block-wheel.v6-radar-v1 .qw-bottom-live{font-size:11px!important;line-height:1.45!important;color:#d8f0e8!important;font-weight:600!important;}
-.v6-block-wheel.v6-radar-v1 .qw-bottom-risk-val{font-size:18px!important;font-weight:900!important;line-height:1.1!important;}
-.v6-block-wheel.v6-radar-v1 .qw-bottom-risk-sub{font-size:10px!important;color:#9ec4b8!important;margin-top:3px!important;line-height:1.35!important;}
-.v6-block-wheel.v6-radar-v1 .qw-bottom-rec-val{font-size:15px!important;font-weight:900!important;color:#f2fff9!important;line-height:1.2!important;}
-.v6-block-wheel.v6-radar-v1 .qw-bottom-rec-sub{font-size:10px!important;color:#9ec4b8!important;margin-top:3px!important;line-height:1.35!important;}
-.v6-block-wheel.v6-radar-v1 .qw-trail-note{font-size:10px!important;color:#42ff74!important;margin-top:5px!important;line-height:1.35!important;font-weight:700!important;}
-.v6-block-wheel.v6-radar-v1 .qw-bottom-trail-body .qw-spin-ball{width:22px!important;height:22px!important;font-size:10px!important;}
+/* Spodok 4 stĺpce — rovnaká štruktúra ako bočné HUD karty */
+.v6-block-wheel.v6-radar-v1 .hero-bottom-hud{max-height:none!important;min-height:124px!important;display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:5px!important;padding:6px 8px!important;width:100%!important;}
+.v6-block-wheel.v6-radar-v1 .qw-bottom-cell{padding:0!important;border:none!important;background:transparent!important;border-radius:0!important;}
 /* Footer 70/20/10 */
 .v6-block-wheel.v6-radar-v1 .qw-dash-model{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:12px!important;padding:10px 18px 12px!important;border-top:1px solid rgba(0,255,191,.16)!important;background:rgba(0,0,0,.55)!important;}
 .v6-block-wheel.v6-radar-v1 .qw-model-rich{display:flex!important;align-items:flex-start!important;justify-content:center!important;gap:16px!important;flex:1 1 0!important;flex-wrap:wrap!important;}
@@ -3533,13 +3282,11 @@ flex:none!important;max-height:none!important;overflow-y:auto!important;
 .v6-block-wheel.v6-radar-v1 .qw-bottom-ico{flex:0 0 15px!important;width:15px!important;height:15px!important;color:#5eb8ff!important;display:flex!important;}
 .v6-block-wheel.v6-radar-v1 .qw-bottom-ico .qw-h-svg{width:15px!important;height:15px!important;}
 .v6-block-wheel.v6-radar-v1 .qw-bottom-rec-val{font-size:16px!important;letter-spacing:.03em!important;}
-.v6-block-wheel.v6-radar-v1 .qw-bottom-risk-val{font-size:20px!important;}
 .v6-block-wheel.v6-radar-v1 .qw-flow-legend{display:flex!important;align-items:center!important;justify-content:center!important;gap:20px!important;}
 .v6-block-wheel.v6-radar-v1 .qw-flow-legend span{display:flex!important;align-items:center!important;gap:6px!important;}
 .v6-block-wheel.v6-radar-v1 .qw-leg-line.strong{background:linear-gradient(90deg,#2dcc6a,#42ff74)!important;height:3px!important;}
 .v6-block-wheel.v6-radar-v1 .qw-leg-line.weak{background:linear-gradient(90deg,#2a8fd4,#5ec8ff)!important;height:2px!important;}
-.v6-block-wheel.v6-radar-v1 .hero-bottom-hud{gap:6px!important;padding:8px 10px!important;border-top:1px solid rgba(70,150,220,.18)!important;background:rgba(3,8,14,.98)!important;}
-.v6-block-wheel.v6-radar-v1 .qw-bottom-cell{padding:7px 8px!important;border:1px solid rgba(70,150,220,.22)!important;background:rgba(5,12,22,.95)!important;}
+.v6-block-wheel.v6-radar-v1 .hero-bottom-hud{gap:5px!important;padding:6px 8px!important;border-top:1px solid rgba(70,150,220,.18)!important;background:rgba(3,8,14,.98)!important;}
 .v6-block-wheel.v6-radar-v1 .qw-dash-model{padding:8px 14px 10px!important;background:rgba(0,0,0,.65)!important;}
 .v6-block-wheel.v6-radar-v1 .qw-model-col b{font-size:11px!important;}
 .v6-block-wheel.v6-radar-v1 .qw-model-col span{font-size:9px!important;letter-spacing:.02em!important;}
@@ -3616,329 +3363,97 @@ background:radial-gradient(ellipse at center,rgba(8,22,36,.92) 0%,rgba(2,6,12,.9
 background:linear-gradient(145deg,rgba(12,28,48,.95),rgba(4,10,18,.98))!important;
 box-shadow:inset 0 1px 0 rgba(120,200,255,.12),0 2px 8px rgba(0,0,0,.35)!important;
 }
+/* FONT+ — čitateľnosť ako vzor obr.2 (väčšie pigmenty, layout zachovaný) */
+.v6-block-wheel.v6-radar-v1{--qw-font-bump:1.18;
+--qw-side-w:158px!important;}
+.v6-block-wheel.v6-radar-v1 .qw-dash-header .qw-h-left{font-size:28px!important;}
+.v6-block-wheel.v6-radar-v1 .qw-dash-header .qw-h-left small{font-size:13px!important;}
+.v6-block-wheel.v6-radar-v1 .qw-h-ai-label{font-size:13px!important;}
+.v6-block-wheel.v6-radar-v1 .qw-build-live{font-size:12px!important;}
+.v6-block-wheel.v6-radar-v1 .qw-badge-pill{font-size:12px!important;padding:5px 13px!important;}
+.v6-block-wheel.v6-radar-v1 .qw-h-ico,.v6-block-wheel.v6-radar-v1 .qw-h-svg{width:22px!important;height:22px!important;}
+.v6-block-wheel.v6-radar-v1 .qw-h-lbl{font-size:12px!important;}
+.v6-block-wheel.v6-radar-v1 .qw-h-val{font-size:19px!important;}
+.v6-block-wheel.v6-radar-v1 .qw-h-val.qw-h-plain{font-size:17px!important;}
+.v6-block-wheel.v6-radar-v1 .qw-hero-metric.is-insight-card .qw-h-val{font-size:21px!important;line-height:1.3!important;}
+.v6-block-wheel.v6-radar-v1 .qw-h-sub{font-size:13px!important;}
+.v6-block-wheel.v6-radar-v1 .qw-h-sub.greenTxt{font-size:14px!important;}
+.v6-block-wheel.v6-radar-v1 .qw-hero-cta-link{font-size:14px!important;}
+.v6-block-wheel.v6-radar-v1 .qw-dom-tucet{font-size:19px!important;}
+.v6-block-wheel.v6-radar-v1 .qw-flow-legend{font-size:12px!important;}
+/* Spodok — typografia zdedená z .qw-h-* (nie samostatné veľkosti) */
+.v6-block-wheel.v6-radar-v1 .qw-dash-model .ai-engine{font-size:14px!important;}
+/* HUD READ+ — celý text čitateľný, bez prekrývania a orezania */
+.v6-block-wheel.v6-radar-v1{--qw-side-w:176px!important;--qh-bottom:auto!important;}
+.v6-block-wheel.v6-radar-v1 #qwPanelLeft,.v6-block-wheel.v6-radar-v1 #qwPanelRight,
+.v6-block-wheel.v6-radar-v1 .hero-left-hud,.v6-block-wheel.v6-radar-v1 .hero-right-hud{
+overflow-y:auto!important;overflow-x:hidden!important;padding:6px 5px!important;
+}
+.v6-block-wheel.v6-radar-v1 .hero-hud-stack,.v6-block-wheel.v6-radar-v1 .qw-metric-stack{
+flex:0 1 auto!important;height:auto!important;min-height:0!important;
+gap:5px!important;justify-content:flex-start!important;
+}
+.v6-block-wheel.v6-radar-v1 .hero-hud-stack>.qw-hero-metric,
+.v6-block-wheel.v6-radar-v1 .qw-metric-stack>.qw-hero-metric,
+.v6-block-wheel.v6-radar-v1 .hero-hud-stack .qw-hero-metric.is-insight-card{
+flex:0 0 auto!important;min-height:auto!important;overflow:visible!important;
+}
+.v6-block-wheel.v6-radar-v1 .qw-hero-metric{
+overflow:visible!important;align-items:flex-start!important;
+}
+.v6-block-wheel.v6-radar-v1 .qw-h-body{
+overflow:visible!important;min-width:0!important;flex:1 1 auto!important;gap:4px!important;
+}
+.v6-block-wheel.v6-radar-v1 .qw-h-lbl{font-size:10px!important;line-height:1.35!important;}
+.v6-block-wheel.v6-radar-v1 .qw-h-val{
+font-size:13px!important;line-height:1.4!important;
+white-space:normal!important;overflow-wrap:anywhere!important;word-break:break-word!important;
+display:block!important;
+}
+.v6-block-wheel.v6-radar-v1 .qw-h-val.qw-dom-line{font-size:12px!important;line-height:1.45!important;}
+.v6-block-wheel.v6-radar-v1 .qw-hero-metric.is-insight-card .qw-h-val{font-size:14px!important;line-height:1.42!important;}
+.v6-block-wheel.v6-radar-v1 .qw-h-val.qw-h-plain{font-size:12px!important;line-height:1.45!important;}
+.v6-block-wheel.v6-radar-v1 .qw-h-sub{
+font-size:11px!important;line-height:1.48!important;display:block!important;margin-top:2px!important;
+}
+.v6-block-wheel.v6-radar-v1 .qw-hero-metric.has-ring .qw-h-body{padding-right:38px!important;}
+.v6-block-wheel.v6-radar-v1 .qw-h-ring{top:8px!important;right:6px!important;width:30px!important;height:30px!important;}
+.v6-block-wheel.v6-radar-v1 .hero-bottom-hud{
+max-height:none!important;min-height:124px!important;height:auto!important;align-items:stretch!important;
+gap:5px!important;padding:6px 8px!important;
+}
+.v6-block-wheel.v6-radar-v1 .qw-bottom-cell{
+padding:0!important;border:none!important;background:transparent!important;
+overflow:visible!important;min-height:0!important;display:flex!important;flex-direction:column!important;
+}
+.v6-block-wheel.v6-radar-v1 .qw-bottom-cell .qw-hero-metric,
+.v6-block-wheel.v6-radar-v1 .qw-bottom-metric{
+flex:1 1 auto!important;height:100%!important;width:100%!important;margin:0!important;
+}
+.v6-block-wheel.v6-radar-v1 .qw-bottom-metric .qw-h-body{gap:3px!important;}
+.v6-block-wheel.v6-radar-v1 .qw-bottom-trail-kicker{
+font-size:10px!important;color:#7a9eb4!important;margin:0!important;line-height:1.3!important;
+}
+.v6-block-wheel.v6-radar-v1 .qw-h-val.qw-h-comment{
+font-size:11px!important;font-weight:600!important;line-height:1.48!important;
+color:#9ec4b8!important;text-shadow:none!important;
+}
+.v6-block-wheel.v6-radar-v1 .qw-bottom-trail-body .qw-trail-wrap{gap:3px!important;margin:2px 0 0!important;}
+.v6-block-wheel.v6-radar-v1 .qw-bottom-trail-body .qw-spin-ball{
+width:19px!important;height:19px!important;font-size:9px!important;
+}
+.v6-block-wheel.v6-radar-v1 .qw-bottom-trail-body .qw-tm{
+width:8px!important;height:8px!important;font-size:6px!important;line-height:8px!important;
+}
+.v6-block-wheel.v6-radar-v1 .qw-trail-note{
+font-size:10px!important;margin-top:2px!important;line-height:1.35!important;
+}
 </style>
 <script>
 (function(){
 var w=document.querySelector('.v6-block-wheel[data-obr2-ver="3d-2"]');
 if(w){w.classList.add('obr2-live-loaded');w.setAttribute('data-loaded','3d-2');}
 try{localStorage.setItem('qwBuild','obr2-3d-2');}catch(e){}
-})();
-</script>
-<script>
-/* ═══════════════════════════════════════════════════════════════
-   SESSION ANALYZER — izolovaný modul (Hlboká analýza relácií)
-   Nezasahuje do live logiky prvej karty. Počúva EventBus spin:add.
-   ═══════════════════════════════════════════════════════════════ */
-(function SessionAnalyzerModule(){
-'use strict';
-var MAGNET_PRAH=0.75;
-var HARD_LIMIT=100;
-var poleHistorieRelacie=[];
-var cisloHry=1;
-var relaciaUzavreta=false;
-var poslednyRezimUzavretia='';
-var archivRelacii=[];
-var posledneVysledky=null;
-
-function saVlastnostiCisla(n){
-if(n===0)return{color:'ZELENÁ',size:'NULA',parity:'NULA',dozen:'NULA',column:'NULA',combo:'NULA'};
-var cr=typeof reds!=='undefined'&&reds.includes(n);
-var col=typeof getColor==='function'?getColor(n):(cr?0:1);
-var dz=typeof getDozen==='function'?getDozen(n):(n<=12?0:n<=24?1:2);
-var cl=typeof getColumn==='function'?getColumn(n):((n-1)%3);
-return{
-color:col===-1?'ZELENÁ':col===0?'ČERVENÁ':'ČIERNA',
-size:n<=18?'MALÉ ČÍSLO':'VEĽKÉ ČÍSLO',
-parity:n%2===0?'PÁRNE':'NEPÁRNE',
-dozen:dz===0?'1. TUCET':dz===1?'2. TUCET':'3. TUCET',
-column:cl===0?'1. STĹPEC':cl===1?'2. STĹPEC':'3. STĹPEC',
-combo:(n<=18?'MALÉ ČÍSLO':'VEĽKÉ ČÍSLO')+' / '+(cr?'ČERVENÁ':'ČIERNA')
-};
-}
-
-function analyzujUzavretuRelaciu(pole){
-var spins=Array.isArray(pole)?pole.slice():[];
-var out={magnets:[],streaks:[],sleepers:[],spinCount:spins.length};
-if(!spins.length)return out;
-
-/* A) Trigger-Target Magnets */
-for(var t=0;t<=36;t++){
-var idxs=[];
-for(var i=0;i<spins.length;i++){if(spins[i]===t)idxs.push(i);}
-if(idxs.length<2)continue;
-var nextProps=[];
-for(var j=0;j<idxs.length;j++){
-var ni=idxs[j]+1;
-if(ni<spins.length)nextProps.push(saVlastnostiCisla(spins[ni]));
-}
-if(!nextProps.length)continue;
-var fields=[{k:'combo',label:'combo'},{k:'color',label:'farba'},{k:'size',label:'veľkosť'},{k:'parity',label:'párne/nepárne'},{k:'dozen',label:'tucet'},{k:'column',label:'stĺpec'}];
-for(var f=0;f<fields.length;f++){
-var fk=fields[f].k;
-var cnt={};
-nextProps.forEach(function(p){var v=p[fk];cnt[v]=(cnt[v]||0)+1;});
-Object.keys(cnt).forEach(function(key){
-var pct=cnt[key]/nextProps.length;
-if(pct>=MAGNET_PRAH){
-var txt=key;
-if(fk==='combo')txt=key;
-out.magnets.push('🔥 DETEGOVANÝ MAGNET: Po čísle '+t+' padlo v '+pct.toFixed(1).replace('.',',')+'% prípadov '+txt+'.');
-}
-});
-}
-}
-
-/* B) Max Streak Tracker */
-function saBezPrerusenia(matchFn){
-var best=0,cur=0;
-for(var si=0;si<spins.length;si++){
-if(matchFn(spins[si])){cur++;if(cur>best)best=cur;}
-else cur=0;
-}
-return best;
-}
-var streakReport=[
-{label:'ČERVENÁ',fn:function(n){return n!==0&&reds.includes(n);}},
-{label:'ČIERNA',fn:function(n){return n!==0&&!reds.includes(n);}},
-{label:'MALÉ ČÍSLA',fn:function(n){return n>=1&&n<=18;}},
-{label:'VEĽKÉ ČÍSLA',fn:function(n){return n>=19&&n<=36;}},
-{label:'PÁRNE',fn:function(n){return n!==0&&n%2===0;}},
-{label:'NEPÁRNE',fn:function(n){return n!==0&&n%2===1;}},
-{label:'1. TUCET',fn:function(n){return n!==0&&(typeof getDozen==='function'?getDozen(n):n<=12?0:n<=24?1:2)===0;}},
-{label:'2. TUCET',fn:function(n){return n!==0&&(typeof getDozen==='function'?getDozen(n):n<=12?0:n<=24?1:2)===1;}},
-{label:'3. TUCET',fn:function(n){return n!==0&&(typeof getDozen==='function'?getDozen(n):n<=12?0:n<=24?1:2)===2;}},
-{label:'1. STĹPEC',fn:function(n){return n!==0&&(typeof getColumn==='function'?getColumn(n):((n-1)%3))===0;}},
-{label:'2. STĹPEC',fn:function(n){return n!==0&&(typeof getColumn==='function'?getColumn(n):((n-1)%3))===1;}},
-{label:'3. STĹPEC',fn:function(n){return n!==0&&(typeof getColumn==='function'?getColumn(n):((n-1)%3))===2;}}
-];
-streakReport.forEach(function(def){
-var mx=saBezPrerusenia(def.fn);
-if(mx>=2)out.streaks.push('⚠️ EXTRÉMNY ZÁSEK STOLA: Sektor ['+def.label+'] padol celkovo '+mx+'-krát po sebe bez prerušenia!');
-});
-
-/* C) Sleeper Relapse */
-var n=spins.length;
-var zeros=spins.filter(function(x){return x===0;}).length;
-var eligible=n-zeros;
-function cntPred(pred){return spins.filter(pred).length;}
-var sleeperKandidati=[];
-if(n>=10){
-var dozExp=eligible/3;
-[0,1,2].forEach(function(d){
-var c=cntPred(function(x){return x!==0&&(typeof getDozen==='function'?getDozen(x):x<=12?0:x<=24?1:2)===d;});
-var lbl=d===0?'1. TUCET':d===1?'2. TUCET':'3. TUCET';
-if(c<dozExp*0.55)sleeperKandidati.push({lbl:lbl,c:c,exp:Math.round(dozExp)});
-});
-[0,1,2].forEach(function(c){
-var cc=cntPred(function(x){return x!==0&&(typeof getColumn==='function'?getColumn(x):((x-1)%3))===c;});
-var exp=eligible/3;
-var lbl=c===0?'1. STĹPEC':c===1?'2. STĹPEC':'3. STĹPEC';
-if(cc<exp*0.55)sleeperKandidati.push({lbl:lbl,c:cc,exp:Math.round(exp)});
-});
-var redC=cntPred(function(x){return x!==0&&reds.includes(x);});
-var blackC=cntPred(function(x){return x!==0&&!reds.includes(x);});
-var expRed=n*18/37,expBlack=n*18/37;
-if(redC<expRed*0.55)sleeperKandidati.push({lbl:'ČERVENÁ',c:redC,exp:Math.round(expRed)});
-if(blackC<expBlack*0.55)sleeperKandidati.push({lbl:'ČIERNA',c:blackC,exp:Math.round(expBlack)});
-var lowC=cntPred(function(x){return x>=1&&x<=18;});
-var highC=cntPred(function(x){return x>=19&&x<=36;});
-if(lowC<n*18/37*0.55)sleeperKandidati.push({lbl:'MALÉ ČÍSLA',c:lowC,exp:Math.round(n*18/37)});
-if(highC<n*18/37*0.55)sleeperKandidati.push({lbl:'VEĽKÉ ČÍSLA',c:highC,exp:Math.round(n*18/37)});
-}
-sleeperKandidati.forEach(function(s){
-out.sleepers.push('💤 ABSOLÚTNY SPÁČ RELÁCIE: '+s.lbl+' vykazuje kritický podvýskyt (iba '+s.c+'-krát za hru, očakávané ~'+s.exp+').');
-});
-
-out.magnets=saUnikat(out.magnets);
-out.streaks=saUnikat(out.streaks);
-out.sleepers=saUnikat(out.sleepers);
-return out;
-}
-
-function saUnikat(arr){
-var seen={},out=[];
-arr.forEach(function(x){if(!seen[x]){seen[x]=1;out.push(x);}});
-return out;
-}
-
-function saPocetVyskyty(pole){
-var c=[];
-for(var i=0;i<=36;i++)c[i]=0;
-(pole||[]).forEach(function(n){if(typeof n==='number'&&n>=0&&n<=36)c[n]++;});
-return c;
-}
-
-function saHotColdTrida(cnt){
-if(cnt>=4)return 'hot';
-if(cnt<=1)return 'cold';
-return 'neutral';
-}
-
-function saFarbaCisla(n){
-if(n===0)return 'green';
-return reds.includes(n)?'red':'black';
-}
-
-function saRenderHotColdGrid(){
-var wrap=document.getElementById('saHotColdGrid');
-var note=document.getElementById('saHotColdNote');
-if(!wrap)return;
-var counts=saPocetVyskyty(poleHistorieRelacie);
-var hotN=0,coldN=0;
-for(var i=0;i<=36;i++){
-var t=saHotColdTrida(counts[i]);
-if(t==='hot')hotN++;
-if(t==='cold')coldN++;
-}
-function cellHtml(n){
-var cnt=counts[n];
-var cls='sa-hc-cell '+saFarbaCisla(n)+' '+saHotColdTrida(cnt);
-return '<div class="'+cls+'" data-n="'+n+'"><span class="sa-hc-num">'+n+'</span><span class="sa-hc-cnt">'+cnt+'×</span></div>';
-}
-var zeroHtml='<div class="sa-hc-zero-col">'+cellHtml(0).replace('class="sa-hc-cell','class="sa-hc-zero sa-hc-cell')+'</div>';
-var matrixHtml='<div class="sa-hc-matrix">';
-if(typeof BOARD_LAYOUT!=='undefined'){
-BOARD_LAYOUT.forEach(function(row){
-row.forEach(function(n){matrixHtml+=cellHtml(n);});
-});
-}else{
-for(var n=1;n<=36;n++)matrixHtml+=cellHtml(n);
-}
-matrixHtml+='</div>';
-wrap.innerHTML=zeroHtml+matrixHtml;
-if(note){
-if(!poleHistorieRelacie.length)note.textContent='Zatiaľ žiadne spiny v tejto relácii.';
-else if(relaciaUzavreta)note.textContent='Relácia uzavretá · Hot: '+hotN+' čísel · Cold (spáči): '+coldN+' čísel · periférne skontroluj oranžové clustre.';
-else note.textContent='Live zber · Hot: '+hotN+' · Cold: '+coldN+' · (4+ = oranžová, 0–1 = fialová/modrá).';
-}
-}
-
-function saRenderVysledky(data){
-var wrap=document.getElementById('saResultsWrap');
-if(!wrap)return;
-var rows=[];
-(data.magnets||[]).forEach(function(t){rows.push({type:'magnet',text:t});});
-(data.streaks||[]).forEach(function(t){rows.push({type:'streak',text:t});});
-(data.sleepers||[]).forEach(function(t){rows.push({type:'sleeper',text:t});});
-if(!rows.length){
-wrap.innerHTML='<p class="sa-empty">Analýza dokončená — žiadne anomálie nad prahom '+Math.round(MAGNET_PRAH*100)+'%.</p>';
-return;
-}
-var html='<table class="sa-results-table"><thead><tr><th>Algoritmus</th><th>Výsledok</th></tr></thead><tbody>';
-rows.forEach(function(r){
-var algo=r.type==='magnet'?'Magnet (Trigger→Target)':r.type==='streak'?'Max Streak':'Sleeper Relapse';
-html+='<tr class="sa-row-'+r.type+'"><td>'+algo+'</td><td>'+r.text+'</td></tr>';
-});
-html+='</tbody></table>';
-wrap.innerHTML=html;
-}
-
-function saRefreshUI(){
-var g=document.getElementById('saStatusGame');
-var s=document.getElementById('saStatusSpins');
-var m=document.getElementById('saStatusMode');
-var strip=document.getElementById('saLiveStrip');
-var btnClose=document.getElementById('saBtnCloseAnalyze');
-var btnReboot=document.getElementById('saBtnReboot');
-if(g)g.innerHTML='AKTUÁLNA RELÁCIA: <strong>HRA č. '+cisloHry+'</strong>';
-if(s)s.innerHTML='ZADANÝCH SPINOV: <strong>'+poleHistorieRelacie.length+'</strong> / '+HARD_LIMIT;
-if(m){
-if(relaciaUzavreta)m.innerHTML='STAV: <strong class="locked">Uzavretá · '+poslednyRezimUzavretia+'</strong>';
-else if(poleHistorieRelacie.length>=HARD_LIMIT)m.innerHTML='STAV: <strong>Auto-limit dosiahnutý</strong>';
-else m.innerHTML='STAV: <strong>Zber dát</strong>';
-}
-if(btnClose)btnClose.disabled=relaciaUzavreta||!poleHistorieRelacie.length;
-if(btnReboot){
-btnReboot.disabled=!relaciaUzavreta;
-btnReboot.textContent='[ VYMAZAŤ A ZAČAŤ HRU č. '+(cisloHry+1)+' ]';
-}
-if(strip){
-strip.innerHTML=poleHistorieRelacie.map(function(n){
-var cls=n===0?'green':(reds.includes(n)?'red':'black');
-return '<span class="sa-live-chip '+cls+'">'+n+'</span>';
-}).join('');
-}
-saRenderHotColdGrid();
-}
-
-function saRenderArchiv(){
-var box=document.getElementById('saArchiveLog');
-if(!box)return;
-if(!archivRelacii.length){box.innerHTML='<p class="sa-empty">Zatiaľ žiadna uzavretá relácia.</p>';return;}
-box.innerHTML=archivRelacii.map(function(a){
-return '<p class="sa-archive-item">• Hra č. '+a.hra+' (Uzavretá '+a.rezim+' pri '+a.spinov+' spinoch): Detegované magnety: '+a.magnety+', Max Série: '+a.maxSeria+'.</p>';
-}).join('');
-}
-
-function saZhrnutiePreArchiv(data){
-var best={len:0,lbl:'—'};
-(data.streaks||[]).forEach(function(t){
-var m=t.match(/Sektor \[([^\]]+)\] padol celkovo (\d+)-krát/);
-if(m){var v=parseInt(m[2],10);if(v>best.len)best={len:v,lbl:m[1]};}
-});
-return{magnety:(data.magnets||[]).length,maxSeria:best.len>0?best.lbl+' '+best.len+'x':'—'};
-}
-
-function saUzavriRelaciu(rezim){
-if(relaciaUzavreta||!poleHistorieRelacie.length)return;
-relaciaUzavreta=true;
-poslednyRezimUzavretia=rezim==='auto'?'automaticky pri '+HARD_LIMIT+' spinoch':'manuálne';
-posledneVysledky=analyzujUzavretuRelaciu(poleHistorieRelacie);
-saRenderVysledky(posledneVysledky);
-saRefreshUI();
-}
-
-function saReboot(){
-if(!relaciaUzavreta)return;
-var sum=saZhrnutiePreArchiv(posledneVysledky||{magnets:[],streaks:[],sleepers:[]});
-archivRelacii.unshift({
-hra:cisloHry,
-spinov:poleHistorieRelacie.length,
-rezim:poslednyRezimUzavretia,
-magnety:sum.magnety,
-maxSeria:sum.maxSeria
-});
-saRenderArchiv();
-poleHistorieRelacie=[];
-cisloHry++;
-relaciaUzavreta=false;
-poslednyRezimUzavretia='';
-posledneVysledky=null;
-var wrap=document.getElementById('saResultsWrap');
-if(wrap)wrap.innerHTML='<p class="sa-empty">Nová relácia — zadávaj spiny z klávesnice.</p>';
-saRefreshUI();
-}
-
-function saOnSpin(number){
-if(relaciaUzavreta)return;
-if(typeof number!=='number'||isNaN(number)||number<0||number>36)return;
-poleHistorieRelacie.push(number);
-if(poleHistorieRelacie.length>=HARD_LIMIT)saUzavriRelaciu('auto');
-saRefreshUI();
-}
-
-function saBind(){
-var btnClose=document.getElementById('saBtnCloseAnalyze');
-var btnReboot=document.getElementById('saBtnReboot');
-if(btnClose)btnClose.addEventListener('click',function(){saUzavriRelaciu('manual');});
-if(btnReboot)btnReboot.addEventListener('click',saReboot);
-if(typeof EventBus!=='undefined'&&!EventBus.__saEmitWrapped){
-var origEmit=EventBus.emit.bind(EventBus);
-EventBus.emit=function(ev,data){
-origEmit(ev,data);
-if(ev==='spin:add')saOnSpin(data);
-};
-EventBus.__saEmitWrapped=true;
-}
-saRefreshUI();
-saRenderArchiv();
-}
-
-window.analyzujUzavretuRelaciu=analyzujUzavretuRelaciu;
-window.saRefreshUI=saRefreshUI;
-
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',saBind);
-else saBind();
 })();
 </script>
 
